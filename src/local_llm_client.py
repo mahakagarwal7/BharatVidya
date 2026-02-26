@@ -1,111 +1,110 @@
 # src/local_llm_client.py
 
 import requests
-
+import json
+import re
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "phi3:mini"
+MODEL = "phi3:mini"
 
 
-def extract_keywords(prompt: str):
-
-    system_prompt = f"""
-Extract 3 short educational keywords about:
-
-"{prompt}"
-
-Rules:
-- Return ONLY 3 lines
-- No numbering
-- No explanation
-- Each line maximum 4 words
-"""
+def call_llm(prompt: str) -> str:
 
     response = requests.post(
         OLLAMA_URL,
         json={
-            "model": MODEL_NAME,
-            "prompt": system_prompt,
+            "model": MODEL,
+            "prompt": prompt,
             "stream": False
         },
         timeout=60
     )
 
-    result = response.json()["response"]
-
-    lines = [
-        line.strip()
-        for line in result.split("\n")
-        if line.strip()
-    ]
-
-    return lines[:3]
+    response.raise_for_status()
+    return response.json()["response"]
 
 
-def safe_generate_plan(prompt: str):
+def build_structured_prompt(user_prompt: str) -> str:
+    return f"""
+You are an educational content planner.
+
+Return STRICTLY in this format:
+
+TITLE: <short title>
+
+POINTS:
+- <point 1>
+- <point 2>
+- <point 3>
+- <point 4>
+
+Concept: {user_prompt}
+"""
+
+
+def parse_structured_output(text: str):
+
+    title_match = re.search(r"TITLE:\s*(.*)", text)
+    title = title_match.group(1).strip() if title_match else "Educational Topic"
+
+    points = re.findall(r"-\s*(.*)", text)
+
+    if not points:
+        return None
+
+    return {
+        "title": title,
+        "points": points[:5]
+    }
+
+
+def safe_generate_generic_plan(user_prompt: str):
 
     try:
-        print("Using Local LLM for generic topic...")
+        prompt = build_structured_prompt(user_prompt)
+        raw = call_llm(prompt)
 
-        keywords = extract_keywords(prompt)
+        parsed = parse_structured_output(raw)
 
-        visual_elements = [
-            {"id": "title", "type": "text", "description": prompt}
+        if not parsed:
+            return None
+
+        elements = [
+            {"id": "title", "type": "text", "description": parsed["title"]}
         ]
 
-        for i, kw in enumerate(keywords):
-            visual_elements.append({
-                "id": f"kw{i}",
+        sequence = [
+            {
+                "step": 1,
+                "action": "show",
+                "elements": ["title"],
+                "duration": 2
+            }
+        ]
+
+        for i, point in enumerate(parsed["points"]):
+            elem_id = f"point{i}"
+            elements.append({
+                "id": elem_id,
                 "type": "text",
-                "description": kw
+                "description": point
             })
 
-        animation_sequence = []
-
-        # Title
-        animation_sequence.append({
-            "step": 1,
-            "title": "Introduction",
-            "action": "show_text",
-            "elements": ["title"],
-            "duration": 2
-        })
-
-        # Keywords
-        for i in range(len(keywords)):
-            animation_sequence.append({
+            sequence.append({
                 "step": i + 2,
-                "title": f"Key Idea {i+1}",
-                "action": "show_text",
-                "elements": [f"kw{i}"],
+                "action": "show",
+                "elements": [elem_id],
                 "duration": 2
             })
 
         return {
-            "title": f"Understanding {prompt}",
-            "core_concept": prompt,
-            "visual_elements": visual_elements,
-            "animation_sequence": animation_sequence,
-            "_source": "local_llm_slide_mode"
+            "title": parsed["title"],
+            "core_concept": user_prompt,
+            "visual_elements": elements,
+            "animation_sequence": sequence,
+            "_source": "local_llm"
         }
 
     except Exception as e:
-        print("LLM fallback failed:", e)
-
-        return {
-            "title": f"Understanding {prompt}",
-            "core_concept": prompt,
-            "visual_elements": [
-                {"id": "main", "type": "text", "description": prompt}
-            ],
-            "animation_sequence": [
-                {
-                    "step": 1,
-                    "title": "Introduction",
-                    "action": "show_text",
-                    "elements": ["main"],
-                    "duration": 3
-                }
-            ],
-            "_source": "minimal_fallback"
-        }
+        print("LLM generic mode failed:", e)
+        return None

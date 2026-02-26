@@ -1,25 +1,27 @@
 # src/topic_router.py
 
-def detect_topics(prompt: str):
-    p = prompt.lower()
-    topics = []
+def detect_topic(concept: str) -> str:
 
-    if "bubble" in p or "sort" in p:
-        topics.append("bubble_sort")
+    text = concept.lower()
 
-    if "binary search" in p:
-        topics.append("binary_search")
+    # Bubble Sort
+    if "bubble sort" in text:
+        return "bubble_sort"
 
-    if "quadratic" in p:
-        topics.append("quadratic")
+    # Binary Search
+    if "binary search" in text:
+        return "binary_search"
 
-    if "sine" in p or "wave" in p:
-        topics.append("sine")
+    # Quadratic
+    if "quadratic" in text or "ax^2" in text:
+        return "quadratic"
 
-    if "projectile" in p:
-        topics.append("projectile")
+    # Sine Wave
+    if "sine" in text or "sin wave" in text:
+        return "sine_wave"
 
-    if not topics:
-        topics.append("generic")
+    # Projectile Motion
+    if "projectile" in text:
+        return "projectile_motion"
 
-    return topics
+    return "generic"
