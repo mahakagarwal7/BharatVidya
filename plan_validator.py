@@ -14,7 +14,7 @@ Responsibilities:
 from typing import Any, Dict, List, Tuple, Optional
 import math
 
-ALLOWED_TYPES = {"Axes", "Dot", "Circle", "Square", "ParametricFunction", "Text", "Vector"}
+ALLOWED_TYPES = {"Axes", "Dot", "Circle", "Square", "ParametricFunction", "Text", "Vector", "Image"}
 # Semantic map: maps user-friendly semantic types -> (concrete_type, default_params)
 SEMANTIC_MAP = {
     "planet": ("Circle", {"radius": 0.25}),
@@ -27,10 +27,14 @@ SEMANTIC_MAP = {
     "graph": ("Axes", {}),
     "axes": ("Axes", {}),
     "label": ("Text", {}),
+    "text": ("Text", {}),
     "arrow": ("Vector", {}),
     "vector": ("Vector", {}),
     "circle": ("Circle", {}),
     "square": ("Square", {}),
+    "image": ("Image", {}),
+    "picture": ("Image", {}),
+    "photo": ("Image", {}),
 }
 
 REQUIRED_TOP_LEVEL = ["title", "description", "scenes"]
@@ -57,6 +61,16 @@ def _ensure_scene_structure(scene: Dict[str, Any]) -> Tuple[Dict[str, Any], bool
     if "actions" not in scene or not isinstance(scene["actions"], list):
         scene["actions"] = []
         changed = True
+    else:
+        # Filter out non-dict actions (e.g. strings from LLM hallucinations)
+        valid_actions = []
+        for act in scene["actions"]:
+            if isinstance(act, dict):
+                valid_actions.append(act)
+            else:
+                changed = True
+        scene["actions"] = valid_actions
+
     scene.setdefault("params", {})
     scene.setdefault("hint", "")
     scene.setdefault("narration", "")
