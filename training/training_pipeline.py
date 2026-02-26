@@ -93,8 +93,16 @@ def plan_to_manim_code(plan: Dict[str, Any]) -> str:
     lines.append(f"class {class_name}(Scene):")
     lines.append("    def construct(self):")
 
+    defined_vars = set()
+
     # Iterate through scenes
     for scene in scenes:
+
+        # Identify objects that are explicitly introduced via animation
+        introduced_ids = set()
+        for act in scene.get("actions", []):
+            if isinstance(act, dict) and act.get("type") in ["Create", "FadeIn", "Write", "DrawBorderThenFill"]:
+                introduced_ids.add(act.get("target"))
 
         # Create objects first
         for obj in scene.get("objects", []):
@@ -102,6 +110,7 @@ def plan_to_manim_code(plan: Dict[str, Any]) -> str:
             otype = obj.get("type", "Dot")
             params = obj.get("params", {})
             var = obj_var(oid)
+            defined_vars.add(var)
 
             if otype == "Axes":
                 xr = params.get("x_range", [0, 10])
@@ -112,10 +121,14 @@ def plan_to_manim_code(plan: Dict[str, Any]) -> str:
             elif otype == "Dot":
                 color = repr(params.get("color", "YELLOW"))
                 lines.append(f"        {var} = Dot(color={color})")
+                if oid not in introduced_ids:
+                    lines.append(f"        self.add({var})")
 
             elif otype == "Circle":
                 radius = params.get("radius", 0.5)
                 lines.append(f"        {var} = Circle(radius={radius})")
+                if oid not in introduced_ids:
+                    lines.append(f"        self.add({var})")
 
             elif otype == "ParametricFunction":
                 expr = params.get("expr", "lambda t: np.array([t,0,0])")
@@ -125,10 +138,14 @@ def plan_to_manim_code(plan: Dict[str, Any]) -> str:
             elif otype == "Text":
                 text = repr(params.get("text", ""))
                 lines.append(f"        {var} = Text({text})")
+                if oid not in introduced_ids:
+                    lines.append(f"        self.add({var})")
 
             else:
                 # Unknown: fallback dot
                 lines.append(f"        {var} = Dot(color='WHITE')")
+                if oid not in introduced_ids:
+                    lines.append(f"        self.add({var})")
 
         # Handle projectile physics scene
         hint = (scene.get("hint") or "").lower()
@@ -141,7 +158,9 @@ def plan_to_manim_code(plan: Dict[str, Any]) -> str:
             expr, t_end = projectile_parametric_expr(v0, angle, g)
             ball_var = obj_var(f"ball_{scene.get('id','ball')}")
             lines.append(f"        {ball_var} = Dot(color=YELLOW)")
+            defined_vars.add(ball_var)
             lines.append(f"        {ball_var}_path = ParametricFunction({expr}, t_range=[0,{t_end:.4f}])")
+            defined_vars.add(f"{ball_var}_path")
             lines.append(f"        self.play(FadeIn({ball_var}))")
             lines.append(f"        self.play(MoveAlongPath({ball_var}, {ball_var}_path), run_time={t_end:.4f})")
             lines.append("        self.wait(0.4)")
@@ -154,6 +173,10 @@ def plan_to_manim_code(plan: Dict[str, Any]) -> str:
             var_target = obj_var(target) if target else None
             params = act.get("params", {})
             dur = params.get("duration", params.get("run_time", 1.0))
+
+            if var_target and var_target not in defined_vars:
+                lines.append(f"        # Skipped action for undefined object: {target}")
+                continue
 
             if atype == "FadeIn" and var_target:
                 lines.append(f"        self.play(FadeIn({var_target}), run_time={dur})")
@@ -178,7 +201,7 @@ def plan_to_manim_code(plan: Dict[str, Any]) -> str:
                 lines.append(f"        self.wait({dur})")
 
     # end construct()
-    lines.append("        self.wait()")
+    lines.append("        self.wait(1)")
 
     return "\n".join(lines)
 
