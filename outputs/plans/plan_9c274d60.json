@@ -1,0 +1,70 @@
+{
+  "title": "Binary Search (Target: 75)",
+  "core_concept": "Explain binary search visually",
+  "visual_elements": [
+    {
+      "id": "bar0",
+      "type": "rectangle",
+      "value": 15
+    },
+    {
+      "id": "bar1",
+      "type": "rectangle",
+      "value": 43
+    },
+    {
+      "id": "bar2",
+      "type": "rectangle",
+      "value": 59
+    },
+    {
+      "id": "bar3",
+      "type": "rectangle",
+      "value": 61
+    },
+    {
+      "id": "bar4",
+      "type": "rectangle",
+      "value": 63
+    },
+    {
+      "id": "bar5",
+      "type": "rectangle",
+      "value": 72
+    },
+    {
+      "id": "bar6",
+      "type": "rectangle",
+      "value": 75
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "check_mid",
+      "mid": 3,
+      "target": 75,
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "action": "check_mid",
+      "mid": 5,
+      "target": 75,
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "action": "check_mid",
+      "mid": 6,
+      "target": 75,
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "action": "found",
+      "mid": 6,
+      "duration": 2
+    }
+  ]
+}

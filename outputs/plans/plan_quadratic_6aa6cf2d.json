@@ -1,0 +1,76 @@
+{
+  "title": "Understanding: quadratic equation",
+  "core_concept": "quadratic equation",
+  "educational_domain": "mathematics",
+  "visual_elements": [
+    {
+      "id": "equation",
+      "type": "equation",
+      "description": "ax\u00b2 + bx + c = 0"
+    },
+    {
+      "id": "discriminant",
+      "type": "text",
+      "description": "Discriminant: b\u00b2 - 4ac"
+    },
+    {
+      "id": "parabola",
+      "type": "parabola",
+      "description": "y = ax\u00b2 + bx + c"
+    },
+    {
+      "id": "vertex",
+      "type": "circle",
+      "description": "Vertex"
+    },
+    {
+      "id": "roots",
+      "type": "text",
+      "description": "Roots: x\u2081, x\u2082"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "title": "Show Equation",
+      "action": "introduce",
+      "elements": [
+        "equation"
+      ],
+      "educational_explanation": "Display the quadratic equation",
+      "duration": 2.5
+    },
+    {
+      "step": 2,
+      "title": "Discriminant",
+      "action": "show inputs",
+      "elements": [
+        "discriminant"
+      ],
+      "educational_explanation": "Explain discriminant b\u00b2 - 4ac determines roots",
+      "duration": 3.0
+    },
+    {
+      "step": 3,
+      "title": "Graph Parabola",
+      "action": "plot_parabola",
+      "elements": [
+        "parabola",
+        "vertex",
+        "roots"
+      ],
+      "educational_explanation": "Plot the parabola and show vertex and roots",
+      "duration": 3.0
+    },
+    {
+      "step": 4,
+      "title": "Highlight Roots",
+      "action": "highlight_roots",
+      "elements": [
+        "roots"
+      ],
+      "educational_explanation": "Show how discriminant affects number of real roots",
+      "duration": 3.0
+    }
+  ]
+}

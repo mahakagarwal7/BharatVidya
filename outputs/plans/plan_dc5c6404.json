@@ -1,0 +1,74 @@
+{
+  "title": "Educational Topic",
+  "core_concept": "Explain entropy in thermodynamics",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Educational Topic"
+    },
+    {
+      "id": "point0",
+      "type": "text",
+      "description": "Entropy is a measure of the disorder or randomness within a system.  "
+    },
+    {
+      "id": "point1",
+      "type": "text",
+      "description": "In any energy exchange, if no energy enters or leaves the system, the potential for entropy increases, often leading to increased chaos and heat loss over time due to irreversible processes.  "
+    },
+    {
+      "id": "point2",
+      "type": "text",
+      "description": "The second law of thermodynamics states that in an isolated system, the total entropy can only remain constant or increase; it cannot decrease naturally without external influence (entropy reduction).  "
+    },
+    {
+      "id": "point3",
+      "type": "text",
+      "description": "Entropy is related to energy dispersal and efficiency within a process \u2013 for instance, engines have maximum possible work output at zero entropy change but real systems always generate some entropy."
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "show",
+      "elements": [
+        "title"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "action": "show",
+      "elements": [
+        "point0"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "action": "show",
+      "elements": [
+        "point1"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "action": "show",
+      "elements": [
+        "point2"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 5,
+      "action": "show",
+      "elements": [
+        "point3"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm"
+}

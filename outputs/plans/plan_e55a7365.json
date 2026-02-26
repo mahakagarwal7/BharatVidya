@@ -1,0 +1,52 @@
+{
+  "title": "Animated Bubble Sort Visualization",
+  "core_concept": "Explain bubble sort visually",
+  "visual_elements": [
+    {
+      "id": "Square1,_id=rectangles[0]_to_rectangles[3],_color=\"FFD700\"_(to_represent_the_data_set_being_sorted)",
+      "type": "rectangle",
+      "description": "Square1, id=rectangles[0] to rectangles[3], color=\"#FFD700\" (to represent the data set being sorted)"
+    },
+    {
+      "id": "QuadCurve,_id=\"parabola\",_fill=\"6495ED\"_(for_visual_effect_of_swapping_elements_during_sort)",
+      "type": "parabola",
+      "description": "QuadCurve, id=\"parabola\", fill=\"#6495ED\" (for visual effect of swapping elements during sort)"
+    },
+    {
+      "id": "SineWave,_id=\"wave1\",_color=\"7FFF00\"_(background_motion_to_emphasize_sorting_process_continuity)",
+      "type": "wave",
+      "description": "SineWave, id=\"wave1\", color=\"#7FFF00\" (background motion to emphasize sorting process continuity)"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "title": "Initialization - Show four rectangles in",
+      "action": "show",
+      "elements": [
+        "Square1,_id=rectangles[0]_to_rectangles[3],_color=\"FFD700\"_(to_represent_the_data_set_being_sorted)"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "title": "First Pass - Illustrate the first pass b",
+      "action": "show",
+      "elements": [
+        "Square1,_id=rectangles[0]_to_rectangles[3],_color=\"FFD700\"_(to_represent_the_data_set_being_sorted)"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "title": "Second Pass - Draw next sequence of pote",
+      "action": "show",
+      "elements": [
+        "Square1,_id=rectangles[0]_to_rectangles[3],_color=\"FFD700\"_(to_represent_the_data_set_being_sorted)"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm",
+  "_saved_plan_file": "outputs\\plans\\plan_llm_098ddacd.json"
+}

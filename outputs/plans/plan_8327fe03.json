@@ -1,0 +1,17 @@
+{
+  "title": "Sine Wave Animation",
+  "core_concept": "Explain sine wave",
+  "visual_elements": [
+    {
+      "id": "wave",
+      "type": "wave"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "animate_wave",
+      "duration": 6
+    }
+  ]
+}

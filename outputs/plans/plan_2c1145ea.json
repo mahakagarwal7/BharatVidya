@@ -1,0 +1,65 @@
+{
+  "title": "Understanding Explain cubic  equation",
+  "core_concept": "Explain cubic  equation",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Explain cubic  equation"
+    },
+    {
+      "id": "kw0",
+      "type": "text",
+      "description": "Solve algebraically"
+    },
+    {
+      "id": "kw1",
+      "type": "text",
+      "description": "Roots of third degree polynomial"
+    },
+    {
+      "id": "kw2",
+      "type": "text",
+      "description": "Complex solutions possible"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "title": "Introduction",
+      "action": "show_text",
+      "elements": [
+        "title"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "title": "Key Idea 1",
+      "action": "show_text",
+      "elements": [
+        "kw0"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "title": "Key Idea 2",
+      "action": "show_text",
+      "elements": [
+        "kw1"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "title": "Key Idea 3",
+      "action": "show_text",
+      "elements": [
+        "kw2"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm_slide_mode"
+}

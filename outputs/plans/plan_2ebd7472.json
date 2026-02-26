@@ -1,0 +1,38 @@
+{
+  "title": "Understanding: Explain cubic equation visually",
+  "core_concept": "Explain cubic equation visually",
+  "visual_elements": [
+    {
+      "id": "main",
+      "type": "circle",
+      "description": "Explain cubic equation visually"
+    },
+    {
+      "id": "detail1",
+      "type": "rectangle",
+      "description": "Supporting idea"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "title": "Introduction",
+      "action": "show",
+      "elements": [
+        "main"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "title": "Explanation",
+      "action": "show",
+      "elements": [
+        "detail1"
+      ],
+      "duration": 3
+    }
+  ],
+  "_source": "rule_based",
+  "_saved_plan_file": "outputs\\plans\\plan_rule_3ce36a00.json"
+}

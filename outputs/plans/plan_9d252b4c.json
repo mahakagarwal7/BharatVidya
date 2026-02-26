@@ -1,0 +1,23 @@
+{
+  "title": "Understanding explain photosynthesis",
+  "core_concept": "explain photosynthesis",
+  "visual_elements": [
+    {
+      "id": "main",
+      "type": "circle",
+      "description": "explain photosynthesis"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "title": "Introduction",
+      "action": "show",
+      "elements": [
+        "main"
+      ],
+      "duration": 3
+    }
+  ],
+  "_source": "gemini"
+}

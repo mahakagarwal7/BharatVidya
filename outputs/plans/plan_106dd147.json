@@ -1,0 +1,74 @@
+{
+  "title": "Educational Topic",
+  "core_concept": "Explain Photosynthesis in short points",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Educational Topic"
+    },
+    {
+      "id": "point0",
+      "type": "text",
+      "description": "Photosynthesis is a process used by plants to convert light energy into chemical energy."
+    },
+    {
+      "id": "point1",
+      "type": "text",
+      "description": "It occurs in chloroplasts within plant cells where chlorophyll captures sunlight."
+    },
+    {
+      "id": "point2",
+      "type": "text",
+      "description": "Water and carbon dioxide are the raw materials needed for photosynthesis, producing glucose and oxygen as products. "
+    },
+    {
+      "id": "point3",
+      "type": "text",
+      "description": "This process is vital for plants' growth and also benefits other forms of life by providing them with energy and releasing oxygen into the atmosphere."
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "show",
+      "elements": [
+        "title"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "action": "show",
+      "elements": [
+        "point0"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "action": "show",
+      "elements": [
+        "point1"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "action": "show",
+      "elements": [
+        "point2"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 5,
+      "action": "show",
+      "elements": [
+        "point3"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm"
+}

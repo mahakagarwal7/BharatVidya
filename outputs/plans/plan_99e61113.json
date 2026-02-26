@@ -1,0 +1,19 @@
+{
+  "title": "Projectile Motion (v=57, \u03b8=42\u00b0)",
+  "core_concept": "Explain projectile motion",
+  "visual_elements": [
+    {
+      "id": "projectile",
+      "type": "projectile",
+      "velocity": 57,
+      "angle": 0.7330382858376184
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "animate_projectile",
+      "duration": 6
+    }
+  ]
+}

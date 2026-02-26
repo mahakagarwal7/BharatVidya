@@ -1,0 +1,74 @@
+{
+  "title": "Understanding Enthalpy in Thermodynamics",
+  "core_concept": "Explain enthalpy in thermodynamics",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Enthalpy in Thermodynamics"
+    },
+    {
+      "id": "point0",
+      "type": "text",
+      "description": "Enthalpy is a measure of the total energy contained within a system, including both internal energy and the energy required to displace its environment."
+    },
+    {
+      "id": "point1",
+      "type": "text",
+      "description": "It's denoted by H and calculated as \\(H = U + PV\\), where U stands for internal energy, P represents pressure, and V denotes volume; thus it gives us an insight into heat content at constant pressure conditions often encountered in chemical reactions or phase changes. "
+    },
+    {
+      "id": "point2",
+      "type": "text",
+      "description": "The change in enthalpy (\\(\\Delta H\\)) is a key indicator of whether processes are endothermic (absorbing heat) or exothermic (releasing heat), which can predict the direction and extent to which such reactions will proceed under constant pressure conditions, as per Le Chatelier's principle."
+    },
+    {
+      "id": "point3",
+      "type": "text",
+      "description": "Calorimetry experiments in a laboratory setting help students directly measure enthalpy changes by determining how much energy is absorbed or released when substances react or change phases; this practical application reinforces the concept and gives learners hands-on experience with thermodynamic principles related to heat transfer."
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "show",
+      "elements": [
+        "title"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "action": "show",
+      "elements": [
+        "point0"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "action": "show",
+      "elements": [
+        "point1"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "action": "show",
+      "elements": [
+        "point2"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 5,
+      "action": "show",
+      "elements": [
+        "point3"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm"
+}

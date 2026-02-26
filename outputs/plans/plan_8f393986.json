@@ -1,0 +1,61 @@
+{
+  "title": "Educational Topic",
+  "core_concept": "Explain Photosynthesis",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Educational Topic"
+    },
+    {
+      "id": "point0",
+      "type": "text",
+      "description": "Photosynthesis is the process by which plants, algae, and some bacteria convert light energy into chemical energy stored in glucose."
+    },
+    {
+      "id": "point1",
+      "type": "text",
+      "description": "The main components of photosynthesis are sunlight absorption, carbon dioxide intake from the air through stomata on leaves, water uptake from soil via roots, chlorophyll within chloroplasts, and producing oxygen as a byproduct."
+    },
+    {
+      "id": "point2",
+      "type": "text",
+      "description": "Photosystem I (PSI) captures light energy to produce ATP while NADPH is generated in Photosystem II (PSII), which helps the Calvin cycle synthesize glucose from carbon dioxide using these molecules of chemical energy and reducing power, respectively."
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "show",
+      "elements": [
+        "title"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "action": "show",
+      "elements": [
+        "point0"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "action": "show",
+      "elements": [
+        "point1"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "action": "show",
+      "elements": [
+        "point2"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm"
+}

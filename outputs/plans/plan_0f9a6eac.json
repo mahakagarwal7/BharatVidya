@@ -1,0 +1,74 @@
+{
+  "title": "Educational Topic",
+  "core_concept": "Explain entropy in thermodynamics",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Educational Topic"
+    },
+    {
+      "id": "point0",
+      "type": "text",
+      "description": "Entropy is a measure of disorder or randomness within a system."
+    },
+    {
+      "id": "point1",
+      "type": "text",
+      "description": "In the context of thermodynamics, it's often associated with energy dispersal and distribution across molecules in a substance."
+    },
+    {
+      "id": "point2",
+      "type": "text",
+      "description": "The Second Law of Thermodynamics states that entropy tends to increase over time in an isolated system. This means systems naturally progress from order to disorder."
+    },
+    {
+      "id": "point3",
+      "type": "text",
+      "description": "Real-world examples include the melting of ice into water, where energy disperses and increases the overall entropy of a closed container holding both substances."
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "show",
+      "elements": [
+        "title"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "action": "show",
+      "elements": [
+        "point0"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "action": "show",
+      "elements": [
+        "point1"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "action": "show",
+      "elements": [
+        "point2"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 5,
+      "action": "show",
+      "elements": [
+        "point3"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm"
+}

@@ -1,0 +1,49 @@
+{
+  "title": "Quadratic Equation Visualization",
+  "core_concept": "Explain bubble sort and quadratic equation",
+  "visual_elements": [
+    {
+      "id": "parabola",
+      "type": "parabola",
+      "a": 1,
+      "b": 1,
+      "c": -1
+    },
+    {
+      "id": "vertex",
+      "type": "point",
+      "x": -0.5,
+      "y": -1.25
+    },
+    {
+      "id": "roots",
+      "type": "roots",
+      "values": [
+        0.6180339887498949,
+        -1.618033988749895
+      ]
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "show_equation",
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "action": "plot_parabola",
+      "duration": 3
+    },
+    {
+      "step": 3,
+      "action": "highlight_vertex",
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "action": "show_roots",
+      "duration": 2
+    }
+  ]
+}

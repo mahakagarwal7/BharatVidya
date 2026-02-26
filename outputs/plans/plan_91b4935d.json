@@ -1,0 +1,36 @@
+{
+  "title": "Quadratic Equation Visualization",
+  "core_concept": "Explain quadratic equation visually",
+  "visual_elements": [
+    {
+      "id": "parabola",
+      "type": "parabola",
+      "a": 3,
+      "b": 2,
+      "c": 1
+    },
+    {
+      "id": "vertex",
+      "type": "point",
+      "x": -0.3333333333333333,
+      "y": 0.6666666666666667
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "show_equation",
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "action": "plot_parabola",
+      "duration": 3
+    },
+    {
+      "step": 3,
+      "action": "highlight_vertex",
+      "duration": 2
+    }
+  ]
+}

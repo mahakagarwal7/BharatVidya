@@ -1,0 +1,24 @@
+{
+  "title": "Understanding Explain bubble sort visually",
+  "core_concept": "Explain bubble sort visually",
+  "visual_elements": [
+    {
+      "id": "main",
+      "type": "circle",
+      "description": "Explain bubble sort visually"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "title": "Introduction",
+      "action": "show",
+      "elements": [
+        "main"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm",
+  "_saved_plan_file": "outputs\\plans\\plan_llm_3315fccc.json"
+}

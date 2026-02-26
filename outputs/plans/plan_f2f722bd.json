@@ -1,0 +1,37 @@
+{
+  "title": "Understanding Explain linear equation",
+  "core_concept": "Explain linear equation",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Explain linear equation"
+    },
+    {
+      "id": "kw0",
+      "type": "text",
+      "description": "Solve for unknowns, Straight Line Graph Representation. Subtraction Property of Equality Usefulness Analysis. Slope Intercept Form Understanding Essentials."
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "title": "Introduction",
+      "action": "show_text",
+      "elements": [
+        "title"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "title": "Key Idea 1",
+      "action": "show_text",
+      "elements": [
+        "kw0"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm_slide_mode"
+}

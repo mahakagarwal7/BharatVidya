@@ -1,0 +1,74 @@
+{
+  "title": "Understanding Entropy in Thermodynamics",
+  "core_concept": "Explain entropy in thermodynamics",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Entropy in Thermodynamics"
+    },
+    {
+      "id": "point0",
+      "type": "text",
+      "description": "Entropy is a measure of the disorder or randomness in a system. It's often associated with energy distribution within that system, playing a crucial role in determining whether processes occur spontaneously and how they proceed."
+    },
+    {
+      "id": "point1",
+      "type": "text",
+      "description": "The Second Law of Thermodynamics states that entropy in an isolated system can only stay constant or increase over time; this implies the directionality of natural processes where systems tend to move from order to disorder, given no energy is added externally."
+    },
+    {
+      "id": "point2",
+      "type": "text",
+      "description": "In practical terms, as a substance undergoes change (like ice melting), its particles spread out and become more randomly distributed \u2013 which increases entropy because there are many more ways for the molecules to be in this dispersed state than when they were structured together; reflecting higher disorder."
+    },
+    {
+      "id": "point3",
+      "type": "text",
+      "description": "The concept of Gibbs free energy incorporates both enthalpy (total heat content) and entropy into a single value, helping predict whether processes will occur spontaneously at constant temperature and pressure by factoring in the trade-off between energy gain/loss and order change within a system."
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "show",
+      "elements": [
+        "title"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "action": "show",
+      "elements": [
+        "point0"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "action": "show",
+      "elements": [
+        "point1"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "action": "show",
+      "elements": [
+        "point2"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 5,
+      "action": "show",
+      "elements": [
+        "point3"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm"
+}

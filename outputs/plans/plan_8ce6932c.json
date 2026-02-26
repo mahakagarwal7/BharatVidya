@@ -1,0 +1,71 @@
+{
+  "title": "Visualizing Bubble Sort Algorithm",
+  "core_concept": "Explain bubble sort visually",
+  "visual_elements": [
+    {
+      "id": "<Rect1>",
+      "type": "rectangle",
+      "description": "<Rect1>"
+    },
+    {
+      "id": "<Para1>",
+      "type": "parabola",
+      "description": "<Para1>"
+    },
+    {
+      "id": "<Wave1>",
+      "type": "wave",
+      "description": "<Wave1>"
+    },
+    {
+      "id": "2,_3",
+      "type": "rectangle",
+      "description": "#2, #3"
+    },
+    {
+      "id": "4",
+      "type": "rectangle",
+      "description": "#4"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "title": "Display a grid filled with randomly dist",
+      "action": "show",
+      "elements": [
+        "<Rect1>"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "title": "Highlight the first pair of adjacent rec",
+      "action": "show",
+      "elements": [
+        "<Rect1>"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "title": "Animate movement: Bigger rectangles sink",
+      "action": "show",
+      "elements": [
+        "<Rect1>"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "title": "Repeat for each pair along the row until",
+      "action": "show",
+      "elements": [
+        "<Rect1>"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm",
+  "_saved_plan_file": "outputs\\plans\\plan_llm_88839e4e.json"
+}

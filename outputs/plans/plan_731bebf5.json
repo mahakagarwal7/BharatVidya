@@ -1,0 +1,150 @@
+{
+  "title": "Bubble Sort Visualization",
+  "core_concept": "Explain bubble sort",
+  "visual_elements": [
+    {
+      "id": "bar0",
+      "type": "rectangle",
+      "value": 33
+    },
+    {
+      "id": "bar1",
+      "type": "rectangle",
+      "value": 82
+    },
+    {
+      "id": "bar2",
+      "type": "rectangle",
+      "value": 83
+    },
+    {
+      "id": "bar3",
+      "type": "rectangle",
+      "value": 109
+    },
+    {
+      "id": "bar4",
+      "type": "rectangle",
+      "value": 36
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "compare",
+      "indices": [
+        0,
+        1
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 2,
+      "action": "compare",
+      "indices": [
+        1,
+        2
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 3,
+      "action": "compare",
+      "indices": [
+        2,
+        3
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 4,
+      "action": "compare",
+      "indices": [
+        3,
+        4
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 5,
+      "action": "swap",
+      "indices": [
+        3,
+        4
+      ],
+      "duration": 1.8
+    },
+    {
+      "step": 6,
+      "action": "compare",
+      "indices": [
+        0,
+        1
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 7,
+      "action": "compare",
+      "indices": [
+        1,
+        2
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 8,
+      "action": "compare",
+      "indices": [
+        2,
+        3
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 9,
+      "action": "swap",
+      "indices": [
+        2,
+        3
+      ],
+      "duration": 1.8
+    },
+    {
+      "step": 10,
+      "action": "compare",
+      "indices": [
+        0,
+        1
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 11,
+      "action": "compare",
+      "indices": [
+        1,
+        2
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 12,
+      "action": "swap",
+      "indices": [
+        1,
+        2
+      ],
+      "duration": 1.8
+    },
+    {
+      "step": 13,
+      "action": "compare",
+      "indices": [
+        0,
+        1
+      ],
+      "duration": 1.2
+    }
+  ]
+}

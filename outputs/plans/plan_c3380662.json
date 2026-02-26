@@ -1,0 +1,75 @@
+{
+  "title": "Bubble Sort Visualization Animation",
+  "core_concept": "Explain bubble sort visually",
+  "visual_elements": [
+    {
+      "id": "#Bubbles",
+      "type": "Rectangle (1)",
+      "description": "#Bubbles"
+    },
+    {
+      "id": "#Background",
+      "type": "Rectangle (2)",
+      "description": "#Background"
+    },
+    {
+      "id": "#SortIndicator",
+      "type": "Circle (3)",
+      "description": "#SortIndicator"
+    },
+    {
+      "id": "#VisualGuideLine",
+      "type": "Line (4)",
+      "description": "#VisualGuideLine"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "title": "Begin with a screen filled only by the background rectangle, setting up an empty canvas for animation.",
+      "action": "show",
+      "elements": [
+        "#Bubbles"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "title": "Place multiple small bubbles randomly within this rectangular space representing unsorted data elements; assign each unique ID to one of these bubbles using different-sized circles as sort indicators overlaid on top of them without obscuring the underlying shapes.",
+      "action": "show",
+      "elements": [
+        "#Bubbles"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "title": "Draw a single horizontal guide line across the bottom edge of the rectangle that will represent our 'comparison' and sorting threshold in this visual metapsel; use it to demonstrate how elements are swapped during each pass through the data set (bubbles).",
+      "action": "show",
+      "elements": [
+        "#Bubbles"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "title": "Animate one full left-to-right traversal, showing bubbles with odd IDs being compared first based on their size or color representation of value and highlight them when they swap places if necessary using arrows for visual aid; repeat this animation multiple times to demonstrate the sorting process until no more swaps are needed.",
+      "action": "show",
+      "elements": [
+        "#Bubbles"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 5,
+      "title": "Conclude by drawing a line from left edge (the smallest element) towards right end, with all bubbles following it in increasing order of size or color intensity \u2013 indicating that the data set has been sorted using Bubble Sort visually on screen for viewers to comprehend easily.",
+      "action": "show",
+      "elements": [
+        "#Bubbles"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm",
+  "_saved_plan_file": "outputs\\plans\\plan_llm_1dee76f0.json"
+}

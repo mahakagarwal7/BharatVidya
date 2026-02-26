@@ -1,0 +1,168 @@
+{
+  "title": "Bubble Sort Visualization",
+  "core_concept": "Explain bubble sort and quadratic equation",
+  "visual_elements": [
+    {
+      "id": "bar0",
+      "type": "rectangle",
+      "value": 110
+    },
+    {
+      "id": "bar1",
+      "type": "rectangle",
+      "value": 42
+    },
+    {
+      "id": "bar2",
+      "type": "rectangle",
+      "value": 52
+    },
+    {
+      "id": "bar3",
+      "type": "rectangle",
+      "value": 96
+    },
+    {
+      "id": "bar4",
+      "type": "rectangle",
+      "value": 59
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "compare",
+      "indices": [
+        0,
+        1
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 2,
+      "action": "swap",
+      "indices": [
+        0,
+        1
+      ],
+      "duration": 1.8
+    },
+    {
+      "step": 3,
+      "action": "compare",
+      "indices": [
+        1,
+        2
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 4,
+      "action": "swap",
+      "indices": [
+        1,
+        2
+      ],
+      "duration": 1.8
+    },
+    {
+      "step": 5,
+      "action": "compare",
+      "indices": [
+        2,
+        3
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 6,
+      "action": "swap",
+      "indices": [
+        2,
+        3
+      ],
+      "duration": 1.8
+    },
+    {
+      "step": 7,
+      "action": "compare",
+      "indices": [
+        3,
+        4
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 8,
+      "action": "swap",
+      "indices": [
+        3,
+        4
+      ],
+      "duration": 1.8
+    },
+    {
+      "step": 9,
+      "action": "compare",
+      "indices": [
+        0,
+        1
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 10,
+      "action": "compare",
+      "indices": [
+        1,
+        2
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 11,
+      "action": "compare",
+      "indices": [
+        2,
+        3
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 12,
+      "action": "swap",
+      "indices": [
+        2,
+        3
+      ],
+      "duration": 1.8
+    },
+    {
+      "step": 13,
+      "action": "compare",
+      "indices": [
+        0,
+        1
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 14,
+      "action": "compare",
+      "indices": [
+        1,
+        2
+      ],
+      "duration": 1.2
+    },
+    {
+      "step": 15,
+      "action": "compare",
+      "indices": [
+        0,
+        1
+      ],
+      "duration": 1.2
+    }
+  ]
+}

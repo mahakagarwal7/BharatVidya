@@ -1,0 +1,77 @@
+{
+  "title": "Understanding: sorting algorithm",
+  "core_concept": "sorting algorithm",
+  "educational_domain": "computer_science",
+  "visual_elements": [
+    {
+      "id": "bar1",
+      "type": "rectangle",
+      "description": "array element 1"
+    },
+    {
+      "id": "bar2",
+      "type": "rectangle",
+      "description": "array element 2"
+    },
+    {
+      "id": "bar3",
+      "type": "rectangle",
+      "description": "array element 3"
+    },
+    {
+      "id": "bar4",
+      "type": "rectangle",
+      "description": "array element 4"
+    },
+    {
+      "id": "bar5",
+      "type": "rectangle",
+      "description": "array element 5"
+    },
+    {
+      "id": "pointer",
+      "type": "arrow",
+      "description": "comparison pointer"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "title": "Introduction",
+      "action": "introduce",
+      "elements": [
+        "bar1",
+        "bar2"
+      ],
+      "educational_explanation": "Introduce the main objects",
+      "duration": 2.0
+    },
+    {
+      "step": 2,
+      "title": "Compare & Swap",
+      "action": "compare_swap",
+      "elements": [
+        "bar1",
+        "bar2",
+        "pointer"
+      ],
+      "educational_explanation": "Compare adjacent elements and swap if needed",
+      "duration": 3.0
+    },
+    {
+      "step": 3,
+      "title": "Result",
+      "action": "finalize",
+      "elements": [
+        "bar1",
+        "bar2",
+        "bar3",
+        "bar4",
+        "bar5"
+      ],
+      "educational_explanation": "Array is sorted",
+      "duration": 2.5
+    }
+  ],
+  "_saved_plan_file": "outputs\\plans\\plan_b934d326.json"
+}

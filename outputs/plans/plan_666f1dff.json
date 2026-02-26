@@ -1,0 +1,74 @@
+{
+  "title": "Visual Understanding of the Water Cycle Processes",
+  "core_concept": "water cycle  visually",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Visual Understanding of the Water Cycle Processes"
+    },
+    {
+      "id": "point0",
+      "type": "text",
+      "description": "Identify and label each stage (evaporation, condensation, precipitation, collection) in a sequential diagram."
+    },
+    {
+      "id": "point1",
+      "type": "text",
+      "description": "Explain how solar energy drives evaporation using illustrative animations or graphics showing water molecules gaining energy from the sun to transition into vapor form."
+    },
+    {
+      "id": "point2",
+      "type": "text",
+      "description": "Show transitions of clouds formation by depicting cooler air temperatures causing condensation with visual aids that represent tiny droplets merging and forming larger ones, leading to precipitation when they grow too heavy for the cloud structure holding them."
+    },
+    {
+      "id": "point3",
+      "type": "text",
+      "description": "Conclude your educational content on water cycle visually in a flowchart format demonstrating how collected surface waters return to lakes or seas via runoff before evaporating again, thereby completing the continuous loop of the water cycle with arrows indicating direction and phase changes throughout each stage."
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "show",
+      "elements": [
+        "title"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "action": "show",
+      "elements": [
+        "point0"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "action": "show",
+      "elements": [
+        "point1"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "action": "show",
+      "elements": [
+        "point2"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 5,
+      "action": "show",
+      "elements": [
+        "point3"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm"
+}

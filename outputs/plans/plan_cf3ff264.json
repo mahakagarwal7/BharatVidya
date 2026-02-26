@@ -1,0 +1,23 @@
+{
+  "title": "Understanding Explain how a sine wave is formed",
+  "core_concept": "Explain how a sine wave is formed",
+  "visual_elements": [
+    {
+      "id": "main",
+      "type": "circle",
+      "description": "Explain how a sine wave is formed"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "title": "Introduction",
+      "action": "show",
+      "elements": [
+        "main"
+      ],
+      "duration": 3
+    }
+  ],
+  "_source": "gemini"
+}

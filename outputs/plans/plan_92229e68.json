@@ -1,0 +1,74 @@
+{
+  "title": "Educational Topic",
+  "core_concept": "Explain Photosynthesis in short points",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Educational Topic"
+    },
+    {
+      "id": "point0",
+      "type": "text",
+      "description": "Photosynthesis is the process by which plants produce energy."
+    },
+    {
+      "id": "point1",
+      "type": "text",
+      "description": "It primarily occurs in plant leaves and uses sunlight to transform water and carbon dioxide into glucose, a sugar molecule that serves as food for plants."
+    },
+    {
+      "id": "point2",
+      "type": "text",
+      "description": "Oxygen is produced as a byproduct of photosynthesis during this conversion process."
+    },
+    {
+      "id": "point3",
+      "type": "text",
+      "description": "Chlorophyll, the green pigment in chloroplasts, captures sunlight and initiates the photosynthetic reaction known as the light-dependent reactions."
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "show",
+      "elements": [
+        "title"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "action": "show",
+      "elements": [
+        "point0"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "action": "show",
+      "elements": [
+        "point1"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "action": "show",
+      "elements": [
+        "point2"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 5,
+      "action": "show",
+      "elements": [
+        "point3"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm"
+}

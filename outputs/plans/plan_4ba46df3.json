@@ -1,0 +1,58 @@
+{
+  "title": "Understanding: test concept",
+  "core_concept": "test concept",
+  "educational_domain": "general",
+  "visual_elements": [
+    {
+      "id": "main",
+      "type": "circle",
+      "description": "Core: test concept"
+    },
+    {
+      "id": "detail1",
+      "type": "rectangle",
+      "description": "Supporting detail 1"
+    },
+    {
+      "id": "detail2",
+      "type": "triangle",
+      "description": "Supporting detail 2"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "title": "Introduction",
+      "action": "introduce",
+      "elements": [
+        "main",
+        "detail1"
+      ],
+      "educational_explanation": "Introduce the main objects",
+      "duration": 2.0
+    },
+    {
+      "step": 2,
+      "title": "Develop",
+      "action": "demonstrate",
+      "elements": [
+        "main",
+        "detail1",
+        "detail2"
+      ],
+      "educational_explanation": "Work through the idea",
+      "duration": 3.0
+    },
+    {
+      "step": 3,
+      "title": "Conclusion",
+      "action": "summarize",
+      "elements": [
+        "main"
+      ],
+      "educational_explanation": "Key takeaway",
+      "duration": 2.0
+    }
+  ],
+  "_saved_plan_file": "outputs\\plans\\plan_8a318945.json"
+}

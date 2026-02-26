@@ -1,0 +1,19 @@
+{
+  "title": "Projectile Motion (v=59, \u03b8=59\u00b0)",
+  "core_concept": "projectile motion visually",
+  "visual_elements": [
+    {
+      "id": "projectile",
+      "type": "projectile",
+      "velocity": 59,
+      "angle": 1.0297442586766545
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "animate_projectile",
+      "duration": 6
+    }
+  ]
+}

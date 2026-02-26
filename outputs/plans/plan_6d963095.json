@@ -1,0 +1,74 @@
+{
+  "title": "Educational Topic",
+  "core_concept": "Explain DNS",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Educational Topic"
+    },
+    {
+      "id": "point0",
+      "type": "text",
+      "description": "The purpose of the DNS is to convert human-readable domain names into numerical IP addresses that computers use to identify each other on the network. This process allows users to access websites using easy-to-remember domain names instead of hard-to-remember numeric IPs, like 192.0.2.188 (DNS)."
+    },
+    {
+      "id": "point1",
+      "type": "text",
+      "description": "DNS operates much like a phonebook for the internet where you can look up website addresses and get back their corresponding network address; this is known as forward lookup process. Additionally, it handles reverse DNS queries to find domain names associated with an IP address which helps in blocking spam or identifying bots on networks (reverse DNS)."
+    },
+    {
+      "id": "point2",
+      "type": "text",
+      "description": "There are several types of DNS servers including the recursive resolver (or caching server) that stores previously looked up addresses and quickly provides them for future requests within its cache; authoritative name server, also known as a root nameserver which holds information about top-level domains (.com, .org etc.) and acts like an intermediary between client queries and the lower levels of DNS hierarchy."
+    },
+    {
+      "id": "point3",
+      "type": "text",
+      "description": "Troubleshooting issues with DNS can include steps such as flushing local DNS cache to remove stale entries (using 'ipconfig /flushdns' command on Windows), checking for misconfiguration in network settings, or bypassing certain slow servers using alternative domain search paths if needed; understanding how DHCP works is also key since it often leases IP addresses along with corresponding DNS server information."
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "show",
+      "elements": [
+        "title"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "action": "show",
+      "elements": [
+        "point0"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "action": "show",
+      "elements": [
+        "point1"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "action": "show",
+      "elements": [
+        "point2"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 5,
+      "action": "show",
+      "elements": [
+        "point3"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm"
+}

@@ -1,0 +1,80 @@
+{
+  "title": "Bubble Sort Visualization",
+  "core_concept": "Explain bubble sort visually",
+  "visual_elements": [
+    {
+      "id": "bar1",
+      "type": "rectangle",
+      "description": "Element 1"
+    },
+    {
+      "id": "bar2",
+      "type": "rectangle",
+      "description": "Element 2"
+    },
+    {
+      "id": "bar3",
+      "type": "rectangle",
+      "description": "Element 3"
+    },
+    {
+      "id": "bar4",
+      "type": "rectangle",
+      "description": "Element 4"
+    },
+    {
+      "id": "bar5",
+      "type": "rectangle",
+      "description": "Element 5"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "title": "Show unsorted array",
+      "action": "show",
+      "elements": [
+        "bar1",
+        "bar2",
+        "bar3",
+        "bar4",
+        "bar5"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "title": "Compare adjacent elements",
+      "action": "show",
+      "elements": [
+        "bar1",
+        "bar2"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "title": "Swap if needed",
+      "action": "show",
+      "elements": [
+        "bar1",
+        "bar2"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "title": "Repeat until sorted",
+      "action": "show",
+      "elements": [
+        "bar1",
+        "bar2",
+        "bar3",
+        "bar4",
+        "bar5"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm"
+}
