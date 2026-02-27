@@ -71,6 +71,8 @@ class EducationalAnimator:
                 lang_display = {
                     "en": "English", "hi": "Hindi", "te": "Telugu",
                     "gu": "Gujarati", "bn": "Bengali", "pa": "Punjabi",
+                    "ta": "Tamil", "kn": "Kannada", "ml": "Malayalam",
+                    "mr": "Marathi", "or": "Odia", "as": "Assamese",
                     "es": "Spanish", "fr": "French", "de": "German",
                     "zh": "Chinese", "ja": "Japanese", "ko": "Korean"
                 }.get(use_language, use_language)

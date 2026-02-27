@@ -52,6 +52,24 @@ VOICES = {
     # Punjabi voices
     "punjabi_male": "pa-IN-OjasNeural",
     "punjabi_female": "pa-IN-VaaniNeural",
+    # Tamil voices
+    "tamil_male": "ta-IN-ValluvarNeural",
+    "tamil_female": "ta-IN-PallaviNeural",
+    # Kannada voices
+    "kannada_male": "kn-IN-GaganNeural",
+    "kannada_female": "kn-IN-SapnaNeural",
+    # Malayalam voices
+    "malayalam_male": "ml-IN-MidhunNeural",
+    "malayalam_female": "ml-IN-SobhanaNeural",
+    # Marathi voices
+    "marathi_male": "mr-IN-ManoharNeural",
+    "marathi_female": "mr-IN-AarohiNeural",
+    # Odia voices
+    "odia_male": "or-IN-PravathNeural",
+    "odia_female": "or-IN-SubhasiniNeural",
+    # Assamese voices
+    "assamese_male": "as-IN-PriyomNeural",
+    "assamese_female": "as-IN-YashicaNeural",
     # Other languages
     "spanish_male": "es-ES-AlvaroNeural",
     "spanish_female": "es-ES-ElviraNeural",
@@ -68,11 +86,19 @@ VOICES = {
 # Language to default voice mapping
 LANGUAGE_VOICES = {
     "en": "en-US-JennyNeural",
+    # Indian languages
     "hi": "hi-IN-SwaraNeural",
     "te": "te-IN-ShrutiNeural",
     "gu": "gu-IN-DhwaniNeural",
     "bn": "bn-IN-TanishaaNeural",
     "pa": "pa-IN-VaaniNeural",
+    "ta": "ta-IN-PallaviNeural",
+    "kn": "kn-IN-SapnaNeural",
+    "ml": "ml-IN-SobhanaNeural",
+    "mr": "mr-IN-AarohiNeural",
+    "or": "or-IN-SubhasiniNeural",
+    "as": "as-IN-YashicaNeural",
+    # Other languages
     "es": "es-ES-ElviraNeural",
     "fr": "fr-FR-DeniseNeural",
     "de": "de-DE-KatjaNeural",

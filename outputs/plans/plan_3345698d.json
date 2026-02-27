@@ -1,0 +1,240 @@
+{
+  "concept": "Explain the concept of kinematics",
+  "title": "Understanding Kinematics in Motion Analysis",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Kinematics in Motion Analysis",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_concept_of_kinematics_0_25636c57.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Understanding Kinematics in Motion Analysis"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Understanding Kinematics in Motion Analysis",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_concept_of_kinematics_20_a9194a27.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Understanding the core definition and key components of Explain the concept of kinematics"
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Understanding the core definition and key components of Explain the concept of kinematics",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "Understanding the core definition and key components of Explain the concept of kinematics",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_concept_of_kinematics_21_0bfc0ede.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Examining how Explain the concept of kinematics works through a step-by-step breakdown"
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "Examining how Explain the concept of kinematics works through a step-by-step breakdown",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "Examining how Explain the concept of kinematics works through a step-by-step breakdown",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_concept_of_kinematics_22_bfebb227.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Applying Explain the concept of kinematics to real-world scenarios and practical examples"
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Applying Explain the concept of kinematics to real-world scenarios and practical examples",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "Applying Explain the concept of kinematics to real-world scenarios and practical examples",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    }
+  ],
+  "topic_analysis": {
+    "topic_type": "context",
+    "category": "abstract",
+    "visual_approach": {
+      "image_style": "concept_card",
+      "text_density": "rich",
+      "scene_count": 5,
+      "animation_focus": false,
+      "show_steps": false,
+      "caption_length": "detailed"
+    },
+    "animation_style": {
+      "type": "text_reveal",
+      "transitions": [
+        "fade"
+      ],
+      "element_animations": false,
+      "simulation_elements": false,
+      "timing": "steady"
+    }
+  },
+  "theme": "generic",
+  "theme_colors": [
+    [
+      24,
+      62,
+      116
+    ],
+    [
+      50,
+      108,
+      164
+    ]
+  ]
+}
