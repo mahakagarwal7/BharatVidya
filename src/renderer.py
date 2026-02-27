@@ -1,15 +1,32 @@
 # src/renderer.py
 
-from moviepy.editor import VideoClip
+from moviepy.editor import VideoClip, AudioFileClip, CompositeVideoClip
 import numpy as np
 import cv2
 import os
 import math
+from typing import Optional, List
 
 
 class MoviePyRenderer:
 
-    def render(self, plan: dict, output_filename: str) -> str:
+    def render(
+        self,
+        plan: dict,
+        output_filename: str,
+        narration: Optional[dict] = None
+    ) -> str:
+        """
+        Render the visual plan to a video file.
+        
+        Args:
+            plan: Visual plan with elements and animation sequence
+            output_filename: Output video path
+            narration: Optional narration data from Narrator:
+                - step_durations: List of durations for each step
+                - combined_audio_path: Path to combined audio file
+                - intro: Optional intro audio info
+        """
 
         elements = plan.get("visual_elements", [])
         steps = plan.get("animation_sequence", [])
@@ -25,6 +42,49 @@ class MoviePyRenderer:
         margin_right = 120
         max_text_width = width - margin_left - margin_right
         image_cache = {}
+
+        # ==========================================================
+        # AUDIO SYNC: Calculate durations from narration if provided
+        # ==========================================================
+        
+        audio_path = None
+        if narration:
+            step_durations = narration.get("step_durations", [])
+            audio_path = narration.get("combined_audio_path")
+            intro_info = narration.get("intro")
+            
+            # Add intro duration if present
+            intro_duration = 0
+            if intro_info and intro_info.get("duration"):
+                intro_duration = intro_info["duration"]
+            
+            # Override step durations from narration
+            # Each pair of animation steps (brief + detail) shares one narration step
+            if step_durations:
+                # Count actual "step" scenes (paired brief + detail views = 1 logical step)
+                narration_idx = 0
+                step_idx = 0
+                base_duration = 4.0  # For hero/intro scenes
+                
+                for i, step in enumerate(steps):
+                    step_elements = step.get("elements", [])
+                    
+                    # Check if this is a step scene (contains text_step_ or image_step_)
+                    is_step_scene = any("text_step_" in e or "image_step_" in e for e in step_elements)
+                    
+                    if is_step_scene and narration_idx < len(step_durations):
+                        # This is a paired step scene - use half the narration duration for each
+                        # Every 2 animation scenes = 1 narration step
+                        duration = step_durations[narration_idx // 2] if narration_idx // 2 < len(step_durations) else base_duration
+                        # Split duration between brief and detail views
+                        step["duration"] = duration / 2
+                        narration_idx += 1
+                    else:
+                        # Hero/intro scenes get intro duration or base
+                        if i == 0 and intro_duration > 0:
+                            step["duration"] = intro_duration
+                        else:
+                            step["duration"] = base_duration
 
         total_duration = sum(s.get("duration", 2) for s in steps)
 
@@ -680,12 +740,44 @@ class MoviePyRenderer:
         if output_dir:
             os.makedirs(output_dir, exist_ok=True)
 
-        clip.write_videofile(
-            output_filename,
-            fps=24,
-            codec="libx264",
-            audio=False,
-            preset="ultrafast"
-        )
+        # Add audio track if narration is provided
+        if audio_path and os.path.exists(audio_path):
+            try:
+                audio_clip = AudioFileClip(audio_path)
+                
+                # Trim or pad audio to match video duration
+                if audio_clip.duration > total_duration:
+                    audio_clip = audio_clip.subclip(0, total_duration)
+                
+                clip = clip.set_audio(audio_clip)
+                
+                clip.write_videofile(
+                    output_filename,
+                    fps=24,
+                    codec="libx264",
+                    audio_codec="aac",
+                    preset="ultrafast"
+                )
+                
+                audio_clip.close()
+            except Exception as e:
+                print(f"Warning: Could not add audio: {e}")
+                # Fallback to video without audio
+                clip.write_videofile(
+                    output_filename,
+                    fps=24,
+                    codec="libx264",
+                    audio=False,
+                    preset="ultrafast"
+                )
+        else:
+            clip.write_videofile(
+                output_filename,
+                fps=24,
+                codec="libx264",
+                audio=False,
+                preset="ultrafast"
+            )
 
+        clip.close()
         return output_filename

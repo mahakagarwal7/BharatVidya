@@ -1,0 +1,308 @@
+"""
+Narrator module - Generates audio narration for video steps using edge-tts.
+Provides sync information (durations) for video rendering.
+Uses ffmpeg directly for audio processing (no pydub/ffprobe dependency).
+"""
+
+import asyncio
+import os
+import subprocess
+from pathlib import Path
+from typing import List, Dict, Optional
+
+import edge_tts
+
+# Get ffmpeg from imageio_ffmpeg
+try:
+    from imageio_ffmpeg import get_ffmpeg_exe
+    FFMPEG_PATH = get_ffmpeg_exe()
+except ImportError:
+    FFMPEG_PATH = "ffmpeg"
+
+
+# Available voices (Microsoft Edge TTS)
+VOICES = {
+    "male_us": "en-US-GuyNeural",
+    "female_us": "en-US-JennyNeural",
+    "male_uk": "en-GB-RyanNeural",
+    "female_uk": "en-GB-SoniaNeural",
+    "male_india": "en-IN-PrabhatNeural",
+    "female_india": "en-IN-NeerjaNeural",
+}
+
+DEFAULT_VOICE = "en-US-JennyNeural"
+MIN_STEP_DURATION = 3.0  # Minimum seconds per step
+STEP_BUFFER = 0.5  # Buffer between steps
+
+
+def get_audio_duration_ffmpeg(file_path: str) -> float:
+    """Get audio duration using ffmpeg."""
+    try:
+        cmd = [
+            FFMPEG_PATH,
+            "-i", file_path,
+            "-f", "null",
+            "-"
+        ]
+        result = subprocess.run(
+            cmd, 
+            capture_output=True, 
+            text=True,
+            creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
+        )
+        
+        # Parse duration from stderr (ffmpeg outputs info to stderr)
+        output = result.stderr
+        for line in output.split('\n'):
+            if 'Duration:' in line:
+                # Format: Duration: 00:00:05.23, ...
+                time_str = line.split('Duration:')[1].split(',')[0].strip()
+                parts = time_str.split(':')
+                hours = float(parts[0])
+                minutes = float(parts[1])
+                seconds = float(parts[2])
+                return hours * 3600 + minutes * 60 + seconds
+        
+        # Fallback: estimate based on file size (rough approximation for mp3)
+        file_size = os.path.getsize(file_path)
+        # Approximate: 128kbps mp3 = 16KB/sec
+        return file_size / 16000
+        
+    except Exception as e:
+        print(f"Warning: Could not get duration: {e}")
+        return 3.0  # Default fallback
+
+
+def concatenate_audio_ffmpeg(audio_files: List[Dict], output_path: str) -> str:
+    """Concatenate audio files using ffmpeg with silence padding."""
+    
+    if not audio_files:
+        return output_path
+    
+    temp_dir = Path(output_path).parent
+    list_file = temp_dir / "concat_list.txt"
+    
+    # Build file list with silence padding
+    with open(list_file, 'w') as f:
+        for step_info in audio_files:
+            audio_path = step_info.get("audio_path")
+            if audio_path and os.path.exists(audio_path):
+                # Write audio file
+                f.write(f"file '{os.path.abspath(audio_path)}'\n")
+                
+                # Calculate silence duration
+                raw_duration = step_info.get("raw_duration", 0)
+                effective_duration = step_info.get("effective_duration", MIN_STEP_DURATION)
+                silence_ms = int((effective_duration - raw_duration) * 1000)
+                
+                if silence_ms > 100:
+                    # Create a silence file for this duration
+                    sil_file = temp_dir / f"silence_{silence_ms}ms.wav"
+                    if not sil_file.exists():
+                        cmd = [
+                            FFMPEG_PATH,
+                            "-f", "lavfi",
+                            "-i", "anullsrc=r=44100:cl=mono",
+                            "-t", str(silence_ms / 1000),
+                            "-y",
+                            str(sil_file)
+                        ]
+                        subprocess.run(cmd, capture_output=True,
+                                      creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
+                    f.write(f"file '{os.path.abspath(sil_file)}'\n")
+            else:
+                # Just silence for this step
+                silence_ms = int(step_info.get("effective_duration", MIN_STEP_DURATION) * 1000)
+                sil_file = temp_dir / f"silence_{silence_ms}ms.wav"
+                if not sil_file.exists():
+                    cmd = [
+                        FFMPEG_PATH,
+                        "-f", "lavfi",
+                        "-i", "anullsrc=r=44100:cl=mono",
+                        "-t", str(silence_ms / 1000),
+                        "-y",
+                        str(sil_file)
+                    ]
+                    subprocess.run(cmd, capture_output=True,
+                                  creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
+                f.write(f"file '{os.path.abspath(sil_file)}'\n")
+    
+    # Concatenate using concat demuxer
+    cmd = [
+        FFMPEG_PATH,
+        "-f", "concat",
+        "-safe", "0",
+        "-i", str(list_file),
+        "-c:a", "libmp3lame",
+        "-q:a", "2",
+        "-y",
+        output_path
+    ]
+    
+    subprocess.run(cmd, capture_output=True,
+                   creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
+    
+    # Cleanup temp file
+    try:
+        list_file.unlink()
+    except:
+        pass
+    
+    return output_path
+
+
+class Narrator:
+    def __init__(self, voice: str = DEFAULT_VOICE, output_dir: str = "outputs/audio"):
+        self.voice = voice
+        self.output_dir = Path(output_dir)
+        self.output_dir.mkdir(parents=True, exist_ok=True)
+        
+    async def _generate_audio_async(self, text: str, output_path: str) -> str:
+        """Generate audio for a single text using edge-tts."""
+        communicate = edge_tts.Communicate(text, self.voice)
+        await communicate.save(output_path)
+        return output_path
+    
+    def generate_step_audio(self, text: str, step_index: int, session_id: str) -> Dict:
+        """
+        Generate audio for a single step.
+        Returns dict with audio_path and duration.
+        """
+        output_path = self.output_dir / f"{session_id}_step_{step_index}.mp3"
+        
+        # Run async TTS
+        asyncio.run(self._generate_audio_async(text, str(output_path)))
+        
+        # Get duration using ffmpeg
+        duration_sec = get_audio_duration_ffmpeg(str(output_path))
+        
+        # Apply minimum duration
+        effective_duration = max(duration_sec, MIN_STEP_DURATION) + STEP_BUFFER
+        
+        return {
+            "audio_path": str(output_path),
+            "raw_duration": duration_sec,
+            "effective_duration": effective_duration,
+            "step_index": step_index
+        }
+    
+    def generate_narration(self, steps: List[str], session_id: str) -> Dict:
+        """
+        Generate narration for all steps.
+        Returns dict with step_audios list, combined audio path, and total duration.
+        """
+        step_audios = []
+        
+        for i, step_text in enumerate(steps):
+            if not step_text or not step_text.strip():
+                # Skip empty steps, but add placeholder duration
+                step_audios.append({
+                    "audio_path": None,
+                    "raw_duration": 0,
+                    "effective_duration": MIN_STEP_DURATION,
+                    "step_index": i
+                })
+                continue
+                
+            audio_info = self.generate_step_audio(step_text, i, session_id)
+            step_audios.append(audio_info)
+        
+        # Combine all audio files using ffmpeg
+        combined_path = str(self.output_dir / f"{session_id}_combined.mp3")
+        concatenate_audio_ffmpeg(step_audios, combined_path)
+        
+        # Calculate total duration
+        total_duration = sum(s["effective_duration"] for s in step_audios)
+        
+        return {
+            "step_audios": step_audios,
+            "combined_audio_path": combined_path,
+            "total_duration": total_duration,
+            "step_durations": [s["effective_duration"] for s in step_audios]
+        }
+    
+    def generate_intro_audio(self, title: str, session_id: str) -> Dict:
+        """Generate audio for video intro/title."""
+        output_path = self.output_dir / f"{session_id}_intro.mp3"
+        
+        # Run async TTS
+        asyncio.run(self._generate_audio_async(title, str(output_path)))
+        
+        # Get duration using ffmpeg
+        duration_sec = get_audio_duration_ffmpeg(str(output_path))
+        
+        return {
+            "audio_path": str(output_path),
+            "duration": max(duration_sec, 2.0) + STEP_BUFFER
+        }
+
+    def cleanup(self, session_id: str):
+        """Remove temporary audio files for a session."""
+        for f in self.output_dir.glob(f"{session_id}_*.mp3"):
+            try:
+                f.unlink()
+            except:
+                pass
+        # Also cleanup silence files
+        for f in self.output_dir.glob("silence_*.wav"):
+            try:
+                f.unlink()
+            except:
+                pass
+
+
+def generate_narration_for_plan(plan: Dict, session_id: str, voice: str = DEFAULT_VOICE) -> Dict:
+    """
+    Convenience function to generate narration from a visual plan.
+    Extracts step descriptions and generates audio.
+    """
+    narrator = Narrator(voice=voice)
+    
+    # Extract step descriptions from plan
+    steps = []
+    visual_elements = plan.get("visual_elements", [])
+    
+    for elem in visual_elements:
+        elem_id = elem.get("id", "")
+        # Get full step descriptions (not brief ones)
+        if elem_id.startswith("text_step_") and "_brief" not in elem_id:
+            description = elem.get("description", "")
+            if description:
+                steps.append(description)
+    
+    if not steps:
+        # Fallback: try to get from animation_sequence
+        for seq in plan.get("animation_sequence", []):
+            desc = seq.get("description", "")
+            if desc and len(desc) > 10:
+                steps.append(desc)
+    
+    # Generate intro from title
+    title = plan.get("title", "")
+    intro_info = None
+    if title:
+        intro_info = narrator.generate_intro_audio(title, session_id)
+    
+    # Generate step narration
+    narration_result = narrator.generate_narration(steps, session_id)
+    narration_result["intro"] = intro_info
+    
+    return narration_result
+
+
+# For testing
+if __name__ == "__main__":
+    test_steps = [
+        "Initialize the simulation environment with gravity set to negative 9.8 meters per second squared.",
+        "Release a virtual projectile at an angle of 45 degrees.",
+        "Animate the motion frame by frame showing the parabolic trajectory.",
+        "Overlay the trajectory path to visualize the complete motion."
+    ]
+    
+    narrator = Narrator()
+    result = narrator.generate_narration(test_steps, "test_session")
+    
+    print("Narration generated:")
+    print(f"  Combined audio: {result['combined_audio_path']}")
+    print(f"  Total duration: {result['total_duration']:.2f}s")
+    print(f"  Step durations: {result['step_durations']}")
