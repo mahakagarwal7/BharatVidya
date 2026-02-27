@@ -40,6 +40,18 @@ VOICES = {
     # Hindi voices
     "hindi_male": "hi-IN-MadhurNeural",
     "hindi_female": "hi-IN-SwaraNeural",
+    # Telugu voices
+    "telugu_male": "te-IN-MohanNeural",
+    "telugu_female": "te-IN-ShrutiNeural",
+    # Gujarati voices
+    "gujarati_male": "gu-IN-NiranjanNeural",
+    "gujarati_female": "gu-IN-DhwaniNeural",
+    # Bengali voices
+    "bengali_male": "bn-IN-BashkarNeural",
+    "bengali_female": "bn-IN-TanishaaNeural",
+    # Punjabi voices
+    "punjabi_male": "pa-IN-OjasNeural",
+    "punjabi_female": "pa-IN-VaaniNeural",
     # Other languages
     "spanish_male": "es-ES-AlvaroNeural",
     "spanish_female": "es-ES-ElviraNeural",
@@ -57,6 +69,10 @@ VOICES = {
 LANGUAGE_VOICES = {
     "en": "en-US-JennyNeural",
     "hi": "hi-IN-SwaraNeural",
+    "te": "te-IN-ShrutiNeural",
+    "gu": "gu-IN-DhwaniNeural",
+    "bn": "bn-IN-TanishaaNeural",
+    "pa": "pa-IN-VaaniNeural",
     "es": "es-ES-ElviraNeural",
     "fr": "fr-FR-DeniseNeural",
     "de": "de-DE-KatjaNeural",

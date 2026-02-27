@@ -68,9 +68,12 @@ class EducationalAnimator:
         
         if use_narration:
             try:
-                lang_display = {"en": "English", "hi": "Hindi", "es": "Spanish", 
-                               "fr": "French", "de": "German", "zh": "Chinese",
-                               "ja": "Japanese", "ko": "Korean"}.get(use_language, use_language)
+                lang_display = {
+                    "en": "English", "hi": "Hindi", "te": "Telugu",
+                    "gu": "Gujarati", "bn": "Bengali", "pa": "Punjabi",
+                    "es": "Spanish", "fr": "French", "de": "German",
+                    "zh": "Chinese", "ja": "Japanese", "ko": "Korean"
+                }.get(use_language, use_language)
                 print(f"🎙️ Generating audio narration ({lang_display})...")
                 narration = generate_narration_for_plan(
                     plan, session_id, 
