@@ -1,0 +1,225 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Linear Equations - An Educational Approach",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_linear_equations_0_6b299598.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Understanding Linear Equations - An Educational Approach"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Understanding Linear Equations - An Educational Approach",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_linear_equations_1_e8f6e6c3.png",
+      "x": 110,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_linear_equations_2_e4877865.png",
+      "x": 330,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_linear_equations_3_c86a42f8.png",
+      "x": 550,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_linear_equations_20_ceca0f2d.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Linear equations are mathematical expressions that show the relationship between two variables, typically represented as y = mx + b."
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Linear equations are mathematical expressions that show the relationship between two variables, typically represented as y = mx + b.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "Linear equations are mathematical expressions that show...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_linear_equations_21_2549dd74.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Identify 'm' (slope) and 'b' (y-intercept), which define a straight line when graphed on a coordinate plane where 'y' changes at a constant rate for each unit change in 'x'."
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "Identify 'm' (slope) and 'b' (y-intercept), which define a straight line when graphed on a coordinate plane where 'y' changes at a...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "Identify 'm' (slope) and 'b' (y-intercept), which...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_linear_equations_22_c5a6e8b6.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Use the slope to determine how steep or flat the line is, while the y-intercept tells us where the line crosses the y-axis. Plot these points and draw a straight line through them on graph paper."
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Use the slope to determine how steep or flat the line is, while the y-intercept tells us where the line crosses the...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "Use the slope to determine how steep...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 2.8
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 2.8
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 2.8
+    }
+  ]
+}

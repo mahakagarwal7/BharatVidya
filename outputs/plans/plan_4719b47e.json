@@ -1,0 +1,252 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding the French Revolution: A Historical Analysis",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_french_revolution_0_0e0dd684.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Understanding the French Revolution: A Historical Analysis"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Understanding the French Revolution: A Historical Analysis",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_french_revolution_1_5fbf4933.png",
+      "x": 110,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_french_revolution_2_ed8d5bb6.png",
+      "x": 330,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_french_revolution_3_90c4554e.png",
+      "x": 550,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_french_revolution_20_45eaa15c.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "{'Step1 explanation': 'The French Revolution was a period of radical social and political upheaval in France that lasted from 1789 to the late 1790s, marked by a wave of liberal revolutions across Europe.', 'context_note': 'This movement aimed at overthrowing monarchies and establishing republics grounded on Enlightenment principles like citizenship and inalienable rights.'}"
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "{'Step1 explanation': 'The French Revolution was a period of radical social and political upheaval in France that lasted from 1789 to the...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "{'Step1 explanation': 'The French Revolution was a period of radical social and political upheaval...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_french_revolution_21_11e42127.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "{'Key Concept Explanation': 'The ideologies driving the Revolution were fundamentally based on liberty, equality, and fraternity.', 'context_note': 'These principles sought to transform society from a feudal system into one governed by merit rather than birthright.'}"
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "{'Key Concept Explanation': 'The ideologies driving the Revolution were fundamentally based on liberty, equality, and fraternity.', 'context_note': 'These principles sought to transform...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "{'Key Concept Explanation': 'The ideologies driving the Revolution were fundamentally based on liberty, equality,...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_french_revolution_22_623bd513.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "{'Modern Relevance Explanation': \"The French Revolution's legacy lives on in modern democras worldwide, as its ideals of citizenship and rights have shaped global political thought.\", 'context_note': 'Studying the revolution helps us understand how societies can achieve significant change through collective action.'}"
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "{'Modern Relevance Explanation': \"The French Revolution's legacy lives on in modern democras worldwide, as its ideals of citizenship and rights have shaped...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "{'Modern Relevance Explanation': \"The French Revolution's legacy lives on in modern democras worldwide, as...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    }
+  ],
+  "topic_analysis": {
+    "topic_type": "context",
+    "category": "history",
+    "visual_approach": {
+      "image_style": "concept_card",
+      "text_density": "rich",
+      "scene_count": 5,
+      "animation_focus": false,
+      "show_steps": false,
+      "caption_length": "detailed"
+    },
+    "animation_style": {
+      "type": "text_reveal",
+      "transitions": [
+        "fade"
+      ],
+      "element_animations": false,
+      "simulation_elements": false,
+      "timing": "steady"
+    }
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Eigen Values and Vectors",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_0_506f2bcc.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Understanding Eigen Values and Vectors"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Understanding Eigen Values and Vectors",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_20_08efa252.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "{'step_1': 'Definition - An eigenvalue of a matrix is a scalar such that when it multiplies an associated non-zero vector, called the eigenvector or characteristic vector, results in scaling that vector by its corresponding eigenvalue.'}"
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "{'step_1': 'Definition - An eigenvalue of a matrix is a scalar such that when it multiplies an associated non-zero vector, called the...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "{'step_1': 'Definition - An eigenvalue of a...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_21_8a8160a4.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "{'step_2': 'Finding Eigenvalues and Vectors - To find eigenvalues of a square matrix A: (1) Subtract \u03bbI from A where I is the identity matrix. The determinant |A \u2212 \u03bbI| must equal zero, which gives us the characteristic polynomial whose roots are the eigenvalues.'}"
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "{'step_2': 'Finding Eigenvalues and Vectors - To find eigenvalues of a square matrix A: (1) Subtract \u03bbI from A where I is...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "{'step_2': 'Finding Eigenvalues and Vectors - To...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_22_bd31c203.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "{'step_3': 'Determining Eigenvectors - Once we have a set of eigenvalues, for each eigenvalue, solve (A\u2212\u03bbI)v=0 to find its corresponding non-zero vector v which is an eigenvector associated with \u03bb.'}"
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "{'step_3': 'Determining Eigenvectors - Once we have a set of eigenvalues, for each eigenvalue, solve (A\u2212\u03bbI)v=0 to find its corresponding non-zero vector...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "{'step_3': 'Determining Eigenvectors - Once we have...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 2.8
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 2.8
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 2.8
+    }
+  ]
+}

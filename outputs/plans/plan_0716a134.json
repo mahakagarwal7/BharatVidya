@@ -1,0 +1,225 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Matrix Multiplication: Process Classification and Steps for Clarity",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_matrix_multiplication_0_54edb326.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Understanding Matrix Multiplication: Process Classification and Steps for Clarity"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Understanding Matrix Multiplication: Process Classification and Steps for Clarity",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_matrix_multiplication_1_ba2676e0.png",
+      "x": 110,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_matrix_multiplication_2_30fac85e.png",
+      "x": 330,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_matrix_multiplication_3_01a1ade6.png",
+      "x": 550,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_matrix_multiplication_20_dc7a87f5.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Matrix multiplication is a mathematical operation where two matrices are combined to produce another matrix. This process requires that the number of columns in the first matrix (A) equals the number of rows in the second matrix (B). The resulting matrix, often denoted as C, will have dimensions equal to the number of rows from A and the number of columns from B."
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Matrix multiplication is a mathematical operation where two matrices are combined to produce another matrix. This process requires that the number of...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "Matrix multiplication is a mathematical operation where...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_matrix_multiplication_21_c8f2eaad.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "To perform multiplication between a 2x3 matrix A and a 3x2 matrix B, align each row of A with each column of B transpose (B^T), multiply corresponding elements together for pairs aligned in both horizontal and vertical directions. Then sum these products to get an entry for the resulting matrix C."
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "To perform multiplication between a 2x3 matrix A and a 3x2 matrix B, align each row of A with each column of...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "To perform multiplication between a 2x3 matrix...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_matrix_multiplication_22_0769aebe.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Consider this concrete example: Matrix A as [[1, 2, 3], [4, 5, 6]] and B transposed (B^T) as [[7, 8], [9, 10], [11, 12]]. The resulting matrix C will be calculated by multiplying the aligned elements: for instance, first element of row one from A times all column elements in a corresponding position to find entries on the resultant matrix's leftmost side (first and second columns). Continue this pattern across rows and then sum up these products vertically."
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Consider this concrete example: Matrix A as [[1, 2, 3], [4, 5, 6]] and B transposed (B^T) as [[7, 8], [9, 10],...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "Consider this concrete example: Matrix A as...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 2.8
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 2.8
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 2.8
+    }
+  ]
+}

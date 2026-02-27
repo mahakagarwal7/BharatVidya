@@ -1,0 +1,315 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Projectile Motion: An Animated Simulation Guide",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_projectile_motion_0_fe562582.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Projectile Motion: An Animated Simulation Guide"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Projectile Motion: An Animated Simulation Guide",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "sim_indicator",
+      "type": "text",
+      "description": "\u25b6 SIMULATION",
+      "x": 700,
+      "y": 24,
+      "font_scale": 0.6,
+      "color": [
+        100,
+        220,
+        180
+      ]
+    },
+    {
+      "id": "step_dot_0",
+      "type": "circle",
+      "x": 190,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        80,
+        160,
+        220
+      ]
+    },
+    {
+      "id": "step_dot_1",
+      "type": "circle",
+      "x": 215,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        60,
+        80,
+        100
+      ]
+    },
+    {
+      "id": "step_dot_2",
+      "type": "circle",
+      "x": 240,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        60,
+        80,
+        100
+      ]
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_projectile_motion_1_3fd04a87.png",
+      "x": 110,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_projectile_motion_2_c410085a.png",
+      "x": 330,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_projectile_motion_3_af9e3057.png",
+      "x": 550,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_projectile_motion_20_123f1016.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Define the key variables and representation for Explain projectile motion"
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Define the key variables and representation for Explain projectile motion",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "Define the key variables and representation for Explain...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_projectile_motion_21_764fe987.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Run a worked simulation/example for Explain projectile motion"
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "Run a worked simulation/example for Explain projectile motion",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "Run a worked simulation/example for Explain projectile motion",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_projectile_motion_22_e5b17323.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Interpret the final output and practical use of Explain projectile motion"
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Interpret the final output and practical use of Explain projectile motion",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "Interpret the final output and practical use of...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    }
+  ],
+  "topic_analysis": {
+    "topic_type": "simulation",
+    "category": "physics",
+    "visual_approach": {
+      "image_style": "process_diagram",
+      "text_density": "minimal",
+      "scene_count": 6,
+      "animation_focus": true,
+      "show_steps": true,
+      "caption_length": "short"
+    },
+    "animation_style": {
+      "type": "step_progression",
+      "transitions": [
+        "fade",
+        "slide"
+      ],
+      "element_animations": true,
+      "simulation_elements": true,
+      "timing": "dynamic"
+    }
+  },
+  "theme": "projectile",
+  "theme_colors": [
+    [
+      27,
+      55,
+      89
+    ],
+    [
+      48,
+      91,
+      145
+    ]
+  ]
+}

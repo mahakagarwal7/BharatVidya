@@ -1,0 +1,69 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Eigenvalues and Eigenvectors",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "main",
+      "type": "circle",
+      "x": 500,
+      "y": 300,
+      "radius": 100
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Eigenvalues are scalars associated with a square matrix, such that when the matrix is multiplied by an eigenvector, the result is simply the product of the scalar (the eigenvalue) and the original vector.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "To find eigenvalues for any given nxn matrix A, one must solve the characteristic polynomial obtained from det(A - \u03bbI) = 0, where I is the identity matrix and \u03bb represents the potential eigenvalues.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Once you have determined an eigenvalue by solving this equation, substitute it back into (A - \u03bbI)v = 0 to find the corresponding eigenvector v for that particular eigenvalue.",
+      "x": 150,
+      "y": 200
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "main"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

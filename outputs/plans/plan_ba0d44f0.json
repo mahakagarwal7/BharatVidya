@@ -1,0 +1,225 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding the Determinant of a Matrix",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_determinant_of_a_matrix_0_069b8c8c.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Understanding the Determinant of a Matrix"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Understanding the Determinant of a Matrix",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_determinant_of_a_matrix_1_b4513d15.png",
+      "x": 110,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_determinant_of_a_matrix_2_2ae6183e.png",
+      "x": 330,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_determinant_of_a_matrix_3_e94434dc.png",
+      "x": 550,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_determinant_of_a_matrix_20_68eb4e68.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "{'step1': 'Definition: The determinant is a scalar value that can be computed from the elements of a square matrix and gives insight into many properties of the matrix, such as whether it has an inverse.'}"
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "{'step1': 'Definition: The determinant is a scalar value that can be computed from the elements of a square matrix and gives insight...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "{'step1': 'Definition: The determinant is a scalar...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_determinant_of_a_matrix_21_d976c8f0.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "{'step2': \"Simulation/Example Inputs & Outputs: Consider a 3x3 matrix A with entries. To find its determinant (det(A)), apply the rule 'ad - bc' for a matrix [[a, b], [c, d]]. For our example, let A = [[1,2],[3,4]], then det(A) = (1*4) - (2*3) = 4 - 6 = -2. The output is the determinant of A.\"}"
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "{'step2': \"Simulation/Example Inputs & Outputs: Consider a 3x3 matrix A with entries. To find its determinant (det(A)), apply the rule 'ad -...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "{'step2': \"Simulation/Example Inputs & Outputs: Consider a...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_determinant_of_a_matrix_22_222b880f.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "{'step3': 'Interpretation: In this worked example, a negative determinant indicates that the matrix does not have an inverse and its columns are linearly dependent. If det(A) were 0 or if we had calculated it for larger matrices using other methods like expansion by minors or LU decomposition, further implications on the system of equations would become evident.'}"
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "{'step3': 'Interpretation: In this worked example, a negative determinant indicates that the matrix does not have an inverse and its columns are...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "{'step3': 'Interpretation: In this worked example, a...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 2.8
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 2.8
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 2.8
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Photosynthesis Explained: The Plant's Energy Conversion Process",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_0_b233da7c.png",
+      "x": 180,
+      "y": 130,
+      "width": 640,
+      "height": 360,
+      "description": "Photosynthesis Explained: The Plant's Energy Conversion Process"
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_1_2b961626.png",
+      "x": 110,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_2_847a088e.png",
+      "x": 330,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_3_8fb0fc25.png",
+      "x": 550,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_20_2b2a83a6.png",
+      "x": 180,
+      "y": 130,
+      "width": 640,
+      "height": 360,
+      "description": "Step 1 explanation: Photosynthesis is the process by which green plants, algae, and some bacteria convert light energy into chemical energy in the form of glucose. This occurs within specialized cell structures called chloroplasts."
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Step 1 explanation: Photosynthesis is the process by which green plants, algae, and some bacteria convert light energy into chemical energy in the form of glucose. This occurs within specialized cell structures called chloroplasts.",
+      "x": 150,
+      "y": 520
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_21_cfedf609.png",
+      "x": 180,
+      "y": 130,
+      "width": 640,
+      "height": 360,
+      "description": "Step 2 explanation: The process begins when pigment molecules like chlorophyll absorb sunlight (photons), which provides the initial energy to drive photosynthesis."
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "Step 2 explanation: The process begins when pigment molecules like chlorophyll absorb sunlight (photons), which provides the initial energy to drive photosynthesis.",
+      "x": 150,
+      "y": 520
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_22_5428661a.png",
+      "x": 180,
+      "y": 130,
+      "width": 640,
+      "height": 360,
+      "description": "Step 3 explanation: Water absorbed by plant roots is transported to leaves, where it's split into hydrogen and oxygen in a series of reactions collectively called photolysis. The released electrons help convert light energy into chemical energy."
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Step 3 explanation: Water absorbed by plant roots is transported to leaves, where it's split into hydrogen and oxygen in a series of reactions collectively called photolysis. The released electrons help convert light energy into chemical energy.",
+      "x": 150,
+      "y": 520
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "node_0",
+        "node_1",
+        "node_2"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

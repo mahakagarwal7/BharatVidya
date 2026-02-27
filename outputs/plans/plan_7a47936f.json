@@ -1,0 +1,174 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Explain photosynthesis",
+      "x": 160,
+      "y": 58,
+      "font_scale": 1.0,
+      "boxed": true,
+      "box_width": 680
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_0_3c58a726.png",
+      "x": 160,
+      "y": 108,
+      "width": 680,
+      "height": 340,
+      "description": "Explain photosynthesis"
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_20_2b2a83a6.png",
+      "x": 160,
+      "y": 108,
+      "width": 680,
+      "height": 340,
+      "description": "Introduction to Explain photosynthesis"
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Introduction to Explain photosynthesis",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.85,
+      "boxed": true,
+      "box_width": 680,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "Introduction to Explain photosynthesis",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.82,
+      "boxed": true,
+      "box_width": 680,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_21_cfedf609.png",
+      "x": 160,
+      "y": 108,
+      "width": 680,
+      "height": 340,
+      "description": "Key aspects of Explain photosynthesis"
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "Key aspects of Explain photosynthesis",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.85,
+      "boxed": true,
+      "box_width": 680,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "Key aspects of Explain photosynthesis",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.82,
+      "boxed": true,
+      "box_width": 680,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_22_5428661a.png",
+      "x": 160,
+      "y": 108,
+      "width": 680,
+      "height": 340,
+      "description": "Applications of Explain photosynthesis"
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Applications of Explain photosynthesis",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.85,
+      "boxed": true,
+      "box_width": 680,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "Applications of Explain photosynthesis",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.82,
+      "boxed": true,
+      "box_width": 680,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_0"
+      ],
+      "duration": 2.8
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_1"
+      ],
+      "duration": 2.8
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_2"
+      ],
+      "duration": 2.8
+    }
+  ]
+}

@@ -83,32 +83,31 @@ Without your key, the system falls back to deterministic mode.
 
 Use:
 
-python render_pipeline.py "a ball launched in a parabolic trajectory"
+python -m src.main "a ball launched in a parabolic trajectory"
 
 
 The script will:
 
 Generate a JSON scene plan
 
-Produce Manim CE code
-
-Render MP4 video
+Render MP4 video using MoviePy
 
 Print the final video path
 
 Example output:
 
-Rendered video: C:\Users\You\Project\media\videos\Projectile\1080p60\Projectile.mp4
+✅ Video created: outputs\animation_23815.mp4
 
 
 
 📁 Project Structure
 viva/
 │
-├── render_pipeline.py        # Main entrypoint (text → video)
-├── genai_enhancer.py         # LLM-based JSON generator
-├── training_pipeline.py      # JSON → Manim code
-├── plan_validator.py         # Schema validation + autofill
+├── src/main.py               # Main entrypoint (text → video)
+├── src/planner.py            # LLM/fallback planning
+├── src/renderer.py           # MoviePy + OpenCV renderer
+├── training_pipeline.py      # JSON → Manim code (training path)
+├── plan_validator.py         # Training-plan validation + autofill
 ├── train_slm.py              # Fine-tuning script for custom SLM
 │
 ├── outputs/

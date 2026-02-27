@@ -1,0 +1,275 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Democracy - A System of Government",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_0_0c02fda3.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Democracy - A System of Government"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Democracy - A System of Government",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "central",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_0_0c02fda3.png",
+      "x": 500,
+      "y": 300,
+      "width": 220,
+      "height": 140
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_1_b3c345b2.png",
+      "x": 610,
+      "y": 245,
+      "width": 180,
+      "height": 110
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_2_09b3f1c8.png",
+      "x": 310,
+      "y": 418,
+      "width": 180,
+      "height": 110
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_3_e1bd8947.png",
+      "x": 309,
+      "y": 71,
+      "width": 180,
+      "height": 110
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_20_e6334afc.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Introduction to Explain democracy"
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Introduction to Explain democracy",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "Introduction to Explain democracy",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_21_640b9db0.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Key aspects of Explain democracy"
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "Key aspects of Explain democracy",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "Key aspects of Explain democracy",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_22_ec0ef940.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Applications of Explain democracy"
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Applications of Explain democracy",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "Applications of Explain democracy",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "central",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "text_step_0"
+      ],
+      "duration": 3.5,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "text_step_1"
+      ],
+      "duration": 3.5,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "text_step_2"
+      ],
+      "duration": 3.5,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    }
+  ],
+  "topic_analysis": {
+    "topic_type": "context",
+    "category": "social",
+    "visual_approach": {
+      "image_style": "concept_card",
+      "text_density": "rich",
+      "scene_count": 5,
+      "animation_focus": false,
+      "show_steps": false,
+      "caption_length": "detailed"
+    },
+    "animation_style": {
+      "type": "text_reveal",
+      "transitions": [
+        "fade"
+      ],
+      "element_animations": false,
+      "simulation_elements": false,
+      "timing": "steady"
+    }
+  },
+  "theme": "generic",
+  "theme_colors": [
+    [
+      24,
+      62,
+      116
+    ],
+    [
+      50,
+      108,
+      164
+    ]
+  ]
+}

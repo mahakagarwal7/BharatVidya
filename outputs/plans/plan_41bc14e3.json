@@ -1,0 +1,105 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Explain projectile motion",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_projectile_motion_0_741bef44.png",
+      "x": 180,
+      "y": 130,
+      "width": 640,
+      "height": 360,
+      "description": "Explain projectile motion"
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Introduction to Explain projectile motion",
+      "x": 150,
+      "y": 520
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_projectile_motion_20_62cb7d89.png",
+      "x": 180,
+      "y": 130,
+      "width": 640,
+      "height": 360,
+      "description": "Introduction to Explain projectile motion"
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "Key aspects of Explain projectile motion",
+      "x": 150,
+      "y": 520
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_projectile_motion_21_7bf8d023.png",
+      "x": 180,
+      "y": 130,
+      "width": 640,
+      "height": 360,
+      "description": "Key aspects of Explain projectile motion"
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Applications of Explain projectile motion",
+      "x": 150,
+      "y": 520
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_projectile_motion_22_b1985959.png",
+      "x": 180,
+      "y": 130,
+      "width": 640,
+      "height": 360,
+      "description": "Applications of Explain projectile motion"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

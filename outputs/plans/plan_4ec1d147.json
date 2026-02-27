@@ -1,0 +1,144 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Photosynthesis",
+      "x": 160,
+      "y": 58,
+      "font_scale": 1.0,
+      "boxed": true,
+      "box_width": 680
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_0_7c1445c7.png",
+      "x": 160,
+      "y": 108,
+      "width": 680,
+      "height": 340,
+      "description": "Understanding Photosynthesis"
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_1_2b961626.png",
+      "x": 110,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_2_847a088e.png",
+      "x": 330,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_3_8fb0fc25.png",
+      "x": 550,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_20_2b2a83a6.png",
+      "x": 160,
+      "y": 108,
+      "width": 680,
+      "height": 340,
+      "description": "Photosynthesis is a biological process carried out by plants, algae, and some bacteria to convert light energy into chemical energy. It primarily occurs in the chloroplasts of plant cells where pigment molecules like chlorophyll absorb sunlight."
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Photosynthesis is a biological process carried out by plants, algae, and some bacteria to convert light energy into chemical energy. It primarily occurs in the chloroplasts of plant cells where pigment molecules like chlorophyll absorb sunlight.",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.85,
+      "boxed": true,
+      "box_width": 680
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_21_cfedf609.png",
+      "x": 160,
+      "y": 108,
+      "width": 680,
+      "height": 340,
+      "description": "The main stages are the Light-dependent Reactions (Photo) that occur on the thylakoid membranes, and the Calvin Cycle or light-independent reactions (Synthesis), which take place in the stroma of the chloroplasts. In Photo stage, water is split to release oxygen as a byproduct while ATP and NADPH are generated for energy storage."
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "The main stages are the Light-dependent Reactions (Photo) that occur on the thylakoid membranes, and the Calvin Cycle or light-independent reactions (Synthesis), which take place in the stroma of the chloroplasts. In Photo stage, water is split to release oxygen as a byproduct while ATP and NADPH are generated for energy storage.",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.85,
+      "boxed": true,
+      "box_width": 680
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_22_5428661a.png",
+      "x": 160,
+      "y": 108,
+      "width": 680,
+      "height": 340,
+      "description": "In Synthesis, these molecules assist in converting carbon dioxide from the atmosphere into organic compounds like glucose through a series of enzymatic reactions collectively known as carbon fixation."
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "In Synthesis, these molecules assist in converting carbon dioxide from the atmosphere into organic compounds like glucose through a series of enzymatic reactions collectively known as carbon fixation.",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.85,
+      "boxed": true,
+      "box_width": 680
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

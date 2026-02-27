@@ -1,0 +1,105 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Eigenvalues and Vectors",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_0_111a3851.png",
+      "x": 180,
+      "y": 130,
+      "width": 640,
+      "height": 360,
+      "description": "Understanding Eigenvalues and Vectors"
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_20_b45ae1f7.png",
+      "x": 180,
+      "y": 130,
+      "width": 640,
+      "height": 360,
+      "description": "Eigenvalues are scalars associated with a square matrix, such that when the eigenvector is multiplied by these eigenvalues, it results in a vector scaled by those values."
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Eigenvalues are scalars associated with a square matrix, such that when the eigenvector is multiplied by these eigenvalues, it results in a vector scaled by those values.",
+      "x": 150,
+      "y": 520
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_21_0d99d3eb.png",
+      "x": 180,
+      "y": 130,
+      "width": 640,
+      "height": 360,
+      "description": "To find an eigenvalue of a given matrix A, solve the characteristic equation det(A - \u03bbI) = 0 for its determinant where I represents the identity matrix and \u03bb are potential eigenvalues."
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "To find an eigenvalue of a given matrix A, solve the characteristic equation det(A - \u03bbI) = 0 for its determinant where I represents the identity matrix and \u03bb are potential eigenvalues.",
+      "x": 150,
+      "y": 520
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_22_9dbe4acc.png",
+      "x": 180,
+      "y": 130,
+      "width": 640,
+      "height": 360,
+      "description": "Once you have the eigenvalues, plug them back into the equation (A - \u03bbI)v = 0 to find eigenvectors corresponding to each eigenvalue. These vectors will be in non-trivial solutions if they're not scalar multiples of zero."
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Once you have the eigenvalues, plug them back into the equation (A - \u03bbI)v = 0 to find eigenvectors corresponding to each eigenvalue. These vectors will be in non-trivial solutions if they're not scalar multiples of zero.",
+      "x": 150,
+      "y": 520
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

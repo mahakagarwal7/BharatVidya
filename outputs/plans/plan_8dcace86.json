@@ -1,0 +1,235 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Democracy: Participation and Decision Making",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_0_b812b677.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Understanding Democracy: Participation and Decision Making"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Understanding Democracy: Participation and Decision Making",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "central",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_0_b812b677.png",
+      "x": 500,
+      "y": 300,
+      "width": 220,
+      "height": 140
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_1_b3c345b2.png",
+      "x": 610,
+      "y": 245,
+      "width": 180,
+      "height": 110
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_2_09b3f1c8.png",
+      "x": 310,
+      "y": 418,
+      "width": 180,
+      "height": 110
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_3_e1bd8947.png",
+      "x": 309,
+      "y": 71,
+      "width": 180,
+      "height": 110
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_20_3aa366e3.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Define democracy as a system where power resides with the people who exercise it directly or through elected representatives."
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Define democracy as a system where power resides with the people who exercise it directly or through elected representatives.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "Define democracy as a system where power...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_21_d1425a5e.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Explain free and fair elections as a key component where citizens choose their representatives."
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "Explain free and fair elections as a key component where citizens choose their representatives.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "Explain free and fair elections as a...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_democracy_22_89d7c57c.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Discuss majority rule with respect to decision making while protecting minority rights."
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Discuss majority rule with respect to decision making while protecting minority rights.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "Discuss majority rule with respect to decision...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "central",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "text_step_0"
+      ],
+      "duration": 3.0
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 3.0
+    },
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "text_step_1"
+      ],
+      "duration": 3.0
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 3.0
+    },
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "text_step_2"
+      ],
+      "duration": 3.0
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 3.0
+    }
+  ]
+}

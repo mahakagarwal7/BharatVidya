@@ -1,0 +1,117 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Eigenvalues and Eigenvectors in Linear Algebra",
+      "x": 150,
+      "y": 70,
+      "font_scale": 1.0,
+      "boxed": true,
+      "box_width": 700
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_0_dd24075a.png",
+      "x": 150,
+      "y": 118,
+      "width": 700,
+      "height": 360,
+      "description": "Understanding Eigenvalues and Eigenvectors in Linear Algebra"
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_20_b45ae1f7.png",
+      "x": 150,
+      "y": 118,
+      "width": 700,
+      "height": 360,
+      "description": "Eigen values, often denoted as lambda (\u03bb), are scalars associated with a linear transformation represented by a matrix. They reveal the factor by which these transformations stretch or compress space along certain directions."
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Eigen values, often denoted as lambda (\u03bb), are scalars associated with a linear transformation represented by a matrix. They reveal the factor by which these transformations stretch or compress space along certain directions.",
+      "x": 150,
+      "y": 496,
+      "font_scale": 0.9,
+      "boxed": true,
+      "box_width": 700
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_21_0d99d3eb.png",
+      "x": 150,
+      "y": 118,
+      "width": 700,
+      "height": 360,
+      "description": "An eigenvector corresponding to an eigenvalue is a non-zero vector that only scales and doesn't change its direction when acted upon by the matrix representing our system of equations."
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "An eigenvector corresponding to an eigenvalue is a non-zero vector that only scales and doesn't change its direction when acted upon by the matrix representing our system of equations.",
+      "x": 150,
+      "y": 496,
+      "font_scale": 0.9,
+      "boxed": true,
+      "box_width": 700
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_22_9dbe4acc.png",
+      "x": 150,
+      "y": 118,
+      "width": 700,
+      "height": 360,
+      "description": "The process begins with finding eigenvalues through solving the characteristic equation det(A - \u03bbI) = 0, where A represents our square matrix and I is the identity matrix. Solving this will give us possible eigenvalues."
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "The process begins with finding eigenvalues through solving the characteristic equation det(A - \u03bbI) = 0, where A represents our square matrix and I is the identity matrix. Solving this will give us possible eigenvalues.",
+      "x": 150,
+      "y": 496,
+      "font_scale": 0.9,
+      "boxed": true,
+      "box_width": 700
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Matrix Multiplication Explained",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "node_0",
+      "type": "rectangle",
+      "x": 150,
+      "y": 300,
+      "width": 140,
+      "height": 60
+    },
+    {
+      "id": "node_1",
+      "type": "rectangle",
+      "x": 330,
+      "y": 300,
+      "width": 140,
+      "height": 60
+    },
+    {
+      "id": "node_2",
+      "type": "rectangle",
+      "x": 510,
+      "y": 300,
+      "width": 140,
+      "height": 60
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": {
+        "step_1": "Identify two matrices A and B that you want to multiply. Ensure the number of columns in matrix A is equal to the number of rows in matrix B."
+      },
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": {
+        "step_2": "Calculate the product by taking each element from row i, column j of matrix A with corresponding elements starting at position (i, 0) up till you reach all columns. Multiply these pairs and sum them to get an entry for the resulting matrix."
+      },
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": {
+        "step_3": "Repeat step 2 across each row i of matrix A with corresponding elements starting at position (0, j), where 'j' is now iterating through columns. Continue this process until all rows and columns are covered to form the resulting product matrix."
+      },
+      "x": 150,
+      "y": 200
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "node_0",
+        "node_1",
+        "node_2"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

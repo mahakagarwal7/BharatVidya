@@ -1,0 +1,78 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Eigenvalues and Eigenvectors",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "main",
+      "type": "circle",
+      "x": 500,
+      "y": 300,
+      "radius": 100
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": {
+        "step1": "Definition: An eigenvalue is a scalar associated with a linear transformation represented by a matrix. It indicates the factor by which an eigenvector gets scaled.",
+        "explanation": "Eigenvalues are central to understanding how matrices act on vectors, where applying a matrix times its eigenvectors only stretches or shrinks them without changing direction."
+      },
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": {
+        "step2": "Finding Eigenvalues: Solve the characteristic polynomial derived from det(A - \u03bbI) = 0.",
+        "explanation": "This step involves algebraic manipulation to find possible eigenvalues (\u03bb), which are solutions of this determinant-based equation."
+      },
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": {
+        "step3": "Determining Eigenvectors: For each eigenvalue, solve the system (A - \u03bbI)v = 0.",
+        "explanation": "Each solution vector 'v' that satisfies this homogeneous equation is an eigenvector corresponding to its associated eigenvalue."
+      },
+      "x": 150,
+      "y": 200
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "main"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

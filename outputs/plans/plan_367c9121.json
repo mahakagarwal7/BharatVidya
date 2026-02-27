@@ -1,0 +1,88 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding the Water Cycle",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "node_0",
+      "type": "rectangle",
+      "x": 150,
+      "y": 300,
+      "width": 140,
+      "height": 60
+    },
+    {
+      "id": "node_1",
+      "type": "rectangle",
+      "x": 330,
+      "y": 300,
+      "width": 140,
+      "height": 60
+    },
+    {
+      "id": "node_2",
+      "type": "rectangle",
+      "x": 510,
+      "y": 300,
+      "width": 140,
+      "height": 60
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "The water cycle, also known as the hydrological cycle, is a continuous process that describes how water moves above, on, and below the surface of Earth.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "This movement involves several key processes: evaporation (the conversion of water from liquid to gas due to heat), transpiration (evaporation through plants), condensation (gas turning back into liquid in clouds forming as a result), precipitation (rain or snow falling from clouds back to Earth's surface, and collection where bodies of water accumulate rainwater.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "The sun plays a critical role by providing the energy needed for evaporation. Water cycle processes are influenced by geographical location, seasonal variations, as well as human activities.",
+      "x": 150,
+      "y": 200
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "node_0",
+        "node_1",
+        "node_2"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

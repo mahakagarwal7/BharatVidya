@@ -1,0 +1,225 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Photosynthesis",
+      "x": 160,
+      "y": 58,
+      "font_scale": 1.0,
+      "boxed": true,
+      "box_width": 680
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_0_7c1445c7.png",
+      "x": 160,
+      "y": 108,
+      "width": 680,
+      "height": 340,
+      "description": "Understanding Photosynthesis"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Understanding Photosynthesis",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.85,
+      "boxed": true,
+      "box_width": 680,
+      "max_lines": 1
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_1_2b961626.png",
+      "x": 110,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_2_847a088e.png",
+      "x": 330,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_3_8fb0fc25.png",
+      "x": 550,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_20_2b2a83a6.png",
+      "x": 160,
+      "y": 108,
+      "width": 680,
+      "height": 340,
+      "description": {
+        "step_1": "Photosynthesis is the process by which green plants, algae, and some bacteria convert light energy, usually from the sun, into chemical energy in the form of glucose.",
+        "explanation": "This step introduces photosynthesis as a biological process crucial for life on Earth."
+      }
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "{'step_1': 'Photosynthesis is the process by which green plants, algae, and some bacteria convert light energy, usually from the sun, into chemical...",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.85,
+      "boxed": true,
+      "box_width": 680,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "{'step_1': 'Photosynthesis is the process by which...",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.82,
+      "boxed": true,
+      "box_width": 680,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_21_cfedf609.png",
+      "x": 160,
+      "y": 108,
+      "width": 680,
+      "height": 340,
+      "description": {
+        "step_2": "The main site where photosynthesis occurs is within organelles called chloroplasts, which contain the pigment chlorophyll that absorbs light.",
+        "explanation": "This step identifies chloroplasts and chlorophyll as essential components for capturing energy."
+      }
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "{'step_2': 'The main site where photosynthesis occurs is within organelles called chloroplasts, which contain the pigment chlorophyll that absorbs light.', 'explanation': 'This...",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.85,
+      "boxed": true,
+      "box_width": 680,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "{'step_2': 'The main site where photosynthesis occurs...",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.82,
+      "boxed": true,
+      "box_width": 680,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_photosynthesis_22_5428661a.png",
+      "x": 160,
+      "y": 108,
+      "width": 680,
+      "height": 340,
+      "description": {
+        "step_3": "During photosynthesis, water is split into oxygen in a process known as photolysis while carbon dioxide from the atmosphere is fixed to produce glucose.",
+        "explanation": "This step describes how light energy drives chemical reactions that synthesize organic compounds."
+      }
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "{'step_3': 'During photosynthesis, water is split into oxygen in a process known as photolysis while carbon dioxide from the atmosphere is fixed...",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.85,
+      "boxed": true,
+      "box_width": 680,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "{'step_3': 'During photosynthesis, water is split into...",
+      "x": 160,
+      "y": 480,
+      "font_scale": 0.82,
+      "boxed": true,
+      "box_width": 680,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 2.8
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 2.8
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 2.8
+    }
+  ]
+}

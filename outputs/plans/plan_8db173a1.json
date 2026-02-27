@@ -1,0 +1,88 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Projectile Motion Explained",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "node_0",
+      "type": "rectangle",
+      "x": 150,
+      "y": 300,
+      "width": 140,
+      "height": 60
+    },
+    {
+      "id": "node_1",
+      "type": "rectangle",
+      "x": 330,
+      "y": 300,
+      "width": 140,
+      "height": 60
+    },
+    {
+      "id": "node_2",
+      "type": "rectangle",
+      "x": 510,
+      "y": 300,
+      "width": 140,
+      "height": 60
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Projectile motion is the curved path an object follows when thrown or propelled through space. It occurs under the influence of gravity and no other force.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "To analyze projectile motion, we consider two independent components: horizontal (x-axis) velocity remains constant as there's negligible air resistance; vertical (y-axis) acceleration due to gravity at 9.8 m/s\u00b2 downward affecting the object throughout its trajectory.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "The initial speed and angle of projection determine the range, maximum height, and flight time using kinematic equations which take into account both horizontal and vertical motions.",
+      "x": 150,
+      "y": 200
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "node_0",
+        "node_1",
+        "node_2"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

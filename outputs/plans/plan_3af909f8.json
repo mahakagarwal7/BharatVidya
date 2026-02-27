@@ -1,0 +1,248 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Eigenvalues and Eigenvectors",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_0_99a8e4ac.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Understanding Eigenvalues and Eigenvectors"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Understanding Eigenvalues and Eigenvectors",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_20_060a7b12.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Eigen values (or simply eigenvalues) are numbers that characterize the behavior of a linear transformation or matrix. They indicate factors by which a given eigenvector is scaled during this transformation."
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Eigen values (or simply eigenvalues) are numbers that characterize the behavior of a linear transformation or matrix. They indicate factors by which...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "Eigen values (or simply eigenvalues) are numbers...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_21_0a78ed14.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "An eigenvector associated with an eigenvalue when multiplied by its corresponding matrix yields only a scalar multiple of itself, not affecting its direction but scaling it in size (which can be zero if the vector corresponds to decay)."
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "An eigenvector associated with an eigenvalue when multiplied by its corresponding matrix yields only a scalar multiple of itself, not affecting its...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "An eigenvector associated with an eigenvalue when...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_22_ae01117d.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "To find eigenvalues and eigenvectors, we solve the characteristic equation derived from setting up det(A - \u03bbI) = 0, where A is a square matrix and I is the identity matrix of the same dimension."
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "To find eigenvalues and eigenvectors, we solve the characteristic equation derived from setting up det(A - \u03bbI) = 0, where A is...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "To find eigenvalues and eigenvectors, we solve...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_3",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_eigen_values_and_vectors_23_1dfd7230.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Once you have found an eigenvalue (let's say \u03bb), to find its corresponding eigenvector, substitute back into the matrix equation Ax=\u03bbx and solve for x using algebraic methods."
+    },
+    {
+      "id": "text_step_3",
+      "type": "text",
+      "description": "Once you have found an eigenvalue (let's say \u03bb), to find its corresponding eigenvector, substitute back into the matrix equation Ax=\u03bbx and...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 110,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_3",
+      "type": "text",
+      "description": "Once you have found an eigenvalue (let's...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 2.8
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 2.8
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 2.8
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_3",
+        "text_step_brief_3"
+      ],
+      "duration": 3.2
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_3",
+        "text_step_3"
+      ],
+      "duration": 2.8
+    }
+  ]
+}

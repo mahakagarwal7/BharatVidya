@@ -1,0 +1,75 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Eigenvalues and Vectors",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "main",
+      "type": "circle",
+      "x": 500,
+      "y": 300,
+      "radius": 100
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": {
+        "step_1": "Identify the matrix in question. Eigen values and vectors pertain to a square matrix, which means it has the same number of rows as columns."
+      },
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": {
+        "step_2": "To find an eigen vector 'v' for each eigenvalue '\u03bb', you need to solve the characteristic equation det(A - \u03bbI) = 0. This determinant will give a polynomial whose roots are the eigenvalues of matrix A."
+      },
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": {
+        "step_3": "With an eigenvalue, plug it back into the original equation (Av = \u03bbv). Solve this homogenous system to find corresponding non-zero vectors 'v', which will be your eigenvectors for that particular eigenvalue."
+      },
+      "x": 150,
+      "y": 200
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "main"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}
