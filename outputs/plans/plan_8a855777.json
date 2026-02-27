@@ -1,0 +1,19 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Explain matrix multiplication",
+      "x": 150,
+      "y": 250
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title"
+      ],
+      "duration": 6
+    }
+  ]
+}

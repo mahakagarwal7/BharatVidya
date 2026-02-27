@@ -1,0 +1,88 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Banana: A Fruit Explained",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "node_0",
+      "type": "rectangle",
+      "x": 300,
+      "y": 180,
+      "width": 150,
+      "height": 80
+    },
+    {
+      "id": "node_1",
+      "type": "rectangle",
+      "x": 480,
+      "y": 180,
+      "width": 150,
+      "height": 80
+    },
+    {
+      "id": "node_2",
+      "type": "rectangle",
+      "x": 300,
+      "y": 300,
+      "width": 150,
+      "height": 80
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "A banana is a long, curved fruit with three main parts.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "The outer skin of the banana, known as the peel or exocarp, protects the edible inner layers and acts as an organic packaging material for transportation from plant to consumer.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Below the exterior layer is a soft middle section called the mesocarp which stores nutrients that aid in the fruit's development. This part of the banana also contains starches converting into sugars, giving it its sweet taste.",
+      "x": 150,
+      "y": 200
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "node_0",
+        "node_1",
+        "node_2"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

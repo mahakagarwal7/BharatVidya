@@ -21,7 +21,10 @@ class MoviePyRenderer:
 
         total_duration = sum(s.get("duration", 2) for s in steps)
 
+        # -------------------------------
         # Build timeline
+        # -------------------------------
+
         timeline = []
         current = 0
         for step in steps:
@@ -35,7 +38,7 @@ class MoviePyRenderer:
 
         def draw_wrapped_text(frame, text, x, y, scale=0.8):
 
-            words = text.split()
+            words = str(text).split()
             lines = []
             current_line = ""
 
@@ -64,7 +67,7 @@ class MoviePyRenderer:
                 cv2.putText(
                     frame,
                     line,
-                    (x, y + i * line_height),
+                    (int(x), int(y + i * line_height)),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     scale,
                     (255, 255, 255),
@@ -75,40 +78,125 @@ class MoviePyRenderer:
             return y + len(lines) * line_height
 
         # ==========================================================
-        # PRIMITIVES
+        # SAFE PRIMITIVES
         # ==========================================================
 
         def draw_rectangle(frame, elem):
-            x, y = elem["x"], elem["y"]
-            w, h = elem["width"], elem["height"]
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 200, 255), 3)
+            try:
+                x = int(elem.get("x", 300))
+                y = int(elem.get("y", 250))
+                w = int(elem.get("width", 200))
+                h = int(elem.get("height", 120))
+            except:
+                x, y, w, h = 300, 250, 200, 120
+
+            cv2.rectangle(
+                frame,
+                (x, y),
+                (x + w, y + h),
+                (0, 200, 255),
+                3
+            )
 
         def draw_circle(frame, elem):
-            cv2.circle(frame, (elem["x"], elem["y"]),
-                       elem["radius"], (0, 255, 150), 3)
+            try:
+                x = int(elem.get("x", 500))
+                y = int(elem.get("y", 300))
+                r = int(elem.get("radius", 40))
+            except:
+                x, y, r = 500, 300, 40
+
+            cv2.circle(
+                frame,
+                (x, y),
+                r,
+                (0, 255, 150),
+                3
+            )
 
         def draw_arrow(frame, elem):
-            cv2.arrowedLine(frame,
-                            tuple(elem["start"]),
-                            tuple(elem["end"]),
-                            (0, 255, 255), 2)
+            start = elem.get("start", [300, 300])
+            end = elem.get("end", [600, 300])
+
+            try:
+                sx, sy = int(start[0]), int(start[1])
+                ex, ey = int(end[0]), int(end[1])
+            except:
+                sx, sy = 300, 300
+                ex, ey = 600, 300
+
+            cv2.arrowedLine(
+                frame,
+                (sx, sy),
+                (ex, ey),
+                (0, 255, 255),
+                2
+            )
 
         def draw_grid(frame, elem):
-            rows = elem["rows"]
-            cols = elem["cols"]
-            x0, y0 = elem["x"], elem["y"]
-            cell = 60
+
             values = elem.get("values", [])
+
+            # ----------------------------
+            # Sanitize rows
+            # ----------------------------
+            rows = elem.get("rows")
+
+            if isinstance(rows, list):
+                rows = rows[0] if rows else 0
+
+            try:
+                rows = int(rows)
+            except:
+                rows = len(values)
+
+            # ----------------------------
+            # Sanitize cols
+            # ----------------------------
+            cols = elem.get("cols")
+
+            if isinstance(cols, list):
+                cols = cols[0] if cols else 0
+
+            try:
+                cols = int(cols)
+            except:
+                if values and isinstance(values[0], list):
+                    cols = len(values[0])
+                else:
+                    cols = 0
+
+            # ----------------------------
+            # Position defaults
+            # ----------------------------
+            try:
+                x0 = int(elem.get("x", 200))
+                y0 = int(elem.get("y", 200))
+            except:
+                x0, y0 = 200, 200
+
+            cell = 60
 
             for i in range(rows):
                 for j in range(cols):
+
                     x = x0 + j * cell
                     y = y0 + i * cell
-                    cv2.rectangle(frame, (x, y),
-                                  (x + cell, y + cell),
-                                  (255, 255, 255), 2)
 
-                    if values:
+                    cv2.rectangle(
+                        frame,
+                        (x, y),
+                        (x + cell, y + cell),
+                        (255, 255, 255),
+                        2
+                    )
+
+                    if (
+                        values
+                        and i < len(values)
+                        and isinstance(values[i], list)
+                        and j < len(values[i])
+                    ):
                         cv2.putText(
                             frame,
                             str(values[i][j]),
@@ -118,51 +206,6 @@ class MoviePyRenderer:
                             (255, 255, 255),
                             2
                         )
-
-        # ==========================================================
-        # QUADRATIC GRAPH
-        # ==========================================================
-
-        def draw_quadratic_graph(frame, elem, t):
-
-            a = elem["a"]
-            b = elem["b"]
-            c = elem["c"]
-
-            width = frame.shape[1]
-            height = frame.shape[0]
-
-            x_scale = 80
-            y_scale = 25
-
-            progress = min(1, t / 4)
-            max_x = int(width * progress)
-
-            # Axes
-            cv2.line(frame, (0, height//2),
-                     (width, height//2), (100, 100, 100), 1)
-            cv2.line(frame, (width//2, 0),
-                     (width//2, height), (100, 100, 100), 1)
-
-            for px in range(max_x):
-                x = (px - width/2) / x_scale
-                y = a*x*x + b*x + c
-                py = int(height/2 - y*y_scale)
-
-                if 0 <= py < height:
-                    frame[py:py+2, px] = (255, 200, 50)
-
-            # Vertex
-            if t > 3:
-                vx = int(width/2 + elem["vertex"][0]*x_scale)
-                vy = int(height/2 - elem["vertex"][1]*y_scale)
-                cv2.circle(frame, (vx, vy), 6, (0,255,255), -1)
-
-            # Roots
-            if t > 3 and elem["roots"]:
-                for r in elem["roots"]:
-                    rx = int(width/2 + r*x_scale)
-                    cv2.circle(frame, (rx, height//2), 6, (0,255,0), -1)
 
         # ==========================================================
         # FRAME GENERATOR
@@ -182,98 +225,52 @@ class MoviePyRenderer:
                 )
 
             visible = []
-            scene_index = 0
             scene_start = 0
             scene_end = 0
 
-            for idx, (start, end, step) in enumerate(timeline):
+            for start, end, step in timeline:
                 if start <= t < end:
                     visible = step.get("elements", [])
-                    scene_index = idx
                     scene_start = start
                     scene_end = end
                     break
 
             overlay = frame.copy()
 
-            # ==================================================
-            # SCENE 1 (Visual)
-            # ==================================================
+            # -------------------------------
+            # Render visible elements
+            # -------------------------------
 
-            if scene_index == 0:
+            for elem in elements:
 
-                for elem in elements:
-                    if elem["id"] not in visible:
-                        continue
+                if elem.get("id") not in visible:
+                    continue
 
-                    if elem["type"] == "quadratic_graph":
-                        draw_quadratic_graph(overlay, elem, t)
+                etype = elem.get("type")
 
-                    elif elem["type"] == "circle" and elem["id"] == "flow_center":
-                        # Rotating flow animation
-                        center_x, center_y = 500, 300
-                        radius = 130
-                        for i in range(4):
-                            angle = t * 1.5 + i * math.pi / 2
-                            x = int(center_x + radius * math.cos(angle))
-                            y = int(center_y + radius * math.sin(angle))
-                            cv2.circle(overlay, (x, y),
-                                       30, (0, 255, 255), 3)
+                if etype == "text":
+                    draw_wrapped_text(
+                        overlay,
+                        elem.get("description", ""),
+                        elem.get("x", margin_left),
+                        elem.get("y", 150)
+                    )
 
-                    elif elem["type"] == "rectangle":
-                        draw_rectangle(overlay, elem)
+                elif etype == "rectangle":
+                    draw_rectangle(overlay, elem)
 
-                    elif elem["type"] == "grid":
-                        draw_grid(overlay, elem)
+                elif etype == "circle":
+                    draw_circle(overlay, elem)
 
-                    elif elem["type"] == "arrow":
-                        draw_arrow(overlay, elem)
+                elif etype == "arrow":
+                    draw_arrow(overlay, elem)
 
-                    elif elem["type"] == "text":
-                        draw_wrapped_text(
-                            overlay,
-                            elem["description"],
-                            margin_left,
-                            elem["y"]
-                        )
+                elif etype == "grid":
+                    draw_grid(overlay, elem)
 
-            # ==================================================
-            # SCENE 2 (Explanation with Progressive Reveal)
-            # ==================================================
-
-            if scene_index == 1:
-
-                y_cursor = 150
-
-                # Title
-                for elem in elements:
-                    if elem["id"] == "title":
-                        y_cursor = draw_wrapped_text(
-                            overlay,
-                            elem["description"],
-                            margin_left,
-                            y_cursor,
-                            scale=1.0
-                        )
-                        y_cursor += 20
-
-                bullet_delay = 2
-
-                for elem in elements:
-                    if elem["id"].startswith("text_"):
-                        index = int(elem["id"].split("_")[1])
-                        if (t - scene_start) > index * bullet_delay:
-                            y_cursor = draw_wrapped_text(
-                                overlay,
-                                "• " + elem["description"],
-                                margin_left,
-                                y_cursor
-                            )
-                            y_cursor += 15
-
-            # ==================================================
-            # FADE TRANSITION
-            # ==================================================
+            # -------------------------------
+            # Fade transition
+            # -------------------------------
 
             fade_duration = 0.7
             alpha = 1.0
@@ -288,7 +285,7 @@ class MoviePyRenderer:
             return cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         # ==========================================================
-        # VIDEO EXPORT
+        # Export Video
         # ==========================================================
 
         clip = VideoClip(make_frame, duration=total_duration)

@@ -1,0 +1,93 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Gravity - A Basic Overview",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "central_node",
+      "type": "circle",
+      "x": 500,
+      "y": 300,
+      "radius": 80
+    },
+    {
+      "id": "node_0",
+      "type": "circle",
+      "x": 720,
+      "y": 300,
+      "radius": 50
+    },
+    {
+      "id": "node_1",
+      "type": "circle",
+      "x": 390,
+      "y": 490,
+      "radius": 50
+    },
+    {
+      "id": "node_2",
+      "type": "circle",
+      "x": 389,
+      "y": 109,
+      "radius": 50
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Gravity is a natural phenomenon by which all things with mass or energy are brought toward one another. Sir Isaac Newton formulated the law of universal gravitation, stating that every point mass attracts every other point mass by a force acting along the line intersecting both points.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "The strength of this gravitational attraction is directly proportional to the product of their masses and inversely proportional to the square of the distance between their centers. This relationship can be expressed with Newton's universal law of gravitation equation: F = G * (m1*m2) / r^2, where 'F' represents gravitational force, 'G' is the gravitational constant, 'm1' and 'm2' are masses, and 'r' stands for distance between the centers of the two objects.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "On Earth, gravity gives weight to physical objects, and the Moon's gravity causes the tides in the oceans. The force is why we stay grounded on the planet instead of floating off into space.",
+      "x": 150,
+      "y": 200
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "central_node",
+        "node_0",
+        "node_1",
+        "node_2"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

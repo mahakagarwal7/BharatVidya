@@ -1,0 +1,93 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding the Banana Fruit",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "central_node",
+      "type": "circle",
+      "x": 500,
+      "y": 300,
+      "radius": 80
+    },
+    {
+      "id": "node_0",
+      "type": "circle",
+      "x": 720,
+      "y": 300,
+      "radius": 50
+    },
+    {
+      "id": "node_1",
+      "type": "circle",
+      "x": 390,
+      "y": 490,
+      "radius": 50
+    },
+    {
+      "id": "node_2",
+      "type": "circle",
+      "x": 389,
+      "y": 109,
+      "radius": 50
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Bananas are a type of fruit that belong to herbaceous flowering plants in the genus Musa.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "Most bananas we eat today are seedless and come from cultivated varieties, typically grown for their nutritious value and taste. These fruits grow on trees primarily found in tropical regions like Southeast Asia, Africa, and South America.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "To identify a ripe banana by sight or touch: look for bright yellow fruit without brown spots; gently press near the stem to feel if it gives slightly under pressure.",
+      "x": 150,
+      "y": 200
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "central_node",
+        "node_0",
+        "node_1",
+        "node_2"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

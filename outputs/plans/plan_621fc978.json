@@ -1,0 +1,80 @@
+{
+  "visual_elements": [
+    {
+      "id": "matrix1",
+      "type": "grid",
+      "rows": [
+        "I",
+        "x"
+      ],
+      "columns": [
+        "A",
+        "[a, b]"
+      ]
+    },
+    {
+      "id": "multiplierMatrix",
+      "type": "grid",
+      "rows": [
+        "B",
+        "="
+      ],
+      "columns": [
+        "J = AB"
+      ],
+      "text_element": {
+        "id": "calculationText1",
+        "content": "Calculate J=AB (where A and B are matrices)",
+        "position": {
+          "x": 20,
+          "y": 5
+        }
+      }
+    },
+    {
+      "id": "intermediateResultMatrix",
+      "type": "grid",
+      "rows": [
+        "K",
+        "="
+      ],
+      "columns": [
+        "C = AB"
+      ],
+      "text_element": {
+        "id": "calculationText2",
+        "content": "Calculate C=AB (where A and B are matrices)",
+        "position": {
+          "x": 10,
+          "y": -5
+        }
+      }
+    },
+    {
+      "id": "finalResultMatrix",
+      "type": "grid",
+      "rows": [
+        "D"
+      ],
+      "columns": [
+        "= C"
+      ]
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "matrix1",
+        "multiplierMatrix"
+      ],
+      "duration": 3
+    },
+    {
+      "elements": [
+        "intermediateResultMatrix",
+        "finalResultMatrix"
+      ],
+      "duration": 2
+    }
+  ]
+}

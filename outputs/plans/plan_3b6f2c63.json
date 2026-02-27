@@ -1,0 +1,56 @@
+{
+  "visual_elements": [
+    {
+      "id": "matrixA",
+      "type": "grid",
+      "rows": [
+        "1,2"
+      ],
+      "columns": [
+        "3,4"
+      ]
+    },
+    {
+      "id": "multiplierArrow",
+      "type": "arrow",
+      "direction": "right"
+    },
+    {
+      "id": "matrixB",
+      "type": "grid",
+      "rows": [
+        "5,6"
+      ],
+      "columns": [
+        "7,8"
+      ]
+    },
+    {
+      "id": "resultMatrix",
+      "type": "grid"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "matrixA",
+        "multiplierArrow"
+      ],
+      "duration": 2
+    },
+    {
+      "elements": [
+        "multiplierArrow",
+        "matrixB"
+      ],
+      "duration": 3
+    },
+    {
+      "elements": [
+        "resultMatrix",
+        "$5,10,6,8$ computation text"
+      ],
+      "duration": 4
+    }
+  ]
+}

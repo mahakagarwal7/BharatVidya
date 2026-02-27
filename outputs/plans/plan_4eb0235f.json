@@ -1,0 +1,75 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Radius and Diameter of a Circle",
+      "x": 100,
+      "y": 80
+    },
+    {
+      "id": "grid",
+      "type": "grid",
+      "x": 350,
+      "y": 200,
+      "rows": 3,
+      "cols": 3,
+      "values": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          4,
+          5,
+          6
+        ],
+        [
+          7,
+          8,
+          9
+        ]
+      ]
+    },
+    {
+      "id": "text_0",
+      "type": "text",
+      "description": "The radius is the distance from the center to any point on the circle's edge.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_1",
+      "type": "text",
+      "description": "Diameter, which passes through the center, spans two points at opposite ends of a circumference.",
+      "x": 150,
+      "y": 260
+    },
+    {
+      "id": "text_2",
+      "type": "text",
+      "description": "For every unit increase in diameter or radius, there\u2019s an associated \u03c0-fold change as seen by their ratio being equal to \u03c0.",
+      "x": 150,
+      "y": 320
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "grid"
+      ],
+      "duration": 5
+    },
+    {
+      "elements": [
+        "title",
+        "text_0",
+        "text_1",
+        "text_2"
+      ],
+      "duration": 8
+    }
+  ]
+}

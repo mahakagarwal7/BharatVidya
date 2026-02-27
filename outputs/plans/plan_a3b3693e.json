@@ -1,0 +1,66 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Matrix Multiplication Essentials",
+      "x": 100,
+      "y": 80
+    },
+    {
+      "id": "concept_box",
+      "type": "rectangle",
+      "x": 350,
+      "y": 220,
+      "width": 300,
+      "height": 150
+    },
+    {
+      "id": "text_0",
+      "type": "text",
+      "description": "Step 1: Understand the rules for multiplying matrices.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_1",
+      "type": "text",
+      "description": "Step 2: Align rows and columns of the first matrix with corresponding elements in second matrix to calculate product entries.",
+      "x": 150,
+      "y": 260
+    },
+    {
+      "id": "text_2",
+      "type": "text",
+      "description": "Step 3: Sum products along the row and column direction, following a specific pattern (row by row) to fill out an entry on the resulting matrix.",
+      "x": 150,
+      "y": 320
+    },
+    {
+      "id": "text_3",
+      "type": "text",
+      "description": "Step 4: Apply these rules across all rows and columns of both matrices being multiplied.",
+      "x": 150,
+      "y": 380
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "concept_box"
+      ],
+      "duration": 5
+    },
+    {
+      "elements": [
+        "title",
+        "text_0",
+        "text_1",
+        "text_2",
+        "text_3"
+      ],
+      "duration": 8
+    }
+  ]
+}

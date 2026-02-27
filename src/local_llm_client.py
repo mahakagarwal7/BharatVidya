@@ -5,16 +5,6 @@ import subprocess
 
 MODEL_NAME = "phi3:mini"
 
-ALLOWED_TYPES = [
-    "structure",
-    "sequence",
-    "flow",
-    "transformation",
-    "hierarchy",
-    "system",
-    "abstract"
-]
-
 
 def _call_ollama(prompt: str) -> str:
     try:
@@ -23,7 +13,7 @@ def _call_ollama(prompt: str) -> str:
             input=prompt.encode("utf-8"),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            timeout=60
+            timeout=180
         )
         return result.stdout.decode("utf-8").strip()
     except Exception as e:
@@ -31,39 +21,41 @@ def _call_ollama(prompt: str) -> str:
         return ""
 
 
-def safe_generate_generic_plan(concept: str):
+# --------------------------------------------------
+# REASONING + CATEGORY GENERATOR
+# --------------------------------------------------
+
+def generate_reasoning_plan(concept: str):
 
     prompt = f"""
-You are an educational content planner.
+You are an educational AI.
 
-Return ONLY valid JSON.
-No markdown.
-No comments.
-
-Classify the concept into ONE of these concept types:
-structure
-sequence
-flow
-transformation
-hierarchy
-system
-abstract
-
-Then generate:
-
-{{
-  "title": "short title",
-  "concept_type": "one of the allowed types",
-  "points": [
-    "point 1",
-    "point 2",
-    "point 3"
-  ]
-}}
-
-Keep 3–5 short bullet points.
+Explain the concept clearly and classify it.
 
 Concept: {concept}
+
+Classify the concept into ONE of:
+- process
+- structure
+- hierarchy
+- system
+- abstract
+
+Then provide structured explanation steps.
+
+Return ONLY valid JSON.
+
+Format:
+
+{{
+  "title": "Short clear title",
+  "category": "one of the five",
+  "steps": [
+    "Step 1 explanation",
+    "Step 2 explanation",
+    "Step 3 explanation"
+  ]
+}}
 """
 
     raw_output = _call_ollama(prompt)
@@ -74,17 +66,30 @@ Concept: {concept}
     try:
         start = raw_output.find("{")
         end = raw_output.rfind("}") + 1
-        json_str = raw_output[start:end]
-        data = json.loads(json_str)
 
-        if "title" not in data or "points" not in data:
+        if start == -1 or end == -1:
             return None
 
-        if data.get("concept_type") not in ALLOWED_TYPES:
-            data["concept_type"] = "abstract"
+        data = json.loads(raw_output[start:end])
+
+        if "title" not in data or "steps" not in data:
+            return None
+
+        if not isinstance(data["steps"], list):
+            return None
+
+        if "category" not in data:
+            data["category"] = "abstract"
+
+        # Guarantee minimum 3 steps
+        if len(data["steps"]) < 3:
+            data["steps"] = [
+                f"Introduction to {concept}",
+                f"Key aspects of {concept}",
+                f"Applications of {concept}"
+            ]
 
         return data
 
-    except Exception as e:
-        print("JSON parsing failed:", e)
+    except:
         return None

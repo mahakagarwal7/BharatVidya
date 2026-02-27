@@ -1,0 +1,125 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Matrix Multiplication",
+      "x": 100,
+      "y": 80
+    },
+    {
+      "id": "matrix_A",
+      "type": "grid",
+      "x": 250,
+      "y": 220,
+      "rows": 2,
+      "cols": 2,
+      "values": [
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "id": "matrix_B",
+      "type": "grid",
+      "x": 600,
+      "y": 220,
+      "rows": 2,
+      "cols": 2,
+      "values": [
+        [
+          5,
+          6
+        ],
+        [
+          7,
+          8
+        ]
+      ]
+    },
+    {
+      "id": "matrix_result",
+      "type": "grid",
+      "x": 430,
+      "y": 420,
+      "rows": 2,
+      "cols": 2,
+      "values": [
+        [
+          "?",
+          "?"
+        ],
+        [
+          "?",
+          "?"
+        ]
+      ]
+    },
+    {
+      "id": "step_text",
+      "type": "text",
+      "description": "Multiply first row of A with first column of B",
+      "x": 150,
+      "y": 160
+    },
+    {
+      "id": "calculation",
+      "type": "text",
+      "description": "1\u00d75 + 2\u00d77 = 19",
+      "x": 300,
+      "y": 380
+    },
+    {
+      "id": "result_text",
+      "type": "text",
+      "description": "Result element (1,1) = 19",
+      "x": 350,
+      "y": 180
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "matrix_A",
+        "matrix_B"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "matrix_A",
+        "matrix_B",
+        "step_text"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "matrix_A",
+        "matrix_B",
+        "step_text",
+        "calculation"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "matrix_A",
+        "matrix_B",
+        "matrix_result",
+        "result_text"
+      ],
+      "duration": 5
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Gravity as a Force and Its Effects",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "node_0",
+      "type": "rectangle",
+      "x": 150,
+      "y": 300,
+      "width": 140,
+      "height": 60
+    },
+    {
+      "id": "node_1",
+      "type": "rectangle",
+      "x": 330,
+      "y": 300,
+      "width": 140,
+      "height": 60
+    },
+    {
+      "id": "node_2",
+      "type": "rectangle",
+      "x": 510,
+      "y": 300,
+      "width": 140,
+      "height": 60
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": {
+        "step_1": "Gravity is an invisible force that attracts two bodies with mass toward each other."
+      },
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": {
+        "step_2": "The more massive the objects and the closer they are to one another, the stronger the gravitational pull between them according to Isaac Newton's Universal Law of Gravitation."
+      },
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": {
+        "step_3": "Gravity is a fundamental force that dictates how planets orbit stars, moons orbit planets, and objects fall towards Earth\u2019s surface when dropped."
+      },
+      "x": 150,
+      "y": 200
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "node_0",
+        "node_1",
+        "node_2"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

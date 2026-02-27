@@ -1,0 +1,109 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Matrix Multiplication",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "matrix_A",
+      "type": "grid",
+      "x": 250,
+      "y": 200,
+      "values": [
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "id": "matrix_B",
+      "type": "grid",
+      "x": 550,
+      "y": 200,
+      "values": [
+        [
+          5,
+          6
+        ],
+        [
+          7,
+          8
+        ]
+      ]
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Matrix multiplication is a method to combine two matrices.",
+      "x": 150,
+      "y": 150
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "The first matrix (A) has dimensions m x n and the second one (B) has dimensions n x p.",
+      "x": 150,
+      "y": 190
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "To multiply A by B, take each row in A and columns in B, then calculate their dot product for every position in the resulting matrix C.",
+      "x": 150,
+      "y": 230
+    },
+    {
+      "id": "text_step_3",
+      "type": "text",
+      "description": "Matrix C will have dimensions m x p as a result of multiplying matrices A and B.",
+      "x": 150,
+      "y": 270
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "matrix_A",
+        "matrix_B"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_2"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_3"
+      ],
+      "duration": 4
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Love as an Emotion and Connection",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "central_node",
+      "type": "circle",
+      "x": 500,
+      "y": 300,
+      "radius": 80
+    },
+    {
+      "id": "node_0",
+      "type": "circle",
+      "x": 720,
+      "y": 300,
+      "radius": 50
+    },
+    {
+      "id": "node_1",
+      "type": "circle",
+      "x": 390,
+      "y": 490,
+      "radius": 50
+    },
+    {
+      "id": "node_2",
+      "type": "circle",
+      "x": 389,
+      "y": 109,
+      "radius": 50
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Love is a complex emotion that involves deep affection, care, and attachment towards another individual or entity.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "It can be experienced in different forms such as familial love (parental), romantic love between partners, platonic love among friends, self-love within oneself, and altruistic love for the welfare of others.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Love is often accompanied by positive emotions like joy, contentment, or peacefulness. It can also trigger negative feelings such as jealousy or heartbreak when there's a perceived threat to someone we care about.",
+      "x": 150,
+      "y": 200
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "central_node",
+        "node_0",
+        "node_1",
+        "node_2"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

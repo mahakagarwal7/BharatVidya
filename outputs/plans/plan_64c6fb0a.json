@@ -1,0 +1,62 @@
+{
+  "visual_elements": [
+    {
+      "id": "matrixA",
+      "type": "grid",
+      "content": [
+        "1,2;3,4"
+      ],
+      "position": {
+        "x": 50,
+        "y": 50
+      }
+    },
+    {
+      "id": "multiplierIndicator",
+      "type": "text",
+      "content": "*",
+      "position": {
+        "x": 128,
+        "y": 46
+      },
+      "style": {
+        "color": "#F0E68C"
+      }
+    },
+    {
+      "id": "matrixB",
+      "type": "grid",
+      "content": [
+        "5,-3;2,1"
+      ],
+      "position": {
+        "x": 50,
+        "y": 94
+      }
+    },
+    {
+      "id": "resultMatrix",
+      "type": "grid",
+      "position": {
+        "x": 50,
+        "y": 128
+      },
+      "hidden_initially": true
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "matrixA",
+        "multiplierIndicator"
+      ],
+      "duration": 3
+    },
+    {
+      "elements": [
+        "resultMatrix"
+      ],
+      "duration": 2
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Water Cycle Explanation",
+      "x": 100,
+      "y": 80
+    },
+    {
+      "id": "flow_center",
+      "type": "circle",
+      "x": 500,
+      "y": 300,
+      "radius": 10
+    },
+    {
+      "id": "text_0",
+      "type": "text",
+      "description": "The water cycle, also known as the hydrologic cycle, describes how water evaporates from the Earth's surface, rises and cools to form clouds, condenses into rain or snow and then returns to the ocean.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_1",
+      "type": "text",
+      "description": "Evaporation: Water is heated by the sun and turns from liquid to vapor in bodies of water like lakes and seas. Plants also release water through transpiration.",
+      "x": 150,
+      "y": 260
+    },
+    {
+      "id": "text_2",
+      "type": "text",
+      "description": "Condensation: As water vapor rises, it cools down forming tiny droplets that clump together on dust particles creating clouds.",
+      "x": 150,
+      "y": 320
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "flow_center"
+      ],
+      "duration": 5
+    },
+    {
+      "elements": [
+        "title",
+        "text_0",
+        "text_1",
+        "text_2"
+      ],
+      "duration": 8
+    }
+  ]
+}

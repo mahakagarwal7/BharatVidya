@@ -1,0 +1,75 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Whole Numbers",
+      "x": 150,
+      "y": 80
+    },
+    {
+      "id": "main",
+      "type": "circle",
+      "x": 500,
+      "y": 300,
+      "radius": 100
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": {
+        "step_1": "Whole numbers are a set of numbers that include zero and all positive integers."
+      },
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": {
+        "step_2": "They do not contain any fractional or decimal parts, making them discrete quantities easily represented on a number line with equal intervals between consecutive whole numbers (e.g., 1, 2, 3, ...)."
+      },
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": {
+        "step_3": "Whole numbers are used in everyday counting and can be grouped into categories like cardinal numbers for quantity, ordinal numbers to indicate order or position, etc."
+      },
+      "x": 150,
+      "y": 200
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "main"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_0"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_1"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "text_step_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

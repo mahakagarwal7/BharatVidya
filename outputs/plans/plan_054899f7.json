@@ -1,0 +1,65 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Matrix Multiplication - The Process and Products",
+      "x": 100,
+      "y": 80
+    },
+    {
+      "id": "flow_center",
+      "type": "circle",
+      "x": 500,
+      "y": 300,
+      "radius": 10
+    },
+    {
+      "id": "text_0",
+      "type": "text",
+      "description": "Start with two matrices A (of dimensions m x n) and B (n x p). Matrix multiplication is possible when the number of columns in A equals the number of rows in B.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_1",
+      "type": "text",
+      "description": "- Multiply each element from row i by its corresponding column j, then sum all these products. This resultant summation forms a single entry for position [i][j] on matrix C (the product).",
+      "x": 150,
+      "y": 260
+    },
+    {
+      "id": "text_2",
+      "type": "text",
+      "description": "Perform this operation iteratively across the dimensions of A and B to populate every element in resulting matrix C.",
+      "x": 150,
+      "y": 320
+    },
+    {
+      "id": "text_3",
+      "type": "text",
+      "description": "- Matrix multiplication is associative but not commutative, hence order matters; AB may differ from BA.",
+      "x": 150,
+      "y": 380
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "flow_center"
+      ],
+      "duration": 5
+    },
+    {
+      "elements": [
+        "title",
+        "text_0",
+        "text_1",
+        "text_2",
+        "text_3"
+      ],
+      "duration": 8
+    }
+  ]
+}
