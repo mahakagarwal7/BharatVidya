@@ -1,0 +1,277 @@
+{
+  "concept": "rotational motion",
+  "title": "Understanding Rotational Motion in Physics",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Rotational Motion in Physics",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\rotational_motion_0_610c2152.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Understanding Rotational Motion in Physics"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Understanding Rotational Motion in Physics",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "central",
+      "type": "image",
+      "path": "outputs\\generated_images\\rotational_motion_0_610c2152.png",
+      "x": 500,
+      "y": 300,
+      "width": 220,
+      "height": 140
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\rotational_motion_1_06767dcd.png",
+      "x": 610,
+      "y": 245,
+      "width": 180,
+      "height": 110
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\rotational_motion_2_f751d498.png",
+      "x": 310,
+      "y": 418,
+      "width": 180,
+      "height": 110
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\rotational_motion_3_ded75988.png",
+      "x": 309,
+      "y": 71,
+      "width": 180,
+      "height": 110
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\rotational_motion_20_d5ecb6d1.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Rotational motion refers to the movement of an object about an axis. This type of motion is a cornerstone concept in classical mechanics, essential for understanding phenomena ranging from how planetary bodies move around stars to mechanical systems like gears and flywheels."
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Rotational motion refers to the movement of an object about an axis. This type of motion is a cornerstone concept in classical...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "Rotational motion refers to the movement of an object about an axis. This type...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\rotational_motion_21_456228e1.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Key concepts in studying rotation include angular displacement, which measures the angle through which an object has turned; angular velocity, indicating how fast it's spinning; and torque, a measure of force causing or changing the rotational speed."
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "Key concepts in studying rotation include angular displacement, which measures the angle through which an object has turned; angular velocity, indicating how...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "Key concepts in studying rotation include angular displacement, which measures the angle through which...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\rotational_motion_22_d900f184.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "The conservation of angular momentum explains why a spinning ice skater pulls their arms in and rotates faster. It is also applied in robotics to control movement precision."
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "The conservation of angular momentum explains why a spinning ice skater pulls their arms in and rotates faster. It is also applied...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "The conservation of angular momentum explains why a spinning ice skater pulls their arms...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "central",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    }
+  ],
+  "topic_analysis": {
+    "topic_type": "context",
+    "category": "general",
+    "visual_approach": {
+      "image_style": "concept_card",
+      "text_density": "rich",
+      "scene_count": 5,
+      "animation_focus": false,
+      "show_steps": false,
+      "caption_length": "detailed"
+    },
+    "animation_style": {
+      "type": "text_reveal",
+      "transitions": [
+        "fade"
+      ],
+      "element_animations": false,
+      "simulation_elements": false,
+      "timing": "steady"
+    }
+  },
+  "theme": "generic",
+  "theme_colors": [
+    [
+      24,
+      62,
+      116
+    ],
+    [
+      50,
+      108,
+      164
+    ]
+  ]
+}
