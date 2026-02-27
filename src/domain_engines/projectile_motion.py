@@ -1,29 +1,47 @@
-import random
-import math
+# src/domain_engines/projectile_motion.py
 
+def generate_projectile_plan(concept: str):
 
-def generate_projectile_plan(prompt: str):
+    visual_elements = []
 
-    velocity = random.randint(30, 60)
-    angle_deg = random.randint(30, 60)
-    angle = math.radians(angle_deg)
+    visual_elements.append({
+        "id": "title",
+        "type": "text",
+        "description": "Projectile Motion",
+        "x": 100,
+        "y": 80
+    })
 
-    elements = [
-        {
-            "id": "projectile",
-            "type": "projectile",
-            "velocity": velocity,
-            "angle": angle
-        }
+    visual_elements.append({
+        "id": "projectile_graph",
+        "type": "projectile"
+    })
+
+    scene1_ids = ["title", "projectile_graph"]
+
+    explanation = [
+        "Object moves under gravity",
+        "Follows parabolic path",
+        "Horizontal velocity constant"
     ]
 
-    steps = [
-        {"step": 1, "action": "animate_projectile", "duration": 6}
-    ]
+    scene2_ids = ["title"]
+
+    for idx, point in enumerate(explanation):
+        elem_id = f"text_{idx}"
+        visual_elements.append({
+            "id": elem_id,
+            "type": "text",
+            "description": point,
+            "x": 150,
+            "y": 200 + idx*60
+        })
+        scene2_ids.append(elem_id)
 
     return {
-        "title": f"Projectile Motion (v={velocity}, θ={angle_deg}°)",
-        "core_concept": prompt,
-        "visual_elements": elements,
-        "animation_sequence": steps
+        "visual_elements": visual_elements,
+        "animation_sequence": [
+            {"elements": scene1_ids, "duration": 5},
+            {"elements": scene2_ids, "duration": 8}
+        ]
     }

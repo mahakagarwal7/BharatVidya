@@ -1,0 +1,83 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Matrix Multiplication Guide",
+      "x": 100,
+      "y": 80
+    },
+    {
+      "id": "grid",
+      "type": "grid",
+      "x": 350,
+      "y": 200,
+      "rows": 3,
+      "cols": 3,
+      "values": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          4,
+          5,
+          6
+        ],
+        [
+          7,
+          8,
+          9
+        ]
+      ]
+    },
+    {
+      "id": "text_0",
+      "type": "text",
+      "description": "Matrix multiplication involves combining two matrices.",
+      "x": 150,
+      "y": 180
+    },
+    {
+      "id": "text_1",
+      "type": "text",
+      "description": "The product of an 'm' by 'n' matrix and an 'n' by 'p' matrix results in a new 'm' by 'p' matrix.",
+      "x": 150,
+      "y": 240
+    },
+    {
+      "id": "text_2",
+      "type": "text",
+      "description": "Each element of the resulting matrix is computed as the dot product between corresponding rows and columns from the original matrices.",
+      "x": 150,
+      "y": 300
+    },
+    {
+      "id": "text_3",
+      "type": "text",
+      "description": "The order of multiplication matters; changing it will yield different products or may make the operation undefined.",
+      "x": 150,
+      "y": 360
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "grid"
+      ],
+      "duration": 3
+    },
+    {
+      "elements": [
+        "title",
+        "text_0",
+        "text_1",
+        "text_2",
+        "text_3"
+      ],
+      "duration": 4
+    }
+  ]
+}

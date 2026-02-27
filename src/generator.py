@@ -16,6 +16,7 @@ class SimpleGenerator:
         plan = dict(plan)  # shallow copy
 
         # Ensure required keys
+        # frame detection.. statement here
         plan.setdefault("title", "Educational Animation")
         plan.setdefault("core_concept", "")
         plan.setdefault("visual_elements", [])

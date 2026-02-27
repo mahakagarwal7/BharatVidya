@@ -1,0 +1,101 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Linked List Basics",
+      "x": 80,
+      "y": 80
+    },
+    {
+      "id": "node0",
+      "type": "circle",
+      "x": 200,
+      "y": 300,
+      "radius": 40
+    },
+    {
+      "id": "node1",
+      "type": "circle",
+      "x": 350,
+      "y": 300,
+      "radius": 40
+    },
+    {
+      "id": "node2",
+      "type": "circle",
+      "x": 500,
+      "y": 300,
+      "radius": 40
+    },
+    {
+      "id": "arrow0",
+      "type": "arrow",
+      "start": [
+        240,
+        300
+      ],
+      "end": [
+        310,
+        300
+      ]
+    },
+    {
+      "id": "arrow1",
+      "type": "arrow",
+      "start": [
+        390,
+        300
+      ],
+      "end": [
+        460,
+        300
+      ]
+    },
+    {
+      "id": "text_0",
+      "type": "text",
+      "description": "A linked list is a linear collection of data elements, called nodes.",
+      "x": 80,
+      "y": 450
+    },
+    {
+      "id": "text_1",
+      "type": "text",
+      "description": "Each node contains two items \u2013 the data and a reference (or link) to the next node in the sequence.",
+      "x": 80,
+      "y": 480
+    },
+    {
+      "id": "text_2",
+      "type": "text",
+      "description": "Unlike arrays, links between elements are not contiguous, but instead point from one element to another anywhere within or outside the list structure.",
+      "x": 80,
+      "y": 510
+    },
+    {
+      "id": "text_3",
+      "type": "text",
+      "description": "Linked lists allow for efficient insertion or removal of elements without reorganizing the entire data set.",
+      "x": 80,
+      "y": 540
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "node0",
+        "node1",
+        "node2",
+        "arrow0",
+        "arrow1",
+        "text_0",
+        "text_1",
+        "text_2",
+        "text_3"
+      ],
+      "duration": 6
+    }
+  ]
+}

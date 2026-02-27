@@ -1,0 +1,49 @@
+{
+  "title": "Quadratic Equation Visualization",
+  "core_concept": "Explain quadratic equation",
+  "visual_elements": [
+    {
+      "id": "parabola",
+      "type": "parabola",
+      "a": 1,
+      "b": 3,
+      "c": -6
+    },
+    {
+      "id": "vertex",
+      "type": "point",
+      "x": -1.5,
+      "y": -8.25
+    },
+    {
+      "id": "roots",
+      "type": "roots",
+      "values": [
+        1.3722813232690143,
+        -4.372281323269014
+      ]
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "show_equation",
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "action": "plot_parabola",
+      "duration": 3
+    },
+    {
+      "step": 3,
+      "action": "highlight_vertex",
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "action": "show_roots",
+      "duration": 2
+    }
+  ]
+}

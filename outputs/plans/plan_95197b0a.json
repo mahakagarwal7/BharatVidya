@@ -1,0 +1,97 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Water Cycle Overview",
+      "x": 100,
+      "y": 80
+    },
+    {
+      "id": "node0",
+      "type": "circle",
+      "x": 250,
+      "y": 300,
+      "radius": 40
+    },
+    {
+      "id": "node1",
+      "type": "circle",
+      "x": 430,
+      "y": 300,
+      "radius": 40
+    },
+    {
+      "id": "node2",
+      "type": "circle",
+      "x": 610,
+      "y": 300,
+      "radius": 40
+    },
+    {
+      "id": "node3",
+      "type": "circle",
+      "x": 790,
+      "y": 300,
+      "radius": 40
+    },
+    {
+      "id": "text_0",
+      "type": "text",
+      "description": "Evaporation occurs when the sun heats bodies of water, causing surface water to vaporize.",
+      "x": 150,
+      "y": 180
+    },
+    {
+      "id": "text_1",
+      "type": "text",
+      "description": "The evaporated water rises into the atmosphere where it cools and condenses forming clouds in a process called condensation.",
+      "x": 150,
+      "y": 240
+    },
+    {
+      "id": "text_2",
+      "type": "text",
+      "description": "When these water droplets become heavy enough combine with other droplets or ice particles fall as precipitation (rain, snow) to land surfaces.",
+      "x": 150,
+      "y": 300
+    },
+    {
+      "id": "text_3",
+      "type": "text",
+      "description": "Once on the ground, some of the water is absorbed by plants and later transpired back into the atmosphere through a process called evapotranspiration.",
+      "x": 150,
+      "y": 360
+    },
+    {
+      "id": "text_4",
+      "type": "text",
+      "description": "Some water infiltrates soil becoming part of groundwater or runs off directly into bodies of water like rivers and oceans.",
+      "x": 150,
+      "y": 420
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "node0",
+        "node1",
+        "node2",
+        "node3"
+      ],
+      "duration": 3
+    },
+    {
+      "elements": [
+        "title",
+        "text_0",
+        "text_1",
+        "text_2",
+        "text_3",
+        "text_4"
+      ],
+      "duration": 4
+    }
+  ]
+}

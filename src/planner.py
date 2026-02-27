@@ -1,13 +1,13 @@
 # src/planner.py
 
 """
-Hybrid Planner (Hackathon Ready)
+Hybrid Planner (Upgraded Architecture)
 
 Flow:
-1. Detect known domain topics
-2. Use deterministic domain engines for deep visualization
-3. If unknown → use Local LLM structured slide mode
-4. If LLM fails → fallback minimal rule-based animation
+1. Detect known domain topics (deterministic engines)
+2. If not domain → LLM generates explanation only
+3. Visual Pattern Engine generates primitives
+4. Renderer draws primitives
 """
 
 import os
@@ -18,15 +18,18 @@ from typing import Dict, Any
 # Domain routing
 from .topic_router import detect_topic
 
-# Deterministic engines
+# Deterministic engines (optional — still supported)
 from .domain_engines.bubble_sort import generate_bubble_sort_plan
 from .domain_engines.quadratic import generate_quadratic_plan
 from .domain_engines.sine_wave import generate_sine_wave_plan
 from .domain_engines.projectile_motion import generate_projectile_plan
 from .domain_engines.binary_search import generate_binary_search_plan
 
-# Local LLM generic explainer
+# LLM explanation generator
 from .local_llm_client import safe_generate_generic_plan
+
+# Visual Pattern Engine
+from .visual_pattern_engine import generate_visual_plan
 
 
 # --------------------------------------------------
@@ -35,10 +38,13 @@ from .local_llm_client import safe_generate_generic_plan
 
 def save_plan(plan: Dict[str, Any], prefix="plan"):
     os.makedirs("outputs/plans", exist_ok=True)
+
     h = hashlib.md5(json.dumps(plan, sort_keys=True).encode()).hexdigest()[:8]
     path = os.path.join("outputs", "plans", f"{prefix}_{h}.json")
+
     with open(path, "w", encoding="utf-8") as f:
         json.dump(plan, f, indent=2)
+
     return path
 
 
@@ -60,7 +66,7 @@ class SimplePlanner:
         topic = detect_topic(concept)
 
         # ==========================================================
-        # Deterministic Domain Engines
+        # Deterministic Domain Engines (Optional but Powerful)
         # ==========================================================
 
         if topic == "bubble_sort":
@@ -79,14 +85,14 @@ class SimplePlanner:
             plan = generate_binary_search_plan(concept)
 
         # ==========================================================
-        # Generic LLM Mode
+        # Generic Hybrid Mode (LLM + Visual Pattern Engine)
         # ==========================================================
 
         else:
-            generic_plan = safe_generate_generic_plan(concept)
+            explanation = safe_generate_generic_plan(concept)
 
-            if generic_plan:
-                plan = generic_plan
+            if explanation:
+                plan = generate_visual_plan(concept, explanation)
             else:
                 plan = self._minimal_fallback(concept)
 
@@ -106,22 +112,21 @@ class SimplePlanner:
             {
                 "id": "title",
                 "type": "text",
-                "description": concept
+                "description": concept,
+                "x": 80,
+                "y": 100
             }
         ]
 
         sequence = [
             {
-                "step": 1,
-                "action": "show",
                 "elements": ["title"],
-                "duration": 4
+                "duration": 5
             }
         ]
 
         return {
             "title": f"Understanding {concept}",
-            "core_concept": concept,
             "visual_elements": elements,
             "animation_sequence": sequence,
             "_source": "fallback"

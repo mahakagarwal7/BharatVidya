@@ -1,110 +1,90 @@
 # src/local_llm_client.py
 
-import requests
 import json
-import re
+import subprocess
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "phi3:mini"
+MODEL_NAME = "phi3:mini"
 
-
-def call_llm(prompt: str) -> str:
-
-    response = requests.post(
-        OLLAMA_URL,
-        json={
-            "model": MODEL,
-            "prompt": prompt,
-            "stream": False
-        },
-        timeout=60
-    )
-
-    response.raise_for_status()
-    return response.json()["response"]
+ALLOWED_TYPES = [
+    "structure",
+    "sequence",
+    "flow",
+    "transformation",
+    "hierarchy",
+    "system",
+    "abstract"
+]
 
 
-def build_structured_prompt(user_prompt: str) -> str:
-    return f"""
+def _call_ollama(prompt: str) -> str:
+    try:
+        result = subprocess.run(
+            ["ollama", "run", MODEL_NAME],
+            input=prompt.encode("utf-8"),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=60
+        )
+        return result.stdout.decode("utf-8").strip()
+    except Exception as e:
+        print("Ollama call failed:", e)
+        return ""
+
+
+def safe_generate_generic_plan(concept: str):
+
+    prompt = f"""
 You are an educational content planner.
 
-Return STRICTLY in this format:
+Return ONLY valid JSON.
+No markdown.
+No comments.
 
-TITLE: <short title>
+Classify the concept into ONE of these concept types:
+structure
+sequence
+flow
+transformation
+hierarchy
+system
+abstract
 
-POINTS:
-- <point 1>
-- <point 2>
-- <point 3>
-- <point 4>
+Then generate:
 
-Concept: {user_prompt}
+{{
+  "title": "short title",
+  "concept_type": "one of the allowed types",
+  "points": [
+    "point 1",
+    "point 2",
+    "point 3"
+  ]
+}}
+
+Keep 3–5 short bullet points.
+
+Concept: {concept}
 """
 
+    raw_output = _call_ollama(prompt)
 
-def parse_structured_output(text: str):
-
-    title_match = re.search(r"TITLE:\s*(.*)", text)
-    title = title_match.group(1).strip() if title_match else "Educational Topic"
-
-    points = re.findall(r"-\s*(.*)", text)
-
-    if not points:
+    if not raw_output:
         return None
 
-    return {
-        "title": title,
-        "points": points[:5]
-    }
-
-
-def safe_generate_generic_plan(user_prompt: str):
-
     try:
-        prompt = build_structured_prompt(user_prompt)
-        raw = call_llm(prompt)
+        start = raw_output.find("{")
+        end = raw_output.rfind("}") + 1
+        json_str = raw_output[start:end]
+        data = json.loads(json_str)
 
-        parsed = parse_structured_output(raw)
-
-        if not parsed:
+        if "title" not in data or "points" not in data:
             return None
 
-        elements = [
-            {"id": "title", "type": "text", "description": parsed["title"]}
-        ]
+        if data.get("concept_type") not in ALLOWED_TYPES:
+            data["concept_type"] = "abstract"
 
-        sequence = [
-            {
-                "step": 1,
-                "action": "show",
-                "elements": ["title"],
-                "duration": 2
-            }
-        ]
-
-        for i, point in enumerate(parsed["points"]):
-            elem_id = f"point{i}"
-            elements.append({
-                "id": elem_id,
-                "type": "text",
-                "description": point
-            })
-
-            sequence.append({
-                "step": i + 2,
-                "action": "show",
-                "elements": [elem_id],
-                "duration": 2
-            })
-
-        return {
-            "title": parsed["title"],
-            "core_concept": user_prompt,
-            "visual_elements": elements,
-            "animation_sequence": sequence,
-            "_source": "local_llm"
-        }
+        return data
 
     except Exception as e:
-        print("LLM generic mode failed:", e)
+        print("JSON parsing failed:", e)
         return None

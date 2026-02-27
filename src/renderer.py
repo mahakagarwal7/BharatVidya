@@ -2,189 +2,294 @@
 
 from moviepy.editor import VideoClip
 import numpy as np
+import cv2
 import os
 import math
-import cv2
 
 
 class MoviePyRenderer:
 
     def render(self, plan: dict, output_filename: str) -> str:
 
-        steps = plan.get("animation_sequence", [])
         elements = plan.get("visual_elements", [])
+        steps = plan.get("animation_sequence", [])
 
-        width, height = 900, 550
+        width, height = 1000, 600
+        margin_left = 120
+        margin_right = 120
+        max_text_width = width - margin_left - margin_right
 
-        def draw_text(frame, text, x, y, scale=0.8, color=(255, 255, 255), thickness=2):
-            cv2.putText(
-                frame,
-                str(text),
-                (int(x), int(y)),
-                cv2.FONT_HERSHEY_SIMPLEX,
-                scale,
-                color,
-                thickness,
-                cv2.LINE_AA
-            )
+        total_duration = sum(s.get("duration", 2) for s in steps)
 
-        types = [e.get("type") for e in elements]
+        # Build timeline
+        timeline = []
+        current = 0
+        for step in steps:
+            d = step.get("duration", 2)
+            timeline.append((current, current + d, step))
+            current += d
 
         # ==========================================================
-        # QUADRATIC (Animated Equation + Graph)
+        # TEXT WRAPPING
         # ==========================================================
-        if "parabola" in types:
 
-            parabola = next(e for e in elements if e["type"] == "parabola")
+        def draw_wrapped_text(frame, text, x, y, scale=0.8):
 
-            a = parabola.get("a", 1)
-            b = parabola.get("b", 0)
-            c = parabola.get("c", 0)
+            words = text.split()
+            lines = []
+            current_line = ""
 
-            equation_text = f"{a}x² + {b}x + {c} = 0"
+            for word in words:
+                test_line = current_line + " " + word if current_line else word
 
-            total_duration = 8
-            discriminant = b*b - 4*a*c
-
-            vertex_x = -b / (2*a) if a != 0 else 0
-            vertex_y = a*vertex_x**2 + b*vertex_x + c
-
-            roots = []
-            if discriminant >= 0 and a != 0:
-                r1 = (-b + math.sqrt(discriminant)) / (2*a)
-                r2 = (-b - math.sqrt(discriminant)) / (2*a)
-                roots = [r1, r2]
-
-            def make_frame(t):
-
-                frame = np.zeros((height, width, 3), dtype=np.uint8)
-                frame[:] = (15, 18, 28)
-
-                # Fade-in equation
-                alpha = min(1, t / 2)
-                eq_color = (
-                    int(255 * alpha),
-                    int(255 * alpha),
-                    int(255 * alpha),
+                (w, _), _ = cv2.getTextSize(
+                    test_line,
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    scale,
+                    2
                 )
 
-                draw_text(frame, equation_text, width//2 - 220, 60, scale=1.0, color=eq_color, thickness=3)
+                if w <= max_text_width:
+                    current_line = test_line
+                else:
+                    lines.append(current_line)
+                    current_line = word
 
-                # Axes
-                cv2.line(frame, (0, height//2), (width, height//2), (80, 80, 80), 1)
-                cv2.line(frame, (width//2, 0), (width//2, height), (80, 80, 80), 1)
+            if current_line:
+                lines.append(current_line)
 
-                x_scale = 80
-                y_scale = 25
+            line_height = 32
 
-                progress = min(1, t / 4)
-                max_x = int(width * progress)
+            for i, line in enumerate(lines):
+                cv2.putText(
+                    frame,
+                    line,
+                    (x, y + i * line_height),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    scale,
+                    (255, 255, 255),
+                    2,
+                    cv2.LINE_AA
+                )
 
-                for px in range(max_x):
-                    x = (px - width/2) / x_scale
-                    y = a*x*x + b*x + c
-                    py = int(height/2 - y*y_scale)
-                    if 0 <= py < height:
-                        frame[py:py+2, px] = (255, 150, 50)
-
-                if t > 4:
-                    vx = int(width/2 + vertex_x * x_scale)
-                    vy = int(height/2 - vertex_y * y_scale)
-                    if 0 <= vy < height and 0 <= vx < width:
-                        cv2.circle(frame, (vx, vy), 6, (0, 255, 255), -1)
-                        draw_text(frame, "Vertex", vx + 10, vy - 10, scale=0.6)
-
-                if t > 5 and roots:
-                    for r in roots:
-                        rx = int(width/2 + r * x_scale)
-                        ry = height//2
-                        if 0 <= rx < width:
-                            cv2.circle(frame, (rx, ry), 6, (0, 255, 0), -1)
-                            draw_text(frame, round(r,2), rx - 15, ry + 25, scale=0.6)
-
-                if t > 5 and discriminant < 0:
-                    draw_text(frame, "No Real Roots", width//2 - 120, height - 40, scale=0.8)
-
-                draw_text(frame, f"Discriminant = {round(discriminant,2)}", 20, height - 30, scale=0.6)
-
-                return frame
+            return y + len(lines) * line_height
 
         # ==========================================================
-        # GENERIC LLM SLIDE MODE
+        # PRIMITIVES
         # ==========================================================
-        elif "text" in types:
 
-            total_duration = sum(s.get("duration", 2) for s in steps)
-            total_duration = max(total_duration, 6)
+        def draw_rectangle(frame, elem):
+            x, y = elem["x"], elem["y"]
+            w, h = elem["width"], elem["height"]
+            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 200, 255), 3)
 
-            timeline = []
-            current = 0
-            for step in steps:
-                d = step.get("duration", 2)
-                timeline.append((current, current + d, step))
-                current += d
+        def draw_circle(frame, elem):
+            cv2.circle(frame, (elem["x"], elem["y"]),
+                       elem["radius"], (0, 255, 150), 3)
 
-            def make_frame(t):
+        def draw_arrow(frame, elem):
+            cv2.arrowedLine(frame,
+                            tuple(elem["start"]),
+                            tuple(elem["end"]),
+                            (0, 255, 255), 2)
 
-                frame = np.zeros((height, width, 3), dtype=np.uint8)
+        def draw_grid(frame, elem):
+            rows = elem["rows"]
+            cols = elem["cols"]
+            x0, y0 = elem["x"], elem["y"]
+            cell = 60
+            values = elem.get("values", [])
 
-                # Animated soft background
-                for y in range(height):
-                    shade = int(40 + 20 * math.sin(t + y/120))
-                    shade = max(0, min(255, shade))
-                    frame[y, :] = (shade, shade+10, shade+20)
+            for i in range(rows):
+                for j in range(cols):
+                    x = x0 + j * cell
+                    y = y0 + i * cell
+                    cv2.rectangle(frame, (x, y),
+                                  (x + cell, y + cell),
+                                  (255, 255, 255), 2)
 
-                # Determine revealed elements
-                revealed = []
-                for start, end, step in timeline:
-                    if t >= end:
-                        for elem_id in step.get("elements", []):
-                            if elem_id not in revealed:
-                                revealed.append(elem_id)
+                    if values:
+                        cv2.putText(
+                            frame,
+                            str(values[i][j]),
+                            (x + 18, y + 38),
+                            cv2.FONT_HERSHEY_SIMPLEX,
+                            0.7,
+                            (255, 255, 255),
+                            2
+                        )
 
-                # Title
-                title_elem = next((e for e in elements if e["id"] == "title"), None)
-                if title_elem:
-                    draw_text(frame, title_elem["description"], 80, 80, scale=1.2)
+        # ==========================================================
+        # QUADRATIC GRAPH
+        # ==========================================================
 
-                # Bullet points
-                y_offset = 150
-                bullet_index = 0
+        def draw_quadratic_graph(frame, elem, t):
 
-                for elem_id in revealed:
-                    if elem_id == "title":
+            a = elem["a"]
+            b = elem["b"]
+            c = elem["c"]
+
+            width = frame.shape[1]
+            height = frame.shape[0]
+
+            x_scale = 80
+            y_scale = 25
+
+            progress = min(1, t / 4)
+            max_x = int(width * progress)
+
+            # Axes
+            cv2.line(frame, (0, height//2),
+                     (width, height//2), (100, 100, 100), 1)
+            cv2.line(frame, (width//2, 0),
+                     (width//2, height), (100, 100, 100), 1)
+
+            for px in range(max_x):
+                x = (px - width/2) / x_scale
+                y = a*x*x + b*x + c
+                py = int(height/2 - y*y_scale)
+
+                if 0 <= py < height:
+                    frame[py:py+2, px] = (255, 200, 50)
+
+            # Vertex
+            if t > 3:
+                vx = int(width/2 + elem["vertex"][0]*x_scale)
+                vy = int(height/2 - elem["vertex"][1]*y_scale)
+                cv2.circle(frame, (vx, vy), 6, (0,255,255), -1)
+
+            # Roots
+            if t > 3 and elem["roots"]:
+                for r in elem["roots"]:
+                    rx = int(width/2 + r*x_scale)
+                    cv2.circle(frame, (rx, height//2), 6, (0,255,0), -1)
+
+        # ==========================================================
+        # FRAME GENERATOR
+        # ==========================================================
+
+        def make_frame(t):
+
+            frame = np.zeros((height, width, 3), dtype=np.uint8)
+
+            # Gradient background
+            for y in range(height):
+                ratio = y / height
+                frame[y, :] = (
+                    int(20 + 40 * ratio),
+                    int(60 + 80 * ratio),
+                    int(120 + 100 * ratio)
+                )
+
+            visible = []
+            scene_index = 0
+            scene_start = 0
+            scene_end = 0
+
+            for idx, (start, end, step) in enumerate(timeline):
+                if start <= t < end:
+                    visible = step.get("elements", [])
+                    scene_index = idx
+                    scene_start = start
+                    scene_end = end
+                    break
+
+            overlay = frame.copy()
+
+            # ==================================================
+            # SCENE 1 (Visual)
+            # ==================================================
+
+            if scene_index == 0:
+
+                for elem in elements:
+                    if elem["id"] not in visible:
                         continue
 
-                    elem = next((e for e in elements if e["id"] == elem_id), None)
-                    if elem:
-                        text = f"- {elem['description']}"
-                        draw_text(frame, text, 100, y_offset + bullet_index*50, scale=0.9)
-                        bullet_index += 1
+                    if elem["type"] == "quadratic_graph":
+                        draw_quadratic_graph(overlay, elem, t)
 
-                return frame
+                    elif elem["type"] == "circle" and elem["id"] == "flow_center":
+                        # Rotating flow animation
+                        center_x, center_y = 500, 300
+                        radius = 130
+                        for i in range(4):
+                            angle = t * 1.5 + i * math.pi / 2
+                            x = int(center_x + radius * math.cos(angle))
+                            y = int(center_y + radius * math.sin(angle))
+                            cv2.circle(overlay, (x, y),
+                                       30, (0, 255, 255), 3)
+
+                    elif elem["type"] == "rectangle":
+                        draw_rectangle(overlay, elem)
+
+                    elif elem["type"] == "grid":
+                        draw_grid(overlay, elem)
+
+                    elif elem["type"] == "arrow":
+                        draw_arrow(overlay, elem)
+
+                    elif elem["type"] == "text":
+                        draw_wrapped_text(
+                            overlay,
+                            elem["description"],
+                            margin_left,
+                            elem["y"]
+                        )
+
+            # ==================================================
+            # SCENE 2 (Explanation with Progressive Reveal)
+            # ==================================================
+
+            if scene_index == 1:
+
+                y_cursor = 150
+
+                # Title
+                for elem in elements:
+                    if elem["id"] == "title":
+                        y_cursor = draw_wrapped_text(
+                            overlay,
+                            elem["description"],
+                            margin_left,
+                            y_cursor,
+                            scale=1.0
+                        )
+                        y_cursor += 20
+
+                bullet_delay = 2
+
+                for elem in elements:
+                    if elem["id"].startswith("text_"):
+                        index = int(elem["id"].split("_")[1])
+                        if (t - scene_start) > index * bullet_delay:
+                            y_cursor = draw_wrapped_text(
+                                overlay,
+                                "• " + elem["description"],
+                                margin_left,
+                                y_cursor
+                            )
+                            y_cursor += 15
+
+            # ==================================================
+            # FADE TRANSITION
+            # ==================================================
+
+            fade_duration = 0.7
+            alpha = 1.0
+
+            if t - scene_start < fade_duration:
+                alpha = (t - scene_start) / fade_duration
+            elif scene_end - t < fade_duration:
+                alpha = (scene_end - t) / fade_duration
+
+            frame = cv2.addWeighted(overlay, alpha, frame, 1 - alpha, 0)
+
+            return cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         # ==========================================================
-        # SAFE FALLBACK
+        # VIDEO EXPORT
         # ==========================================================
-        else:
-
-            total_duration = 5
-
-            def make_frame(t):
-                frame = np.zeros((height, width, 3), dtype=np.uint8)
-                frame[:] = (30, 30, 45)
-
-                draw_text(frame, plan.get("title", "Educational Animation"), 20, 40, scale=1.0)
-
-                radius = int(50 + 20 * math.sin(t*3))
-                cx, cy = width//2, height//2
-
-                for y in range(height):
-                    for x in range(width):
-                        if (x-cx)**2 + (y-cy)**2 <= radius**2:
-                            frame[y, x] = (150, 200, 255)
-
-                return frame
 
         clip = VideoClip(make_frame, duration=total_duration)
 

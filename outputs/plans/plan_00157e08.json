@@ -1,0 +1,103 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Binary Search",
+      "x": 100,
+      "y": 80
+    },
+    {
+      "id": "box0",
+      "type": "rectangle",
+      "x": 150,
+      "y": 300,
+      "width": 80,
+      "height": 80
+    },
+    {
+      "id": "box1",
+      "type": "rectangle",
+      "x": 270,
+      "y": 300,
+      "width": 80,
+      "height": 80
+    },
+    {
+      "id": "box2",
+      "type": "rectangle",
+      "x": 390,
+      "y": 300,
+      "width": 80,
+      "height": 80
+    },
+    {
+      "id": "box3",
+      "type": "rectangle",
+      "x": 510,
+      "y": 300,
+      "width": 80,
+      "height": 80
+    },
+    {
+      "id": "box4",
+      "type": "rectangle",
+      "x": 630,
+      "y": 300,
+      "width": 80,
+      "height": 80
+    },
+    {
+      "id": "box5",
+      "type": "rectangle",
+      "x": 750,
+      "y": 300,
+      "width": 80,
+      "height": 80
+    },
+    {
+      "id": "text_0",
+      "type": "text",
+      "description": "Array must be sorted",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_1",
+      "type": "text",
+      "description": "Check middle element",
+      "x": 150,
+      "y": 260
+    },
+    {
+      "id": "text_2",
+      "type": "text",
+      "description": "Eliminate half each step",
+      "x": 150,
+      "y": 320
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "box0",
+        "box1",
+        "box2",
+        "box3",
+        "box4",
+        "box5"
+      ],
+      "duration": 5
+    },
+    {
+      "elements": [
+        "title",
+        "text_0",
+        "text_1",
+        "text_2"
+      ],
+      "duration": 8
+    }
+  ]
+}

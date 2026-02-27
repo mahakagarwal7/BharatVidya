@@ -1,78 +1,107 @@
-import random
+# src/domain_engines/quadratic.py
+
 import math
 
 
-def generate_quadratic_plan(prompt: str):
+def generate_quadratic_plan(concept: str):
+    """
+    Premium deterministic quadratic visualization
+    Compatible with:
+    - 2 scene structure
+    - Fade transitions
+    - Progressive text reveal
+    """
 
-    # Generate non-trivial quadratic
-    a = random.randint(1, 3)
-    b = random.randint(-6, 6)
-    c = random.randint(-6, 6)
+    # Default coefficients (can later be parsed from user input)
+    a, b, c = 1, -3, 2
 
     discriminant = b*b - 4*a*c
 
-    # Compute roots if real
+    vertex_x = -b / (2*a)
+    vertex_y = a*vertex_x**2 + b*vertex_x + c
+
     roots = []
     if discriminant >= 0:
         r1 = (-b + math.sqrt(discriminant)) / (2*a)
         r2 = (-b - math.sqrt(discriminant)) / (2*a)
-        roots = [r1, r2]
+        roots = [round(r1, 2), round(r2, 2)]
 
-    # Vertex
-    vertex_x = -b / (2*a)
-    vertex_y = a*vertex_x**2 + b*vertex_x + c
+    equation_text = f"{a}x² + {b}x + {c} = 0"
 
-    elements = [
-        {
-            "id": "parabola",
-            "type": "parabola",
-            "a": a,
-            "b": b,
-            "c": c
-        },
-        {
-            "id": "vertex",
-            "type": "point",
-            "x": vertex_x,
-            "y": vertex_y
-        }
+    visual_elements = []
+
+    # ==========================================================
+    # SCENE 1 – Visual Graph Animation
+    # ==========================================================
+
+    visual_elements.append({
+        "id": "title",
+        "type": "text",
+        "description": "Quadratic Equation",
+        "x": 100,
+        "y": 80
+    })
+
+    visual_elements.append({
+        "id": "equation",
+        "type": "text",
+        "description": equation_text,
+        "x": 350,
+        "y": 130
+    })
+
+    # Custom graph primitive (handled in renderer)
+    visual_elements.append({
+        "id": "quadratic_graph",
+        "type": "quadratic_graph",
+        "a": a,
+        "b": b,
+        "c": c,
+        "vertex": [vertex_x, vertex_y],
+        "roots": roots
+    })
+
+    scene1_ids = ["title", "equation", "quadratic_graph"]
+
+    # ==========================================================
+    # SCENE 2 – Explanation
+    # ==========================================================
+
+    explanation_points = [
+        f"Discriminant = {discriminant}",
+        f"Vertex at ({round(vertex_x,2)}, {round(vertex_y,2)})"
     ]
 
     if roots:
-        elements.append({
-            "id": "roots",
-            "type": "roots",
-            "values": roots
-        })
+        explanation_points.append(f"Roots are {roots[0]} and {roots[1]}")
+    else:
+        explanation_points.append("No real roots")
 
-    steps = [
+    scene2_ids = ["title"]
+
+    for idx, point in enumerate(explanation_points):
+        elem_id = f"text_{idx}"
+        visual_elements.append({
+            "id": elem_id,
+            "type": "text",
+            "description": point,
+            "x": 150,
+            "y": 200 + idx * 60
+        })
+        scene2_ids.append(elem_id)
+
+    animation_sequence = [
         {
-            "step": 1,
-            "action": "show_equation",
-            "duration": 2
+            "elements": scene1_ids,
+            "duration": 5
         },
         {
-            "step": 2,
-            "action": "plot_parabola",
-            "duration": 3
-        },
-        {
-            "step": 3,
-            "action": "highlight_vertex",
-            "duration": 2
+            "elements": scene2_ids,
+            "duration": 8
         }
     ]
-
-    if roots:
-        steps.append({
-            "step": 4,
-            "action": "show_roots",
-            "duration": 2
-        })
 
     return {
-        "title": "Quadratic Equation Visualization",
-        "core_concept": prompt,
-        "visual_elements": elements,
-        "animation_sequence": steps
+        "visual_elements": visual_elements,
+        "animation_sequence": animation_sequence
     }

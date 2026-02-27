@@ -1,0 +1,73 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Quadratic Equation",
+      "x": 100,
+      "y": 80
+    },
+    {
+      "id": "equation",
+      "type": "text",
+      "description": "1x\u00b2 + -3x + 2 = 0",
+      "x": 350,
+      "y": 130
+    },
+    {
+      "id": "quadratic_graph",
+      "type": "quadratic_graph",
+      "a": 1,
+      "b": -3,
+      "c": 2,
+      "vertex": [
+        1.5,
+        -0.25
+      ],
+      "roots": [
+        2.0,
+        1.0
+      ]
+    },
+    {
+      "id": "text_0",
+      "type": "text",
+      "description": "Discriminant = 1",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_1",
+      "type": "text",
+      "description": "Vertex at (1.5, -0.25)",
+      "x": 150,
+      "y": 260
+    },
+    {
+      "id": "text_2",
+      "type": "text",
+      "description": "Roots are 2.0 and 1.0",
+      "x": 150,
+      "y": 320
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "equation",
+        "quadratic_graph"
+      ],
+      "duration": 5
+    },
+    {
+      "elements": [
+        "title",
+        "text_0",
+        "text_1",
+        "text_2"
+      ],
+      "duration": 8
+    }
+  ]
+}

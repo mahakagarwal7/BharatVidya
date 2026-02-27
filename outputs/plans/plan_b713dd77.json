@@ -1,0 +1,51 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Simple Water Cycle Explanation",
+      "x": 80,
+      "y": 80
+    },
+    {
+      "id": "text_0",
+      "type": "text",
+      "description": "The water cycle starts with evaporation where the sun heats up water in rivers, lakes, and oceans.",
+      "x": 80,
+      "y": 450
+    },
+    {
+      "id": "text_1",
+      "type": "text",
+      "description": "Water vapor rises into the atmosphere forming clouds through condensation as it cools down.",
+      "x": 80,
+      "y": 480
+    },
+    {
+      "id": "text_2",
+      "type": "text",
+      "description": "Precipitation occurs when the droplets combine to become heavy enough to fall back to earth as rain or snow.",
+      "x": 80,
+      "y": 510
+    },
+    {
+      "id": "text_3",
+      "type": "text",
+      "description": "Collection happens when water gathers in bodies of water, completing the cycle.",
+      "x": 80,
+      "y": 540
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "text_0",
+        "text_1",
+        "text_2",
+        "text_3"
+      ],
+      "duration": 6
+    }
+  ]
+}

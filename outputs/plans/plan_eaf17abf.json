@@ -1,0 +1,100 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Matrix Multiplication Simplified",
+      "x": 100,
+      "y": 80
+    },
+    {
+      "id": "gridA",
+      "type": "grid",
+      "x": 250,
+      "y": 180,
+      "rows": 2,
+      "cols": 2,
+      "values": [
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "id": "gridB",
+      "type": "grid",
+      "x": 550,
+      "y": 180,
+      "rows": 2,
+      "cols": 2,
+      "values": [
+        [
+          5,
+          6
+        ],
+        [
+          7,
+          8
+        ]
+      ]
+    },
+    {
+      "id": "arrow1",
+      "type": "arrow",
+      "start": [
+        450,
+        240
+      ],
+      "end": [
+        520,
+        240
+      ]
+    },
+    {
+      "id": "text_0",
+      "type": "text",
+      "description": "Matrix multiplication combines two matrices to form a third one.",
+      "x": 150,
+      "y": 180
+    },
+    {
+      "id": "text_1",
+      "type": "text",
+      "description": "The number of columns in the first matrix must equal the number of rows in the second for multiplying them together.",
+      "x": 150,
+      "y": 240
+    },
+    {
+      "id": "text_2",
+      "type": "text",
+      "description": "Multiply corresponding elements from each row and column, sum these products to fill an entry in the resulting matrix.",
+      "x": 150,
+      "y": 300
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "gridA",
+        "gridB",
+        "arrow1"
+      ],
+      "duration": 3
+    },
+    {
+      "elements": [
+        "title",
+        "text_0",
+        "text_1",
+        "text_2"
+      ],
+      "duration": 4
+    }
+  ]
+}

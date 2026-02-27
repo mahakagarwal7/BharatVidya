@@ -1,0 +1,74 @@
+{
+  "title": "Educational Topic",
+  "core_concept": "matrix multiplication",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Educational Topic"
+    },
+    {
+      "id": "point0",
+      "type": "text",
+      "description": "Explain the rules and mechanics behind how matrices are multiplied, including considerations of dimensions."
+    },
+    {
+      "id": "point1",
+      "type": "text",
+      "description": "Describe real-world applications where matrix multiplication is essential (e.g., computer graphics, engineering problems)."
+    },
+    {
+      "id": "point2",
+      "type": "text",
+      "description": "Illustrate with examples that demonstrate step-by-step calculations for different sizes of square, rectangular, or non-square matrices undergoing multiplication."
+    },
+    {
+      "id": "point3",
+      "type": "text",
+      "description": "Offer an in-depth tutorial on using a software tool to perform and verify matrix multiplications manually calculated by the learner."
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "show",
+      "elements": [
+        "title"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 2,
+      "action": "show",
+      "elements": [
+        "point0"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 3,
+      "action": "show",
+      "elements": [
+        "point1"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 4,
+      "action": "show",
+      "elements": [
+        "point2"
+      ],
+      "duration": 2
+    },
+    {
+      "step": 5,
+      "action": "show",
+      "elements": [
+        "point3"
+      ],
+      "duration": 2
+    }
+  ],
+  "_source": "local_llm"
+}

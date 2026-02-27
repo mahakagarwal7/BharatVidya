@@ -1,0 +1,22 @@
+{
+  "title": "Understanding Explain matrix multiplication",
+  "core_concept": "Explain matrix multiplication",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Explain matrix multiplication"
+    }
+  ],
+  "animation_sequence": [
+    {
+      "step": 1,
+      "action": "show",
+      "elements": [
+        "title"
+      ],
+      "duration": 4
+    }
+  ],
+  "_source": "fallback"
+}

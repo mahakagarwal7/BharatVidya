@@ -1,0 +1,66 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Consistent Hashing Fundamentals",
+      "x": 100,
+      "y": 80
+    },
+    {
+      "id": "concept_box",
+      "type": "rectangle",
+      "x": 350,
+      "y": 220,
+      "width": 300,
+      "height": 150
+    },
+    {
+      "id": "text_0",
+      "type": "text",
+      "description": "Consistent hashing is a distributed system concept that provides an efficient way to distribute keys across a cluster of servers.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_1",
+      "type": "text",
+      "description": "It minimizes re-distribution when nodes are added or removed from the pool, which improves performance and scalability.",
+      "x": 150,
+      "y": 260
+    },
+    {
+      "id": "text_2",
+      "type": "text",
+      "description": "This technique maps both keys and server identifiers into a fixed-size circular space known as a hash ring.",
+      "x": 150,
+      "y": 320
+    },
+    {
+      "id": "text_3",
+      "type": "text",
+      "description": "Whenever there is no sufficient replica of a key for retrieval due to node failure, consistent hashing locates alternative nodes with minimal rehashing required.",
+      "x": 150,
+      "y": 380
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "concept_box"
+      ],
+      "duration": 5
+    },
+    {
+      "elements": [
+        "title",
+        "text_0",
+        "text_1",
+        "text_2",
+        "text_3"
+      ],
+      "duration": 8
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Matrix Multiplication Explanation",
+      "x": 100,
+      "y": 80
+    },
+    {
+      "id": "grid",
+      "type": "grid",
+      "x": 350,
+      "y": 200,
+      "rows": 3,
+      "cols": 3,
+      "values": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          4,
+          5,
+          6
+        ],
+        [
+          7,
+          8,
+          9
+        ]
+      ]
+    },
+    {
+      "id": "text_0",
+      "type": "text",
+      "description": "Matrix multiplication is a method whereby two matrices are multiplied to produce another matrix.",
+      "x": 150,
+      "y": 200
+    },
+    {
+      "id": "text_1",
+      "type": "text",
+      "description": "The number of columns in the first matrix must match the number of rows in the second matrix for them to be compatible for multiplication.",
+      "x": 150,
+      "y": 260
+    },
+    {
+      "id": "text_2",
+      "type": "text",
+      "description": "To multiply, take the dot product between rows of the first matrix and columns of the second matrix.",
+      "x": 150,
+      "y": 320
+    },
+    {
+      "id": "text_3",
+      "type": "text",
+      "description": "Resulting matrices represent transformations such as rotations or scaling within vector spaces.",
+      "x": 150,
+      "y": 380
+    },
+    {
+      "id": "text_4",
+      "type": "text",
+      "description": "Matrix multiplication is associative but not commutative.",
+      "x": 150,
+      "y": 440
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "grid"
+      ],
+      "duration": 5
+    },
+    {
+      "elements": [
+        "title",
+        "text_0",
+        "text_1",
+        "text_2",
+        "text_3",
+        "text_4"
+      ],
+      "duration": 8
+    }
+  ]
+}
