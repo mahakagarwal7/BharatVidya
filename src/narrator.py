@@ -2,6 +2,7 @@
 Narrator module - Generates audio narration for video steps using edge-tts.
 Provides sync information (durations) for video rendering.
 Uses ffmpeg directly for audio processing (no pydub/ffprobe dependency).
+Supports multiple languages including Hindi translation.
 """
 
 import asyncio
@@ -11,6 +12,13 @@ from pathlib import Path
 from typing import List, Dict, Optional
 
 import edge_tts
+
+# Translation support
+try:
+    from deep_translator import GoogleTranslator
+    TRANSLATION_AVAILABLE = True
+except ImportError:
+    TRANSLATION_AVAILABLE = False
 
 # Get ffmpeg from imageio_ffmpeg
 try:
@@ -22,17 +30,89 @@ except ImportError:
 
 # Available voices (Microsoft Edge TTS)
 VOICES = {
+    # English voices
     "male_us": "en-US-GuyNeural",
     "female_us": "en-US-JennyNeural",
     "male_uk": "en-GB-RyanNeural",
     "female_uk": "en-GB-SoniaNeural",
     "male_india": "en-IN-PrabhatNeural",
     "female_india": "en-IN-NeerjaNeural",
+    # Hindi voices
+    "hindi_male": "hi-IN-MadhurNeural",
+    "hindi_female": "hi-IN-SwaraNeural",
+    # Other languages
+    "spanish_male": "es-ES-AlvaroNeural",
+    "spanish_female": "es-ES-ElviraNeural",
+    "french_male": "fr-FR-HenriNeural",
+    "french_female": "fr-FR-DeniseNeural",
+    "german_male": "de-DE-ConradNeural",
+    "german_female": "de-DE-KatjaNeural",
+    "chinese_male": "zh-CN-YunxiNeural",
+    "chinese_female": "zh-CN-XiaoxiaoNeural",
+    "japanese_female": "ja-JP-NanamiNeural",
+    "korean_female": "ko-KR-SunHiNeural",
+}
+
+# Language to default voice mapping
+LANGUAGE_VOICES = {
+    "en": "en-US-JennyNeural",
+    "hi": "hi-IN-SwaraNeural",
+    "es": "es-ES-ElviraNeural",
+    "fr": "fr-FR-DeniseNeural",
+    "de": "de-DE-KatjaNeural",
+    "zh": "zh-CN-XiaoxiaoNeural",
+    "ja": "ja-JP-NanamiNeural",
+    "ko": "ko-KR-SunHiNeural",
 }
 
 DEFAULT_VOICE = "en-US-JennyNeural"
 MIN_STEP_DURATION = 3.0  # Minimum seconds per step
 STEP_BUFFER = 0.5  # Buffer between steps
+
+
+def translate_text(text: str, source_lang: str = "en", target_lang: str = "hi") -> str:
+    """
+    Translate text from source language to target language.
+    Falls back to original text if translation fails.
+    
+    Args:
+        text: Text to translate
+        source_lang: Source language code (e.g., 'en', 'hi')
+        target_lang: Target language code (e.g., 'hi', 'en')
+    
+    Returns:
+        Translated text or original if translation fails
+    """
+    if not TRANSLATION_AVAILABLE:
+        print("Warning: deep-translator not installed. Run: pip install deep-translator")
+        return text
+    
+    if source_lang == target_lang:
+        return text
+    
+    try:
+        translator = GoogleTranslator(source=source_lang, target=target_lang)
+        translated = translator.translate(text)
+        return translated if translated else text
+    except Exception as e:
+        print(f"Translation warning: {e}")
+        return text
+
+
+def translate_steps(steps: List[str], target_lang: str = "hi") -> List[str]:
+    """Translate a list of step descriptions to target language."""
+    if target_lang == "en":
+        return steps
+    
+    translated = []
+    for step in steps:
+        translated.append(translate_text(step, "en", target_lang))
+    return translated
+
+
+def get_voice_for_language(language: str) -> str:
+    """Get the default voice for a language code."""
+    return LANGUAGE_VOICES.get(language, DEFAULT_VOICE)
 
 
 def get_audio_duration_ffmpeg(file_path: str) -> float:
@@ -251,11 +331,29 @@ class Narrator:
                 pass
 
 
-def generate_narration_for_plan(plan: Dict, session_id: str, voice: str = DEFAULT_VOICE) -> Dict:
+def generate_narration_for_plan(
+    plan: Dict, 
+    session_id: str, 
+    voice: str = None,
+    language: str = "en"
+) -> Dict:
     """
     Convenience function to generate narration from a visual plan.
     Extracts step descriptions and generates audio.
+    
+    Args:
+        plan: Visual plan dict with visual_elements
+        session_id: Unique session ID for file naming
+        voice: TTS voice to use (auto-selected from language if None)
+        language: Target language code ('en', 'hi', 'es', etc.)
+    
+    Returns:
+        Dict with narration info including step_durations and audio paths
     """
+    # Select voice based on language if not specified
+    if voice is None:
+        voice = get_voice_for_language(language)
+    
     narrator = Narrator(voice=voice)
     
     # Extract step descriptions from plan
@@ -277,15 +375,24 @@ def generate_narration_for_plan(plan: Dict, session_id: str, voice: str = DEFAUL
             if desc and len(desc) > 10:
                 steps.append(desc)
     
+    # Translate steps if needed
+    if language != "en" and TRANSLATION_AVAILABLE:
+        print(f"🌐 Translating to {language}...")
+        steps = translate_steps(steps, language)
+    
     # Generate intro from title
     title = plan.get("title", "")
     intro_info = None
     if title:
+        # Translate title if needed
+        if language != "en" and TRANSLATION_AVAILABLE:
+            title = translate_text(title, "en", language)
         intro_info = narrator.generate_intro_audio(title, session_id)
     
     # Generate step narration
     narration_result = narrator.generate_narration(steps, session_id)
     narration_result["intro"] = intro_info
+    narration_result["language"] = language
     
     return narration_result
 

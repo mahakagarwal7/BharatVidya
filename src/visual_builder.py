@@ -6,6 +6,13 @@ import re
 import hashlib
 from PIL import Image, ImageDraw, ImageFont
 
+# Import LaTeX renderer for math topics
+try:
+    from .latex_renderer import detect_math_topic, get_equation_for_topic, COMMON_EQUATIONS
+    LATEX_AVAILABLE = True
+except ImportError:
+    LATEX_AVAILABLE = False
+
 
 def _safe_slug(text: str) -> str:
     cleaned = re.sub(r"[^a-zA-Z0-9]+", "_", str(text).strip().lower()).strip("_")
@@ -586,6 +593,21 @@ def build_visual_plan(concept: str, reasoning: dict):
                 "font_scale": 0.6,
                 "color": (255, 220, 140)
             })
+            # Add LaTeX equation if available
+            if LATEX_AVAILABLE:
+                equation = get_equation_for_topic(concept)
+                if equation:
+                    visual_elements.append({
+                        "id": "main_equation",
+                        "type": "latex",
+                        "latex": equation,
+                        "x": frame_w // 2,
+                        "y": image_y + image_h // 2,
+                        "fontsize": 36,
+                        "color": "white",
+                        "max_width": image_w - 40,
+                        "max_height": 120
+                    })
         elif sim_category in {"chemistry", "biology_process"}:
             visual_elements.append({
                 "id": "sim_indicator",
@@ -848,8 +870,31 @@ def build_visual_plan(concept: str, reasoning: dict):
     detected_theme = _detect_theme(concept, title)
     theme_colors = _theme_colors(detected_theme)
 
+    # Add LaTeX equation for math topics if not already added
+    if LATEX_AVAILABLE and detect_math_topic(concept):
+        has_latex = any(e.get("type") == "latex" for e in visual_elements)
+        if not has_latex:
+            equation = get_equation_for_topic(concept)
+            if equation:
+                visual_elements.append({
+                    "id": "topic_equation",
+                    "type": "latex",
+                    "latex": equation,
+                    "x": frame_w // 2,
+                    "y": image_y + image_h + 80,
+                    "fontsize": 32,
+                    "color": "white",
+                    "max_width": 600,
+                    "max_height": 100
+                })
+                # Add equation to animation sequence for hero scene
+                if animation_sequence:
+                    animation_sequence[0]["elements"].append("topic_equation")
+
     # Add topic analysis metadata to plan
     return {
+        "concept": concept,
+        "title": title,
         "visual_elements": visual_elements,
         "animation_sequence": animation_sequence,
         "topic_analysis": topic_analysis,

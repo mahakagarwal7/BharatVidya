@@ -15,10 +15,24 @@ from .narrator import Narrator, generate_narration_for_plan
 
 class EducationalAnimator:
 
-    def __init__(self, enable_narration: bool = True, voice: str = "en-US-JennyNeural"):
+    def __init__(
+        self, 
+        enable_narration: bool = True, 
+        voice: str = None,
+        language: str = "en"
+    ):
+        """
+        Initialize the educational video generator.
+        
+        Args:
+            enable_narration: Whether to generate audio narration
+            voice: TTS voice to use (auto-selected from language if None)
+            language: Language code ('en', 'hi', 'es', 'fr', 'de', 'zh', 'ja', 'ko')
+        """
         self.planner = SimplePlanner()
         self.renderer = MoviePyRenderer()
         self.enable_narration = enable_narration
+        self.language = language
         self.voice = voice
         os.makedirs("outputs", exist_ok=True)
         os.makedirs("outputs/audio", exist_ok=True)
@@ -26,7 +40,8 @@ class EducationalAnimator:
     def generate(
         self,
         text: str,
-        with_narration: Optional[bool] = None
+        with_narration: Optional[bool] = None,
+        language: Optional[str] = None
     ) -> Tuple[str, Dict[str, Any]]:
         """
         Generate educational video with optional audio narration.
@@ -34,6 +49,7 @@ class EducationalAnimator:
         Args:
             text: The concept/topic to explain
             with_narration: Override default narration setting (None uses class default)
+            language: Override default language (None uses class default)
         
         Returns:
             Tuple of (video_path, plan_dict)
@@ -41,6 +57,7 @@ class EducationalAnimator:
         
         # Determine if we should generate narration
         use_narration = with_narration if with_narration is not None else self.enable_narration
+        use_language = language if language is not None else self.language
 
         # Step 1: Generate visual plan
         plan = self.planner.plan_universal_scene(text)
@@ -51,8 +68,15 @@ class EducationalAnimator:
         
         if use_narration:
             try:
-                print("🎙️ Generating audio narration...")
-                narration = generate_narration_for_plan(plan, session_id, self.voice)
+                lang_display = {"en": "English", "hi": "Hindi", "es": "Spanish", 
+                               "fr": "French", "de": "German", "zh": "Chinese",
+                               "ja": "Japanese", "ko": "Korean"}.get(use_language, use_language)
+                print(f"🎙️ Generating audio narration ({lang_display})...")
+                narration = generate_narration_for_plan(
+                    plan, session_id, 
+                    voice=self.voice,
+                    language=use_language
+                )
                 print(f"   Audio duration: {narration['total_duration']:.1f}s")
                 print(f"   Steps: {len(narration['step_durations'])}")
             except Exception as e:

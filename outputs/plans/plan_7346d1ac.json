@@ -1,0 +1,390 @@
+{
+  "concept": "Explain the concept of photosynthesis",
+  "title": "Photosynthesis Process Explanation",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Photosynthesis Process Explanation",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_concept_of_photosynthesis_0_1534303e.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Photosynthesis Process Explanation"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Photosynthesis Process Explanation",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "sim_indicator",
+      "type": "text",
+      "description": "\ud83d\udd2c PROCESS",
+      "x": 720,
+      "y": 24,
+      "font_scale": 0.6,
+      "color": [
+        140,
+        255,
+        180
+      ]
+    },
+    {
+      "id": "step_dot_0",
+      "type": "circle",
+      "x": 190,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        80,
+        160,
+        220
+      ]
+    },
+    {
+      "id": "step_dot_1",
+      "type": "circle",
+      "x": 215,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        60,
+        80,
+        100
+      ]
+    },
+    {
+      "id": "step_dot_2",
+      "type": "circle",
+      "x": 240,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        60,
+        80,
+        100
+      ]
+    },
+    {
+      "id": "step_dot_3",
+      "type": "circle",
+      "x": 265,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        60,
+        80,
+        100
+      ]
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_concept_of_photosynthesis_1_842882a3.png",
+      "x": 110,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_concept_of_photosynthesis_2_e6cfbc8a.png",
+      "x": 330,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_concept_of_photosynthesis_3_138bdf74.png",
+      "x": 550,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_3",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_concept_of_photosynthesis_4_48e4b592.png",
+      "x": 770,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_concept_of_photosynthesis_20_0ade1450.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Inputs absorption: Chlorophyll in chloroplasts captures sunlight."
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Inputs absorption: Chlorophyll in chloroplasts captures sunlight.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "Inputs absorption: Chlorophyll in chloroplasts captures sunlight.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_concept_of_photosynthesis_21_5d324904.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Water splitting: Light-dependent reactions take place, using water molecules and producing oxygen."
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "Water splitting: Light-dependent reactions take place, using water molecules and producing oxygen.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "Water splitting: Light-dependent reactions take place, using water...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_concept_of_photosynthesis_22_6fcd653e.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "ATP and NADPH production: Energy from light is transferred into chemical energy stored in ATP and NADPH."
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "ATP and NADPH production: Energy from light is transferred into chemical energy stored in ATP and NADPH.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "ATP and NADPH production: Energy from light is...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_3",
+      "type": "image",
+      "path": "outputs\\generated_images\\explain_the_concept_of_photosynthesis_23_67f195bb.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Carbon fixation: In Calvin cycle, CO2 is used along with ATP and NADPH to create glucose."
+    },
+    {
+      "id": "text_step_3",
+      "type": "text",
+      "description": "Carbon fixation: In Calvin cycle, CO2 is used along with ATP and NADPH to create glucose.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_3",
+      "type": "text",
+      "description": "Carbon fixation: In Calvin cycle, CO2 is used...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_3",
+        "text_step_brief_3"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_3",
+        "text_step_3"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    }
+  ],
+  "topic_analysis": {
+    "topic_type": "simulation",
+    "category": "biology_process",
+    "visual_approach": {
+      "image_style": "process_diagram",
+      "text_density": "minimal",
+      "scene_count": 6,
+      "animation_focus": true,
+      "show_steps": true,
+      "caption_length": "short"
+    },
+    "animation_style": {
+      "type": "step_progression",
+      "transitions": [
+        "fade",
+        "slide"
+      ],
+      "element_animations": true,
+      "simulation_elements": true,
+      "timing": "dynamic"
+    }
+  },
+  "theme": "photosynthesis",
+  "theme_colors": [
+    [
+      19,
+      75,
+      38
+    ],
+    [
+      42,
+      129,
+      71
+    ]
+  ]
+}

@@ -1,0 +1,524 @@
+{
+  "concept": "projectile motion physics",
+  "title": "Understanding Projectile Motion Simulation",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Projectile Motion Simulation",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\projectile_motion_physics_0_5c7e805f.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Understanding Projectile Motion Simulation"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Understanding Projectile Motion Simulation",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "sim_indicator",
+      "type": "text",
+      "description": "\u25b6 SIMULATION",
+      "x": 700,
+      "y": 24,
+      "font_scale": 0.6,
+      "color": [
+        100,
+        220,
+        180
+      ]
+    },
+    {
+      "id": "step_dot_0",
+      "type": "circle",
+      "x": 190,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        80,
+        160,
+        220
+      ]
+    },
+    {
+      "id": "step_dot_1",
+      "type": "circle",
+      "x": 215,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        60,
+        80,
+        100
+      ]
+    },
+    {
+      "id": "step_dot_2",
+      "type": "circle",
+      "x": 240,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        60,
+        80,
+        100
+      ]
+    },
+    {
+      "id": "step_dot_3",
+      "type": "circle",
+      "x": 265,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        60,
+        80,
+        100
+      ]
+    },
+    {
+      "id": "step_dot_4",
+      "type": "circle",
+      "x": 290,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        60,
+        80,
+        100
+      ]
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\projectile_motion_physics_1_1bcc1d70.png",
+      "x": 110,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\projectile_motion_physics_2_6721d23f.png",
+      "x": 330,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\projectile_motion_physics_3_443d6cd5.png",
+      "x": 550,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_3",
+      "type": "image",
+      "path": "outputs\\generated_images\\projectile_motion_physics_4_58643bf9.png",
+      "x": 770,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_4",
+      "type": "image",
+      "path": "outputs\\generated_images\\projectile_motion_physics_5_77ae223b.png",
+      "x": 990,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_5",
+      "type": "image",
+      "path": "outputs\\generated_images\\projectile_motion_physics_6_8df6bdcb.png",
+      "x": 1210,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\projectile_motion_physics_20_f8a68b67.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Initialize the simulation environment by setting up a two-dimensional plane and defining gravity."
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Initialize the simulation environment by setting up a two-dimensional plane and defining gravity.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "Initialize the simulation environment by setting up a...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\projectile_motion_physics_21_fe2c3e65.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Input initial conditions such as launch angle, velocity, and release point of the projectile into the system parameters. Visualize this in an animated frame showing these values displayed on-screen before the simulation starts."
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "Input initial conditions such as launch angle, velocity, and release point of the projectile into the system parameters. Visualize this in an...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "Input initial conditions such as launch angle, velocity,...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\projectile_motion_physics_22_2603bc82.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Begin a time loop for simulating each second, applying acceleration due to gravity and calculating new positions using kinematic equations. Include an animated frame where arrows indicate direction of motion and changes in speed."
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Begin a time loop for simulating each second, applying acceleration due to gravity and calculating new positions using kinematic equations. Include an...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "Begin a time loop for simulating each second,...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_3",
+      "type": "image",
+      "path": "outputs\\generated_images\\projectile_motion_physics_23_7984a9f8.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Update the position of the projectile on screen after each time step, showing a graphical trajectory as it follows its parabolic path. An animated frame should depict this motion with smooth arcs and proper scaling."
+    },
+    {
+      "id": "text_step_3",
+      "type": "text",
+      "description": "Update the position of the projectile on screen after each time step, showing a graphical trajectory as it follows its parabolic path....",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_3",
+      "type": "text",
+      "description": "Update the position of the projectile on screen...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_4",
+      "type": "image",
+      "path": "outputs\\generated_images\\projectile_motion_physics_24_60b67fb4.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "At the peak of the projectile's arc, simulate air resistance by slightly reducing vertical speed in subsequent frames until it reaches terminal velocity. Visualize changes using animated friction arrows and varying height on-screen."
+    },
+    {
+      "id": "text_step_4",
+      "type": "text",
+      "description": "At the peak of the projectile's arc, simulate air resistance by slightly reducing vertical speed in subsequent frames until it reaches terminal...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_4",
+      "type": "text",
+      "description": "At the peak of the projectile's arc, simulate...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_5",
+      "type": "image",
+      "path": "outputs\\generated_images\\projectile_motion_physics_25_3f8d46cd.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Display the impact point where projectile lands back onto the ground, calculate rebound with reduced speed if applicable (ignore air resistance for simplicity), and show in an animated frame as a bounce effect on-screen."
+    },
+    {
+      "id": "text_step_5",
+      "type": "text",
+      "description": "Display the impact point where projectile lands back onto the ground, calculate rebound with reduced speed if applicable (ignore air resistance for...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_5",
+      "type": "text",
+      "description": "Display the impact point where projectile lands back...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_3",
+        "text_step_brief_3"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_3",
+        "text_step_3"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_4",
+        "text_step_brief_4"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_4",
+        "text_step_4"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_5",
+        "text_step_brief_5"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_5",
+        "text_step_5"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    }
+  ],
+  "topic_analysis": {
+    "topic_type": "simulation",
+    "category": "physics",
+    "visual_approach": {
+      "image_style": "process_diagram",
+      "text_density": "minimal",
+      "scene_count": 6,
+      "animation_focus": true,
+      "show_steps": true,
+      "caption_length": "short"
+    },
+    "animation_style": {
+      "type": "step_progression",
+      "transitions": [
+        "fade",
+        "slide"
+      ],
+      "element_animations": true,
+      "simulation_elements": true,
+      "timing": "dynamic"
+    }
+  },
+  "theme": "projectile",
+  "theme_colors": [
+    [
+      27,
+      55,
+      89
+    ],
+    [
+      48,
+      91,
+      145
+    ]
+  ]
+}

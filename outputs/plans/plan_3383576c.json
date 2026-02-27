@@ -1,0 +1,401 @@
+{
+  "concept": "quadratic formula",
+  "title": "Understanding the Quadratic Formula",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding the Quadratic Formula",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\quadratic_formula_0_3becb8e4.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Understanding the Quadratic Formula"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Understanding the Quadratic Formula",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\quadratic_formula_1_4d3b5411.png",
+      "x": 110,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\quadratic_formula_2_3dd8a813.png",
+      "x": 330,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\quadratic_formula_3_b0d79e36.png",
+      "x": 550,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_3",
+      "type": "image",
+      "path": "outputs\\generated_images\\quadratic_formula_4_88541df4.png",
+      "x": 770,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_4",
+      "type": "image",
+      "path": "outputs\\generated_images\\quadratic_formula_5_acd16b4b.png",
+      "x": 990,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\quadratic_formula_20_2264f360.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Define a quadratic equation: A standard form of a quadratic equation is ax^2 + bx + c = 0, where 'a', 'b', and 'c' are coefficients with the condition that 'a' is not equal to zero."
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Define a quadratic equation: A standard form of a quadratic equation is ax^2 + bx + c = 0, where 'a', 'b',...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "Define a quadratic equation: A standard form of a quadratic equation is ax^2 +...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\quadratic_formula_21_e7709d6c.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "State the quadratic formula: The roots or solutions for x can be found using the formula (-b \u00b1 sqrt(b^2 - 4ac))/(2a)."
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "State the quadratic formula: The roots or solutions for x can be found using the formula (-b \u00b1 sqrt(b^2 - 4ac))/(2a).",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "State the quadratic formula: The roots or solutions for x can be found using...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\quadratic_formula_22_a8fd386f.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Demonstrate the formula's derivation from completing the square: Start by manipulating the standard form to complete the perfect square trinomial."
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Demonstrate the formula's derivation from completing the square: Start by manipulating the standard form to complete the perfect square trinomial.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "Demonstrate the formula's derivation from completing the square: Start by manipulating the standard form...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_3",
+      "type": "image",
+      "path": "outputs\\generated_images\\quadratic_formula_23_4b058fbd.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Solve an example problem using the quadratic formula: Let's solve 2x^2 + 3x - 2 = 0 to find its roots."
+    },
+    {
+      "id": "text_step_3",
+      "type": "text",
+      "description": "Solve an example problem using the quadratic formula: Let's solve 2x^2 + 3x - 2 = 0 to find its roots.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_3",
+      "type": "text",
+      "description": "Solve an example problem using the quadratic formula: Let's solve 2x^2 + 3x -...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_4",
+      "type": "image",
+      "path": "outputs\\generated_images\\quadratic_formula_24_9db6abfc.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Explore the discriminant (b^2 - 4ac): Explain how it determines the nature of the roots, indicating real, repeated, or complex solutions."
+    },
+    {
+      "id": "text_step_4",
+      "type": "text",
+      "description": "Explore the discriminant (b^2 - 4ac): Explain how it determines the nature of the roots, indicating real, repeated, or complex solutions.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_4",
+      "type": "text",
+      "description": "Explore the discriminant (b^2 - 4ac): Explain how it determines the nature of the...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "topic_equation",
+      "type": "latex",
+      "latex": "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}",
+      "x": 500,
+      "y": 518,
+      "fontsize": 32,
+      "color": "white",
+      "max_width": 600,
+      "max_height": 100
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "hero_caption",
+        "topic_equation"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_3",
+        "text_step_brief_3"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_3",
+        "text_step_3"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_4",
+        "text_step_brief_4"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_4",
+        "text_step_4"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    }
+  ],
+  "topic_analysis": {
+    "topic_type": "context",
+    "category": "general",
+    "visual_approach": {
+      "image_style": "concept_card",
+      "text_density": "rich",
+      "scene_count": 5,
+      "animation_focus": false,
+      "show_steps": false,
+      "caption_length": "detailed"
+    },
+    "animation_style": {
+      "type": "text_reveal",
+      "transitions": [
+        "fade"
+      ],
+      "element_animations": false,
+      "simulation_elements": false,
+      "timing": "steady"
+    }
+  },
+  "theme": "quadratic",
+  "theme_colors": [
+    [
+      69,
+      37,
+      96
+    ],
+    [
+      108,
+      66,
+      144
+    ]
+  ]
+}

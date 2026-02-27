@@ -7,6 +7,13 @@ import os
 import math
 from typing import Optional, List
 
+# Import LaTeX renderer for math equations
+try:
+    from .latex_renderer import render_equation_on_frame, detect_math_topic, get_equation_for_topic
+    LATEX_AVAILABLE = True
+except ImportError:
+    LATEX_AVAILABLE = False
+
 
 class MoviePyRenderer:
 
@@ -713,6 +720,22 @@ class MoviePyRenderer:
 
                 elif etype == "quadratic_graph":
                     draw_quadratic_graph(overlay, elem)
+
+                elif etype == "latex":
+                    if LATEX_AVAILABLE:
+                        latex_expr = elem.get("latex", "")
+                        latex_x = elem.get("x", width // 2)
+                        latex_y = elem.get("y", height // 2)
+                        latex_fontsize = elem.get("fontsize", 28)
+                        latex_color = elem.get("color", "white")
+                        latex_max_w = elem.get("max_width", 600)
+                        latex_max_h = elem.get("max_height", 150)
+                        render_equation_on_frame(
+                            overlay, latex_expr, latex_x, latex_y,
+                            max_width=latex_max_w, max_height=latex_max_h,
+                            fontsize=latex_fontsize, text_color=latex_color,
+                            center=True
+                        )
 
             # -------------------------------
             # Fade transition
