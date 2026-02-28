@@ -174,7 +174,45 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "geometry"
 
-    # Chemistry / Atoms / Molecules
+    # ============================================
+    # Check Organic Chemistry BEFORE general chemistry (more specific)
+    # ============================================
+    
+    # Organic Chemistry (check first - more specific)
+    organic_patterns = [
+        r"\borganic\s+chem(istry|ical)\b",
+        r"\bcarbon\s+(chain|compound|atom)s?\b",
+        r"\bhydrocarbon(s)?\b",
+        r"\bfunctional\s+group(s)?\b",
+        r"\b(alkane|alkene|alkyne|alcohol|aldehyde|ketone|ester|ether)(s)?\b",
+        r"\b(methane|ethane|propane|butane|ethanol|methanol)\b",
+        r"\biupac\s+nam(e|ing)\b",
+        r"\bisomer(s|ism)?\\b",
+        r"\bhomolog(ous|y)\b",
+        r"\bsaturated\s+(and\s+)?unsaturated\b",
+        r"\bcombustion\s+(of\s+)?(hydro)?carbon\b",
+        r"\bcarboxylic\s+acid\b",
+        r"\b(addition|substitution|elimination)\s+reaction\b",
+    ]
+    for pattern in organic_patterns:
+        if re.search(pattern, text):
+            return "organic_chemistry"
+
+    # Organic Reactions (more specific)
+    organic_reaction_patterns = [
+        r"\borganic\s+reaction(s)?\b",
+        r"\bcombustion\s+reaction\b",
+        r"\bpolymer(ization)?\b",
+        r"\bferment(ation)?\b",
+        r"\bhydrolysis\b",
+        r"\boxidation\s+of\s+alcohol\b",
+        r"\besterification\b",
+    ]
+    for pattern in organic_reaction_patterns:
+        if re.search(pattern, text):
+            return "organic_reaction"
+
+    # General Chemistry / Atoms / Molecules (after organic chemistry check)
     chemistry_patterns = [
         r"\bchem(istry|ical)\b",
         r"\batom(ic|s)?\b",
@@ -295,7 +333,8 @@ def has_specialized_animation(concept: str) -> bool:
         "bubble_sort", "binary_search", "quadratic", 
         "sine_wave", "projectile_motion", "pendulum",
         "linear_equation", "heat", "geometry", "chemistry", "wave", "statistics",
-        "coordinate_geometry", "circuit", "optics", "force"
+        "coordinate_geometry", "circuit", "optics", "force",
+        "organic_chemistry", "organic_reaction"
     ]
     return topic in animated_topics
 
@@ -333,7 +372,9 @@ def get_animation_clip(concept: str, duration: float = 5.0, **kwargs) -> Optiona
             create_coordinate_geometry_clip,
             create_circuit_clip,
             create_optics_clip,
-            create_force_clip
+            create_force_clip,
+            create_organic_chemistry_clip,
+            create_organic_reaction_clip
         )
         
         if topic == "projectile_motion":
@@ -446,6 +487,18 @@ def get_animation_clip(concept: str, duration: float = 5.0, **kwargs) -> Optiona
                 title=kwargs.get("title", "Forces & Newton's Laws")
             )
         
+        elif topic == "organic_chemistry":
+            return create_organic_chemistry_clip(
+                duration=duration,
+                title=kwargs.get("title", "Organic Chemistry")
+            )
+        
+        elif topic == "organic_reaction":
+            return create_organic_reaction_clip(
+                duration=duration,
+                title=kwargs.get("title", "Organic Reaction")
+            )
+        
         else:
             # Generic animation for any other topic
             return create_generic_clip(
@@ -486,6 +539,8 @@ def get_animation_info(concept: str) -> dict:
         "circuit": "See electric current flow through a circuit with Ohm's law visualization.",
         "optics": "Watch light reflection and refraction with Snell's law demonstration.",
         "force": "See force vectors and Newton's laws in action with acceleration visualization.",
+        "organic_chemistry": "Explore organic molecules with carbon chains, functional groups, and molecular structures.",
+        "organic_reaction": "Watch organic reactions with reactants transforming into products step by step.",
         "generic": "Animated visualization with floating concepts and dynamic effects."
     }
     
@@ -493,7 +548,8 @@ def get_animation_info(concept: str) -> dict:
         "bubble_sort", "binary_search", "quadratic", "sine_wave", 
         "projectile_motion", "pendulum", "linear_equation", "heat", 
         "geometry", "chemistry", "wave", "statistics",
-        "coordinate_geometry", "circuit", "optics", "force"
+        "coordinate_geometry", "circuit", "optics", "force",
+        "organic_chemistry", "organic_reaction"
     ]
     is_specialized = topic in specialized_topics
     

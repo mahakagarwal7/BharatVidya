@@ -1,0 +1,35 @@
+{
+  "title": "Exploring Organic Chemistry: Building Blocks of Life",
+  "summary": "This video delves into organic chemistry by explaining its fundamental concepts like molecular structures and chemical reactions. Learn about the importance of hydrocarbons, functional groups, isomers, and more.",
+  "category": "chemistry",
+  "sections": [
+    {
+      "heading": "What are Organic Compounds?",
+      "body": "Organic chemistry focuses on carbon-based compounds that form the basis of all living organisms. These molecules range from simple hydrocarbons to complex proteins.",
+      "key_points": [
+        "Carbon forms versatile bonds",
+        "Vital role in biochemical processes"
+      ]
+    },
+    {
+      "heading": "Understanding Molecular Structures and Functional Groups",
+      "body": "The structure of organic molecules greatly influences their properties. Learning about different functional groups allows you to predict how compounds will behave, which is essential for understanding chemical reactions.",
+      "key_points": [
+        "Structure determines function",
+        "Functional groups dictate reactivity"
+      ]
+    },
+    {
+      "heading": "Isomers and Stereochemistry in Organic Compounds",
+      "body": "Organic compounds can exist as structural isomers with different arrangements of atoms or stereoisomers that are mirror images. Recognizing these differences helps chemists understand reaction mechanisms.",
+      "key_points": [
+        "Structural and Stereoisomerism matter",
+        "Isomers have unique properties"
+      ]
+    }
+  ],
+  "key_facts": [
+    "Hydrocarbons form the backbone of organic molecules."
+  ],
+  "visual_style": "mixed"
+}

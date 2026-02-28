@@ -1960,3 +1960,426 @@ def create_force_clip(duration: float = 5.0,
         return np.array(img)
     
     return VideoClip(make_frame, duration=duration)
+
+# ============================================================
+# ORGANIC CHEMISTRY ANIMATION
+# ============================================================
+
+def create_organic_chemistry_clip(duration: float = 5.0,
+                                  title: str = "Organic Chemistry") -> VideoClip:
+    """
+    Create animated organic chemistry visualization.
+    Shows carbon chains, functional groups, and molecular structures.
+    """
+    font_title = _load_font(28)
+    font_label = _load_font(18)
+    font_info = _load_font(14)
+    font_small = _load_font(12)
+    
+    def make_frame(t):
+        img = Image.new("RGB", (WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        
+        # Gradient background (dark green/blue for chemistry feel)
+        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (15, 30, 35), (25, 50, 55))
+        
+        # Title
+        draw.text((WIDTH // 2 - 100, 20), title, fill=(220, 240, 255), font=font_title)
+        
+        # ============================================
+        # Draw a carbon chain (backbone of organic molecule)
+        # ============================================
+        
+        # Ethanol molecule: CH3-CH2-OH
+        chain_center_x = WIDTH // 2
+        chain_center_y = HEIGHT // 2 + 20
+        
+        # Carbon atom positions
+        carbon_spacing = 100
+        
+        # Animated building of molecule
+        build_progress = min(1.0, t / (duration * 0.6))
+        
+        # Carbon 1 (CH3)
+        c1_x = chain_center_x - 120
+        c1_y = chain_center_y
+        
+        # Carbon 2 (CH2)
+        c2_x = chain_center_x + 20
+        c2_y = chain_center_y
+        
+        # Oxygen (OH)
+        o_x = chain_center_x + 160
+        o_y = chain_center_y
+        
+        # Draw atoms with animation
+        atom_radius = 25
+        
+        # Helper to draw atom with label
+        def draw_atom(x, y, label, color, appear_time):
+            if t < appear_time:
+                return
+            
+            # Pulse effect
+            pulse = 1 + 0.05 * math.sin(t * 3 + x * 0.01)
+            r = int(atom_radius * pulse)
+            
+            # Glow effect
+            for glow_r in range(r + 10, r, -2):
+                glow_alpha = int(50 * (1 - (glow_r - r) / 10))
+                glow_color = tuple(max(0, min(255, c - 100 + glow_alpha)) for c in color)
+                draw.ellipse([x - glow_r, y - glow_r, x + glow_r, y + glow_r],
+                            fill=glow_color)
+            
+            # Main atom
+            draw.ellipse([x - r, y - r, x + r, y + r], fill=color, outline=(255, 255, 255), width=2)
+            
+            # Label
+            label_x = x - len(label) * 5
+            draw.text((label_x, y - 8), label, fill=(255, 255, 255), font=font_label)
+        
+        # Draw Carbon 1
+        draw_atom(c1_x, c1_y, "C", (80, 80, 80), 0)
+        
+        # Draw bond between C1 and C2
+        if t > duration * 0.15:
+            bond_progress = min(1.0, (t - duration * 0.15) / (duration * 0.15))
+            bond_end_x = c1_x + (c2_x - c1_x - 2 * atom_radius) * bond_progress + atom_radius
+            draw.line([(c1_x + atom_radius, c1_y), (bond_end_x, c2_y)], 
+                     fill=(200, 200, 200), width=4)
+        
+        # Draw Carbon 2
+        if t > duration * 0.25:
+            draw_atom(c2_x, c2_y, "C", (80, 80, 80), duration * 0.25)
+        
+        # Draw bond between C2 and O
+        if t > duration * 0.35:
+            bond_progress = min(1.0, (t - duration * 0.35) / (duration * 0.15))
+            bond_end_x = c2_x + (o_x - c2_x - 2 * atom_radius) * bond_progress + atom_radius
+            draw.line([(c2_x + atom_radius, c2_y), (bond_end_x, o_y)], 
+                     fill=(200, 200, 200), width=4)
+        
+        # Draw Oxygen
+        if t > duration * 0.45:
+            draw_atom(o_x, o_y, "O", (255, 80, 80), duration * 0.45)
+        
+        # Draw hydrogen atoms on C1 (CH3)
+        if t > duration * 0.2:
+            h_radius = 15
+            h_color = (200, 200, 255)
+            
+            # H atoms around C1
+            h_positions_c1 = [
+                (c1_x - 50, c1_y - 40),
+                (c1_x - 50, c1_y + 40),
+                (c1_x - 60, c1_y),
+            ]
+            for i, (hx, hy) in enumerate(h_positions_c1):
+                if t > duration * (0.2 + i * 0.02):
+                    # Bond
+                    draw.line([(c1_x - atom_radius, c1_y), (hx + h_radius, hy)], 
+                             fill=(150, 150, 180), width=2)
+                    # H atom
+                    draw.ellipse([hx - h_radius, hy - h_radius, hx + h_radius, hy + h_radius],
+                                fill=h_color, outline=(255, 255, 255), width=1)
+                    draw.text((hx - 4, hy - 6), "H", fill=(50, 50, 100), font=font_info)
+        
+        # Draw hydrogen atoms on C2 (CH2)
+        if t > duration * 0.35:
+            h_positions_c2 = [
+                (c2_x, c2_y - 55),
+                (c2_x, c2_y + 55),
+            ]
+            for i, (hx, hy) in enumerate(h_positions_c2):
+                if t > duration * (0.35 + i * 0.02):
+                    # Bond
+                    if hy < c2_y:
+                        draw.line([(c2_x, c2_y - atom_radius), (hx, hy + h_radius)],
+                                 fill=(150, 150, 180), width=2)
+                    else:
+                        draw.line([(c2_x, c2_y + atom_radius), (hx, hy - h_radius)],
+                                 fill=(150, 150, 180), width=2)
+                    # H atom
+                    draw.ellipse([hx - h_radius, hy - h_radius, hx + h_radius, hy + h_radius],
+                                fill=h_color, outline=(255, 255, 255), width=1)
+                    draw.text((hx - 4, hy - 6), "H", fill=(50, 50, 100), font=font_info)
+        
+        # Draw hydrogen on O (OH group)
+        if t > duration * 0.55:
+            hx, hy = o_x + 50, o_y - 40
+            # Bond
+            draw.line([(o_x + atom_radius - 10, o_y - 15), (hx - h_radius + 5, hy + h_radius - 5)],
+                     fill=(150, 150, 180), width=2)
+            # H atom
+            draw.ellipse([hx - h_radius, hy - h_radius, hx + h_radius, hy + h_radius],
+                        fill=h_color, outline=(255, 255, 255), width=1)
+            draw.text((hx - 4, hy - 6), "H", fill=(50, 50, 100), font=font_info)
+        
+        # Molecule name and formula
+        if t > duration * 0.65:
+            draw.text((WIDTH // 2 - 80, HEIGHT - 100), "Ethanol", fill=(180, 255, 180), font=font_label)
+            draw.text((WIDTH // 2 - 90, HEIGHT - 75), "C₂H₅OH", fill=(150, 200, 255), font=font_label)
+        
+        # Functional group highlight
+        if t > duration * 0.75:
+            # Highlight OH group with dashed circle
+            highlight_x = o_x + 20
+            highlight_y = o_y - 20
+            highlight_r = 60
+            
+            # Pulsing highlight
+            pulse = 0.8 + 0.2 * math.sin(t * 4)
+            draw.arc([highlight_x - highlight_r, highlight_y - highlight_r,
+                     highlight_x + highlight_r, highlight_y + highlight_r],
+                    0, 360, fill=(100, 255, 150), width=2)
+            
+            draw.text((o_x - 10, o_y + 50), "Hydroxyl", fill=(100, 255, 150), font=font_info)
+            draw.text((o_x - 5, o_y + 68), "(-OH)", fill=(100, 255, 150), font=font_info)
+        
+        # Legend
+        legend_x = 50
+        legend_y = 120
+        if t > duration * 0.3:
+            draw.text((legend_x, legend_y), "Legend:", fill=(200, 220, 240), font=font_info)
+            # Carbon
+            draw.ellipse([legend_x, legend_y + 20, legend_x + 16, legend_y + 36],
+                        fill=(80, 80, 80), outline=(255, 255, 255), width=1)
+            draw.text((legend_x + 25, legend_y + 22), "Carbon (C)", fill=(180, 180, 180), font=font_small)
+            # Hydrogen
+            draw.ellipse([legend_x, legend_y + 45, legend_x + 12, legend_y + 57],
+                        fill=(200, 200, 255), outline=(255, 255, 255), width=1)
+            draw.text((legend_x + 25, legend_y + 45), "Hydrogen (H)", fill=(180, 180, 180), font=font_small)
+            # Oxygen
+            draw.ellipse([legend_x, legend_y + 68, legend_x + 16, legend_y + 84],
+                        fill=(255, 80, 80), outline=(255, 255, 255), width=1)
+            draw.text((legend_x + 25, legend_y + 68), "Oxygen (O)", fill=(180, 180, 180), font=font_small)
+        
+        # Bond type info
+        if t > duration * 0.85:
+            bond_info_x = WIDTH - 180
+            bond_info_y = 120
+            draw.text((bond_info_x, bond_info_y), "Bond Types:", fill=(200, 220, 240), font=font_info)
+            draw.line([(bond_info_x, bond_info_y + 25), (bond_info_x + 30, bond_info_y + 25)],
+                     fill=(200, 200, 200), width=3)
+            draw.text((bond_info_x + 40, bond_info_y + 20), "Single", fill=(180, 180, 180), font=font_small)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
+
+
+# ============================================================
+# ORGANIC REACTION ANIMATION
+# ============================================================
+
+def create_organic_reaction_clip(duration: float = 5.0,
+                                 title: str = "Organic Reaction") -> VideoClip:
+    """
+    Create animated organic reaction visualization.
+    Shows a simple addition/substitution reaction.
+    """
+    font_title = _load_font(28)
+    font_label = _load_font(18)
+    font_info = _load_font(14)
+    font_small = _load_font(12)
+    
+    def make_frame(t):
+        img = Image.new("RGB", (WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        
+        # Gradient background
+        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (20, 25, 40), (35, 45, 65))
+        
+        # Title
+        draw.text((WIDTH // 2 - 100, 20), title, fill=(220, 240, 255), font=font_title)
+        
+        # ============================================
+        # Show combustion of methane: CH4 + 2O2 → CO2 + 2H2O
+        # ============================================
+        
+        center_y = HEIGHT // 2 + 10
+        
+        # Phase 1: Show reactants
+        # Phase 2: Show arrow and transition
+        # Phase 3: Show products
+        
+        phase = t / duration
+        
+        # Methane molecule (left side)
+        ch4_x = 150
+        ch4_y = center_y - 30
+        
+        # Draw CH4
+        c_radius = 20
+        h_radius = 12
+        
+        if phase < 0.7 or phase > 0.85:
+            alpha = 1.0 if phase < 0.5 else max(0, 1 - (phase - 0.5) * 3) if phase < 0.7 else min(1, (phase - 0.85) * 5)
+            
+            if alpha > 0.1:
+                # Central carbon
+                c_color = (int(80 * alpha), int(80 * alpha), int(80 * alpha))
+                draw.ellipse([ch4_x - c_radius, ch4_y - c_radius, ch4_x + c_radius, ch4_y + c_radius],
+                            fill=c_color, outline=(255, 255, 255), width=1)
+                if alpha > 0.5:
+                    draw.text((ch4_x - 5, ch4_y - 7), "C", fill=(255, 255, 255), font=font_info)
+                
+                # Hydrogen atoms
+                h_positions = [
+                    (ch4_x - 45, ch4_y - 25),
+                    (ch4_x + 45, ch4_y - 25),
+                    (ch4_x - 45, ch4_y + 25),
+                    (ch4_x + 45, ch4_y + 25),
+                ]
+                h_color = (int(200 * alpha), int(200 * alpha), int(255 * alpha))
+                for hx, hy in h_positions:
+                    # Bond
+                    draw.line([(ch4_x, ch4_y), (hx, hy)], fill=(150, 150, 150), width=2)
+                    draw.ellipse([hx - h_radius, hy - h_radius, hx + h_radius, hy + h_radius],
+                                fill=h_color, outline=(255, 255, 255), width=1)
+                    if alpha > 0.5:
+                        draw.text((hx - 4, hy - 5), "H", fill=(50, 50, 100), font=font_small)
+                
+                if alpha > 0.5:
+                    draw.text((ch4_x - 20, ch4_y + 60), "CH₄", fill=(180, 200, 220), font=font_label)
+        
+        # Plus sign
+        if phase < 0.6:
+            draw.text((220, center_y - 15), "+", fill=(200, 200, 100), font=font_title)
+        
+        # Oxygen molecules (O2)
+        o2_x = 300
+        o2_y = center_y
+        
+        if phase < 0.6:
+            o_radius = 18
+            # Two oxygen atoms with double bond
+            o1_x = o2_x - 25
+            o2_x_pos = o2_x + 25
+            
+            draw.ellipse([o1_x - o_radius, o2_y - o_radius, o1_x + o_radius, o2_y + o_radius],
+                        fill=(255, 100, 100), outline=(255, 255, 255), width=1)
+            draw.text((o1_x - 5, o2_y - 6), "O", fill=(255, 255, 255), font=font_info)
+            
+            # Double bond
+            draw.line([(o1_x + o_radius, o2_y - 5), (o2_x_pos - o_radius, o2_y - 5)],
+                     fill=(255, 200, 200), width=3)
+            draw.line([(o1_x + o_radius, o2_y + 5), (o2_x_pos - o_radius, o2_y + 5)],
+                     fill=(255, 200, 200), width=3)
+            
+            draw.ellipse([o2_x_pos - o_radius, o2_y - o_radius, o2_x_pos + o_radius, o2_y + o_radius],
+                        fill=(255, 100, 100), outline=(255, 255, 255), width=1)
+            draw.text((o2_x_pos - 5, o2_y - 6), "O", fill=(255, 255, 255), font=font_info)
+            
+            draw.text((o2_x - 35, center_y + 50), "2O₂", fill=(180, 200, 220), font=font_label)
+        
+        # Reaction arrow (animated)
+        if phase > 0.25 and phase < 0.85:
+            arrow_x = 400
+            arrow_progress = min(1.0, (phase - 0.25) * 3)
+            arrow_length = int(100 * arrow_progress)
+            
+            # Arrow body
+            draw.line([(arrow_x, center_y), (arrow_x + arrow_length, center_y)],
+                     fill=(255, 200, 100), width=4)
+            
+            # Arrow head
+            if arrow_progress > 0.8:
+                draw.polygon([(arrow_x + arrow_length + 15, center_y),
+                             (arrow_x + arrow_length, center_y - 10),
+                             (arrow_x + arrow_length, center_y + 10)],
+                            fill=(255, 200, 100))
+            
+            # Energy/heat symbol
+            if phase > 0.45:
+                draw.text((arrow_x + 30, center_y - 35), "heat", fill=(255, 150, 100), font=font_info)
+                # Wavy lines for heat
+                for i in range(3):
+                    wave_x = arrow_x + 25 + i * 25
+                    for j in range(3):
+                        wy = center_y - 55 - j * 8
+                        draw.arc([wave_x, wy, wave_x + 15, wy + 10],
+                                0, 180, fill=(255, 150 + j * 30, 100), width=1)
+        
+        # Products (appear after reaction)
+        if phase > 0.55:
+            product_alpha = min(1.0, (phase - 0.55) * 3)
+            
+            # CO2 molecule
+            co2_x = 600
+            co2_y = center_y - 50
+            
+            o_radius = 16
+            c_radius = 18
+            
+            # Left O
+            o1_x = co2_x - 50
+            draw.ellipse([o1_x - o_radius, co2_y - o_radius, o1_x + o_radius, co2_y + o_radius],
+                        fill=(255, 100, 100), outline=(255, 255, 255), width=1)
+            draw.text((o1_x - 5, co2_y - 6), "O", fill=(255, 255, 255), font=font_info)
+            
+            # Double bond
+            draw.line([(o1_x + o_radius, co2_y - 4), (co2_x - c_radius, co2_y - 4)],
+                     fill=(255, 200, 200), width=2)
+            draw.line([(o1_x + o_radius, co2_y + 4), (co2_x - c_radius, co2_y + 4)],
+                     fill=(255, 200, 200), width=2)
+            
+            # Central C
+            draw.ellipse([co2_x - c_radius, co2_y - c_radius, co2_x + c_radius, co2_y + c_radius],
+                        fill=(80, 80, 80), outline=(255, 255, 255), width=1)
+            draw.text((co2_x - 5, co2_y - 7), "C", fill=(255, 255, 255), font=font_info)
+            
+            # Double bond
+            o2_x_pos = co2_x + 50
+            draw.line([(co2_x + c_radius, co2_y - 4), (o2_x_pos - o_radius, co2_y - 4)],
+                     fill=(255, 200, 200), width=2)
+            draw.line([(co2_x + c_radius, co2_y + 4), (o2_x_pos - o_radius, co2_y + 4)],
+                     fill=(255, 200, 200), width=2)
+            
+            # Right O
+            draw.ellipse([o2_x_pos - o_radius, co2_y - o_radius, o2_x_pos + o_radius, co2_y + o_radius],
+                        fill=(255, 100, 100), outline=(255, 255, 255), width=1)
+            draw.text((o2_x_pos - 5, co2_y - 6), "O", fill=(255, 255, 255), font=font_info)
+            
+            draw.text((co2_x - 20, co2_y + 35), "CO₂", fill=(180, 200, 220), font=font_label)
+            
+            # Plus sign
+            draw.text((co2_x + 80, center_y - 15), "+", fill=(200, 200, 100), font=font_label)
+            
+            # H2O molecule
+            h2o_x = 750
+            h2o_y = center_y + 30
+            
+            # Oxygen
+            draw.ellipse([h2o_x - o_radius, h2o_y - o_radius, h2o_x + o_radius, h2o_y + o_radius],
+                        fill=(255, 100, 100), outline=(255, 255, 255), width=1)
+            draw.text((h2o_x - 5, h2o_y - 6), "O", fill=(255, 255, 255), font=font_info)
+            
+            # H atoms (bent shape)
+            h1_x, h1_y = h2o_x - 35, h2o_y - 30
+            h2_pos_x, h2_pos_y = h2o_x + 35, h2o_y - 30
+            
+            h_radius = 10
+            draw.line([(h2o_x, h2o_y), (h1_x, h1_y)], fill=(150, 150, 180), width=2)
+            draw.ellipse([h1_x - h_radius, h1_y - h_radius, h1_x + h_radius, h1_y + h_radius],
+                        fill=(200, 200, 255), outline=(255, 255, 255), width=1)
+            draw.text((h1_x - 3, h1_y - 5), "H", fill=(50, 50, 100), font=font_small)
+            
+            draw.line([(h2o_x, h2o_y), (h2_pos_x, h2_pos_y)], fill=(150, 150, 180), width=2)
+            draw.ellipse([h2_pos_x - h_radius, h2_pos_y - h_radius, h2_pos_x + h_radius, h2_pos_y + h_radius],
+                        fill=(200, 200, 255), outline=(255, 255, 255), width=1)
+            draw.text((h2_pos_x - 3, h2_pos_y - 5), "H", fill=(50, 50, 100), font=font_small)
+            
+            draw.text((h2o_x - 25, h2o_y + 35), "2H₂O", fill=(180, 200, 220), font=font_label)
+        
+        # Equation at bottom
+        if phase > 0.8:
+            eq_y = HEIGHT - 60
+            draw.text((WIDTH // 2 - 200, eq_y), "CH₄ + 2O₂ → CO₂ + 2H₂O + Energy",
+                     fill=(200, 255, 200), font=font_label)
+            draw.text((WIDTH // 2 - 100, eq_y + 25), "(Combustion of Methane)",
+                     fill=(150, 180, 200), font=font_info)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
