@@ -1,0 +1,37 @@
+{
+  "title": "Understanding Projectile Motion",
+  "summary": "Projectile motion is the parabolic trajectory of an object in free fall, influenced by gravity. It's a key concept in physics that explains how objects move through the air.",
+  "category": "general education",
+  "sections": [
+    {
+      "heading": "What it is",
+      "body": "Projectile motion refers to the curved path an object follows when thrown or propelled near Earth's surface, combining forward linear movement with lateral and vertical acceleration due to gravity.",
+      "key_points": [
+        "Object moves in a parabolic trajectory",
+        "Movement has both horizontal and vertical components"
+      ]
+    },
+    {
+      "heading": "How it works",
+      "body": "When an object is launched into the air, its motion splits; horizontally, at constant velocity (neglected air resistance), and vertically under acceleration due to gravity.",
+      "key_points": [
+        "Horizontal motion remains steady",
+        "Vertical motion accelerates downwards"
+      ]
+    },
+    {
+      "heading": "Why it matters",
+      "body": "Understanding projectile motion is essential for predicting the path of everything from baseballs to space launches and has practical applications in various fields.",
+      "key_points": [
+        "Predicts trajectories accurately",
+        "Crucial in design, engineering, sports"
+      ]
+    }
+  ],
+  "key_facts": [
+    {
+      "one key fact": "Projectile motion is symmetrical; the path taken by a projectile will look similar during ascent and descent if no air resistance."
+    }
+  ],
+  "visual_style": "mixed"
+}

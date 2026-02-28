@@ -147,49 +147,39 @@ class MoviePyRenderer:
             scene_clips.append(facts_scene)
         
         # ============================================
-        # Concatenate with transitions
-        # Compensate for transition overlap to maintain sync
+        # Concatenate clips - simple method for clean audio sync
         # ============================================
         
         if not scene_clips:
             print("   ❌ No scenes to render")
             return None
         
-        # Calculate transition time that will be lost
-        num_transitions = len(scene_clips) - 1
-        transition_loss = num_transitions * TRANSITION_DURATION
+        # Simple concatenation without crossfade for perfect audio sync
+        # Crossfades cause timing drift that desync audio
+        final_clip = concatenate_videoclips(scene_clips, method="compose")
         
-        # Distribute extra time across clips to compensate
-        # Add transition_loss / num_clips to each clip
-        if num_transitions > 0:
-            extra_per_clip = transition_loss / len(scene_clips)
-            compensated_clips = []
-            for clip in scene_clips:
-                new_duration = clip.duration + extra_per_clip
-                compensated_clips.append(clip.set_duration(new_duration))
-            scene_clips = compensated_clips
+        video_duration = final_clip.duration
         
-        # Add crossfade transitions
-        transition_clips = []
-        for i, clip in enumerate(scene_clips):
-            if i == 0:
-                transition_clips.append(clip.crossfadeout(TRANSITION_DURATION))
-            elif i == len(scene_clips) - 1:
-                transition_clips.append(clip.crossfadein(TRANSITION_DURATION))
-            else:
-                transition_clips.append(
-                    clip.crossfadein(TRANSITION_DURATION).crossfadeout(TRANSITION_DURATION)
-                )
-        
-        try:
-            final_clip = concatenate_videoclips(
-                transition_clips,
-                method="compose",
-                padding=-TRANSITION_DURATION
-            )
-        except Exception as e:
-            print(f"   ⚠️ Transition concat failed ({e}), using simple concat")
-            final_clip = concatenate_videoclips(scene_clips, method="compose")
+        # If we have audio, adjust video to match audio length
+        if narration and narration.get("total_duration"):
+            audio_total = narration["total_duration"]
+            
+            if abs(video_duration - audio_total) > 0.5:
+                print(f"   ⚙️ Adjusting video duration: {video_duration:.1f}s → {audio_total:.1f}s")
+                
+                if video_duration < audio_total:
+                    # Video is shorter - extend the last clip
+                    extra_needed = audio_total - video_duration
+                    last_clip = scene_clips[-1]
+                    extended_last = last_clip.set_duration(last_clip.duration + extra_needed)
+                    scene_clips[-1] = extended_last
+                    final_clip = concatenate_videoclips(scene_clips, method="compose")
+                else:
+                    # Video is longer - speed up slightly to match audio
+                    # Note: This maintains content but may speed up animation slightly
+                    speed_factor = video_duration / audio_total
+                    if speed_factor < 1.2:  # Only if less than 20% speedup needed
+                        final_clip = final_clip.speedx(speed_factor)
         
         total_duration = final_clip.duration
         print(f"   Total duration: {total_duration:.1f}s")
@@ -205,8 +195,20 @@ class MoviePyRenderer:
         if audio_path and os.path.exists(audio_path):
             try:
                 audio_clip = AudioFileClip(audio_path)
+                
+                # Ensure video matches audio duration (prefer extending video over truncating audio)
                 if audio_clip.duration > total_duration:
-                    audio_clip = audio_clip.subclip(0, total_duration)
+                    # Extend video to match audio by freezing last frame
+                    extra_time = audio_clip.duration - total_duration
+                    if extra_time < 2.0:  # Small gap - extend last scene
+                        final_clip = final_clip.set_duration(audio_clip.duration)
+                    else:
+                        # Larger gap - just truncate audio (shouldn't happen with proper sync)
+                        audio_clip = audio_clip.subclip(0, total_duration)
+                elif total_duration > audio_clip.duration:
+                    # Video longer - trim video to match audio
+                    final_clip = final_clip.subclip(0, audio_clip.duration)
+                
                 final_clip = final_clip.set_audio(audio_clip)
                 
                 final_clip.write_videofile(

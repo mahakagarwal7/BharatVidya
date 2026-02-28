@@ -148,7 +148,11 @@ def translate_steps(steps: List[str], target_lang: str = "hi") -> List[str]:
     
     translated = []
     for step in steps:
-        translated.append(translate_text(step, "en", target_lang))
+        # Ensure step is a string (handle dict/mixed types from LLM output)
+        if isinstance(step, dict):
+            step = step.get("text", step.get("fact", step.get("description", str(step))))
+        step_str = str(step) if not isinstance(step, str) else step
+        translated.append(translate_text(step_str, "en", target_lang))
     return translated
 
 
@@ -379,8 +383,22 @@ class Narrator:
         if not facts:
             return {"audio_path": None, "duration": 0}
         
+        # Ensure all facts are strings (handle dict/mixed types from LLM output)
+        fact_strings = []
+        for fact in facts:
+            if isinstance(fact, str):
+                fact_strings.append(fact)
+            elif isinstance(fact, dict):
+                # Extract text from dict (common LLM output format)
+                fact_strings.append(fact.get("text", fact.get("fact", str(fact))))
+            else:
+                fact_strings.append(str(fact))
+        
+        if not fact_strings:
+            return {"audio_path": None, "duration": 0}
+        
         # Combine facts into readable text
-        facts_text = "Key facts to remember: " + ". ".join(facts)
+        facts_text = "Key facts to remember: " + ". ".join(fact_strings)
         output_path = self.output_dir / f"{session_id}_facts.mp3"
         
         # Run async TTS
