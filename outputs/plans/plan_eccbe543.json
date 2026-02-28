@@ -1,0 +1,53 @@
+{
+  "title": "The Simple Pendulum: An Experiment in Motion",
+  "summary": "This video explores a classic physics experiment - the simple pendulum. We delve into how gravity influences periodic motion and uncover the variables affecting its oscillation period.",
+  "category": "physics",
+  "sections": [
+    {
+      "heading": "Introduction to Simple Pendulums",
+      "body": "A simple pendulum consists of a weight suspended from a fixed point that swings back and forth under the influence of gravity. Watch as we set up our experiment with this elegant device.",
+      "key_points": [
+        "Simple pendulum definition: A mass attached to the end of a string or rod",
+        "Essential for demonstrating harmonic motion"
+      ]
+    },
+    {
+      "heading": "The Physics Behind Pendular Motion",
+      "body": "Through our simple pendulum, we witness how gravity pulls the mass back toward its lowest point in a predictable manner. Discover the factors that keep this motion so constant and reliable.",
+      "key_points": [
+        "Gravity is what causes restoring force",
+        "Motion repeats with each swing or oscillation"
+      ]
+    },
+    {
+      "heading": "Measuring Time in a Pendulum's Swing",
+      "body": "As we count the pendulum swings, notice how its length correlates to time period. Learn about timing our oscillations and understanding why this relationship holds true.",
+      "key_points": [
+        "Length affects the swing speed: longer means slower",
+        "Period formula T = 2\u03c0\u221a(l/g) where l is string length, g is gravity"
+      ]
+    },
+    {
+      "heading": "Exploring Non-Ideal Effects on Pendulum Motion",
+      "body": "Desp01ey how air resistance and mass distribution affect the pendulum's behavior. Experience firsthand that not all oscillations are perfect simple harmonic motions.",
+      "key_points": [
+        "Real-world factors alter motion slightly: drag, pivot friction",
+        "'Ideal' physics often only approximates real life"
+      ]
+    },
+    {
+      "heading": "Conclusion and The Significance of Pendulums",
+      "body": "Reflect on the pendulum experiment as a foundational concept in understanding oscillatory motion. Recognize its historical importance in timekeeping and physics education.",
+      "key_points": [
+        "Simple harmonic motion model with exceptions: real-world factors present limitations",
+        "'Timekeeper' of history, teaching us about energy conservation"
+      ]
+    }
+  ],
+  "key_facts": [
+    {
+      "equation": "T = 2\u03c0\u221a(l/g)"
+    }
+  ],
+  "visual_style": "mixed"
+}

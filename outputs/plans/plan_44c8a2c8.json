@@ -1,0 +1,37 @@
+{
+  "title": "Exploring Isomerism in Chemistry",
+  "summary": "This video delves into chemical isomerism by explaining its definition, types with examples and real-world applications.",
+  "category": "chemistry",
+  "sections": [
+    {
+      "heading": "Understanding the Basics of Isomerism",
+      "body": "Isomers are molecules that have identical chemical formulas but differ in structure, leading to different properties. We will explore why atoms rearrange themselves and how this impacts their behavior.",
+      "key_points": [
+        "Chemical formula identifiers isomers uniquely"
+      ]
+    },
+    {
+      "heading": "Different Faces of Isomerism",
+      "body": "Isomerism comes in several forms, including structural or constitutional and stereoisomerism. We'll dissect each type with examples such as butane for the former and glucose to illustrate the latter.",
+      "key_points": [
+        "Structural isomers differ by connectivity",
+        "Stereoisomers share molecular formula but have different spatial arrangements"
+      ]
+    },
+    {
+      "heading": "The Importance of Isomerism in Pharmaceuticals and Material Science",
+      "body": "Isomerism plays a pivotal role in designing drugs with specific effects, as demonstrated by thalidomide. We'll examine how different isomers can lead to significantly varied outcomes.",
+      "key_points": [
+        "Thalidomide has beneficial and harmful forms",
+        "The importance of stereoisomerism in drug efficacy"
+      ]
+    }
+  ],
+  "key_facts": [
+    {
+      "Equation/Formula": "C4H10 (butane): Structural isomer with two possible structures - as a straight chain or branched",
+      "Memorable Fact": "Thalidomide's teratogenic effects underscore the critical importance of understanding stereoisomers in drug design"
+    }
+  ],
+  "visual_style": "diagram"
+}

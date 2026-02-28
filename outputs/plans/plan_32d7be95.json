@@ -1,0 +1,34 @@
+{
+  "title": "Consistent Hashing Explained",
+  "summary": "A distributed system hashing technique that minimizes re-distribution of keys when the hash table size changes. It maps each input to a fixed point on an n-dimensional space.",
+  "category": "technical_education",
+  "sections": [
+    {
+      "heading": "What it is",
+      "body": "Consistent hashing is used in distributed systems, especially for caching and data storage to evenly distribute keys among nodes while minimizing re-distribution when the number of servers changes.",
+      "key_points": [
+        "Distributed system hash technique"
+      ]
+    },
+    {
+      "heading": "How it works",
+      "body": "In consistent hashing, both input and output values are treated as points on a ring or circle. Each node in the distributed system is assigned a random number within this range corresponding to its identifier.",
+      "key_points": [
+        "Mapping inputs and outputs onto an n-dimensional space"
+      ]
+    },
+    {
+      "heading": "Why it matters",
+      "body": "It provides consistent performance during scale operations, ensuring minimal disruption when nodes are added or removed from the system.",
+      "key_points": [
+        "Minimizes rehashes and redistributions of keys"
+      ]
+    }
+  ],
+  "key_facts": [
+    {
+      "one key fact": "Consistent hashing helps to maintain consistent performance during scale operations, ensuring minimal disruption when nodes are added or removed from the system."
+    }
+  ],
+  "visual_style": "mixed"
+}

@@ -1,0 +1,40 @@
+{
+  "title": "Newton's Laws of Motion: Power Behind Everyday Movements",
+  "summary": "This video explores Isaac Newton\u2019s three fundamental laws that describe how objects move and interact, laying the foundation for classical mechanics.",
+  "category": "physics",
+  "sections": [
+    {
+      "heading": "Newton's First Law: Inertia & Equilibrium",
+      "body": "This section delves into Newton\u2019s first law, which states that an object at rest will stay at rest and one in motion will remain in motion unless acted upon by a force. This concept of 'inertia' is essential for understanding the natural state of objects.",
+      "key_points": [
+        "Inertia",
+        "Newton\u2019s First Law"
+      ]
+    },
+    {
+      "heading": "Newton's Second Law: Force & Acceleration Relationship",
+      "body": "Here, we examine Newton's second law of motion that describes the relationship between an object's mass, its acceleration, and the applied force. The equation F=ma becomes a powerful tool to predict how objects will move under various forces.",
+      "key_points": [
+        "Force equals Mass times Acceleration",
+        "Implications for Motion"
+      ]
+    },
+    {
+      "heading": "Newton's Third Law: Action & Reaction",
+      "body": "The third law states that for every action, there is an equal and opposite reaction. This principle explains the push-pull dynamics seen in interactions like walking or playing pool, revealing a fundamental symmetry of forces.",
+      "key_points": [
+        "Action has an Equal & Opposite Reaction",
+        "Real-World Examples"
+      ]
+    }
+  ],
+  "key_facts": [
+    {
+      "Important equation, formula": "F=ma"
+    },
+    {
+      "Memorable fact": "Newton\u2019s third law highlights the mutual interactions in physical world activities."
+    }
+  ],
+  "visual_style": "mixed"
+}

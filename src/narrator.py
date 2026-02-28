@@ -380,11 +380,12 @@ def generate_narration_for_plan(
     language: str = "en"
 ) -> Dict:
     """
-    Convenience function to generate narration from a visual plan.
-    Extracts step descriptions and generates audio.
+    Generate narration from educational content extracted by Ollama.
+    
+    Supports both new content format (sections) and legacy visual plan format.
     
     Args:
-        plan: Visual plan dict with visual_elements
+        plan: Content dict with sections (or legacy visual_elements)
         session_id: Unique session ID for file naming
         voice: TTS voice to use (auto-selected from language if None)
         language: Target language code ('en', 'hi', 'es', etc.)
@@ -398,24 +399,36 @@ def generate_narration_for_plan(
     
     narrator = Narrator(voice=voice)
     
-    # Extract step descriptions from plan
+    # Extract step descriptions from content
     steps = []
-    visual_elements = plan.get("visual_elements", [])
     
-    for elem in visual_elements:
-        elem_id = elem.get("id", "")
-        # Get full step descriptions (not brief ones)
-        if elem_id.startswith("text_step_") and "_brief" not in elem_id:
-            description = elem.get("description", "")
-            if description:
-                steps.append(description)
+    # New format: sections with heading/body
+    sections = plan.get("sections", [])
+    if sections:
+        for section in sections:
+            if isinstance(section, dict):
+                body = section.get("body", "")
+                heading = section.get("heading", "")
+                # Use body text for narration, fall back to heading
+                narration_text = body if body else heading
+                if narration_text and len(narration_text.strip()) > 5:
+                    steps.append(narration_text.strip())
+    
+    # Legacy fallback: visual_elements format
+    if not steps:
+        visual_elements = plan.get("visual_elements", [])
+        for elem in visual_elements:
+            elem_id = elem.get("id", "")
+            if elem_id.startswith("text_step_") and "_brief" not in elem_id:
+                description = elem.get("description", "")
+                if description:
+                    steps.append(description)
     
     if not steps:
-        # Fallback: try to get from animation_sequence
-        for seq in plan.get("animation_sequence", []):
-            desc = seq.get("description", "")
-            if desc and len(desc) > 10:
-                steps.append(desc)
+        # Final fallback: use summary
+        summary = plan.get("summary", "")
+        if summary:
+            steps.append(summary)
     
     # Translate steps if needed
     if language != "en" and TRANSLATION_AVAILABLE:
