@@ -1,0 +1,32 @@
+{
+  "title": "The Marvel of Photosynthesis: Nature's Solar Power",
+  "summary": "Photosynthesis is a process by which plants, algae, and some bacteria convert light energy into chemical energy to fuel their activities. Essential for life on Earth as it produces oxygen and organic compounds.",
+  "category": "biology",
+  "sections": [
+    {
+      "heading": "What it is",
+      "body": "Photosynthesis is a biochemical process in which plants, algae, and certain bacteria convert carbon dioxide and water into organic compounds using sunlight.",
+      "key_points": [
+        "It's the method used by green plants to produce food"
+      ]
+    },
+    {
+      "heading": "How it works",
+      "body": "In chloroplasts of plant cells, light is absorbed by chlorophyll pigments during photosynthesis. Energy converts water and carbon dioxide into glucose through the Calvin cycle.",
+      "key_points": [
+        "Occurs in two stages - Light-dependent reactions & Calvin Cycle"
+      ]
+    },
+    {
+      "heading": "Why it matters",
+      "body": "Photosynthesis is vital for life on Earth as not only does it provide oxygen, but also forms the foundation of food chains and stores energy from sunlight in chemical bonds.",
+      "key_points": [
+        "All aerobic organisms rely indirectly or directly on photosynthetic activity"
+      ]
+    }
+  ],
+  "key_facts": [
+    "Photosynthesis takes place primarily in the leaves of plants, specifically within their chloroplast cells."
+  ],
+  "visual_style": "mixed"
+}

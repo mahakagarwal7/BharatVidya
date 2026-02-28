@@ -1,0 +1,277 @@
+{
+  "concept": "Simple Harmonic Motion",
+  "title": "Understanding Simple Harmonic Motion (SHM)",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Understanding Simple Harmonic Motion (SHM)",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\simple_harmonic_motion_0_3b0ce2a8.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Understanding Simple Harmonic Motion (SHM)"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Understanding Simple Harmonic Motion (SHM)",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "central",
+      "type": "image",
+      "path": "outputs\\generated_images\\simple_harmonic_motion_0_3b0ce2a8.png",
+      "x": 500,
+      "y": 300,
+      "width": 220,
+      "height": 140
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\simple_harmonic_motion_1_31cdb5af.png",
+      "x": 610,
+      "y": 245,
+      "width": 180,
+      "height": 110
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\simple_harmonic_motion_2_7c5e7361.png",
+      "x": 310,
+      "y": 418,
+      "width": 180,
+      "height": 110
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\simple_harmonic_motion_3_dd9c4874.png",
+      "x": 309,
+      "y": 71,
+      "width": 180,
+      "height": 110
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\simple_harmonic_motion_20_394a8652.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Simple harmonic motion refers to the repeated motion of an object oscillating back and forth about a stable equilibrium position. It's typically observed in springs, pendulums, and other idealized systems."
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Simple harmonic motion refers to the repeated motion of an object oscillating back and forth about a stable equilibrium position. It's typically...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "Simple harmonic motion refers to the repeated motion of an object oscillating back and...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\simple_harmonic_motion_21_cda6cd7d.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "To understand SHM better, imagine a mass hanging on a spring. When disturbed from its rest position and then released, it will swing back towards that point with constant acceleration but always opposing the displacement direction."
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "To understand SHM better, imagine a mass hanging on a spring. When disturbed from its rest position and then released, it will...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "To understand SHM better, imagine a mass hanging on a spring. When disturbed from...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\simple_harmonic_motion_22_8d3ad071.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "SHM can be mathematically described by Hooke's law, which states that the force needed to extend or compress a spring by some distance scales linearly with respect to that displacement. This leads to predictable and quantifiable motion characteristics."
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "SHM can be mathematically described by Hooke's law, which states that the force needed to extend or compress a spring by some...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "SHM can be mathematically described by Hooke's law, which states that the force needed...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "central",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    }
+  ],
+  "topic_analysis": {
+    "topic_type": "context",
+    "category": "general",
+    "visual_approach": {
+      "image_style": "concept_card",
+      "text_density": "rich",
+      "scene_count": 5,
+      "animation_focus": false,
+      "show_steps": false,
+      "caption_length": "detailed"
+    },
+    "animation_style": {
+      "type": "text_reveal",
+      "transitions": [
+        "fade"
+      ],
+      "element_animations": false,
+      "simulation_elements": false,
+      "timing": "steady"
+    }
+  },
+  "theme": "generic",
+  "theme_colors": [
+    [
+      24,
+      62,
+      116
+    ],
+    [
+      50,
+      108,
+      164
+    ]
+  ]
+}

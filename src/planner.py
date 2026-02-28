@@ -1,12 +1,15 @@
 # src/planner.py
 
+"""
+Content planner - extracts educational content via Ollama.
+"""
+
 import os
 import json
 import hashlib
 from typing import Dict, Any
 
-from .local_llm_client import generate_reasoning_plan
-from .visual_builder import build_visual_plan
+from .local_llm_client import extract_content
 
 
 def save_plan(plan: Dict[str, Any], prefix="plan"):
@@ -18,31 +21,18 @@ def save_plan(plan: Dict[str, Any], prefix="plan"):
     return path
 
 
-class SimplePlanner:
+class ContentPlanner:
+    """Extracts structured educational content via Ollama."""
 
-    def plan_universal_scene(self, concept: str) -> Dict[str, Any]:
-
-        clean_concept = concept.strip()
-
-        if len(clean_concept.split()) < 2:
-            clean_concept = f"Explain the concept of {clean_concept}"
-
-        reasoning = generate_reasoning_plan(clean_concept)
-
-        if not reasoning:
-            reasoning = {
-                "title": clean_concept,
-                "category": "abstract",
-                "steps": [
-                    f"Introduction to {clean_concept}",
-                    f"Key aspects of {clean_concept}",
-                    f"Applications of {clean_concept}"
-                ]
-            }
-
-        plan = build_visual_plan(clean_concept, reasoning)
-
-        plan_file = save_plan(plan)
-        plan["_saved_plan_file"] = plan_file
-
-        return plan
+    def plan(self, concept: str) -> Dict[str, Any]:
+        """
+        Extract educational content for a concept.
+        
+        Returns content dict with title, summary, sections, key_facts, etc.
+        """
+        content = extract_content(concept)
+        
+        plan_file = save_plan(content)
+        content["_saved_plan_file"] = plan_file
+        
+        return content

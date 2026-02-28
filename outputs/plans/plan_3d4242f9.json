@@ -1,0 +1,35 @@
+{
+  "title": "Kinematics: Understanding Motion",
+  "summary": "Dive into kinematics to grasp how objects move through space over time. Discover fundamental concepts such as position, velocity, and acceleration.",
+  "category": "physics",
+  "sections": [
+    {
+      "heading": "The Basics of Kinematic Concepts",
+      "body": "Kinematics is a branch of classical mechanics that describes the motion of objects without considering its causes. It focuses on aspects like displacement, velocity, and acceleration to predict an object's future position based on current data.",
+      "key_points": [
+        "Describes movement",
+        "Focuses on description rather than cause"
+      ]
+    },
+    {
+      "heading": "Displacement, Velocity, and Acceleration Unpacked",
+      "body": "In kinematics, displacement is the object's overall change in position. It can be measured as a straight line distance from start to finish point along with its direction of motion. For velocity, we look at speed considering direction; positive for one way and negative for the other. Acceleration measures how quickly an object speeds up or slows down.",
+      "key_points": [
+        "Displacement includes direction",
+        "Velocity is scalar + directional"
+      ]
+    },
+    {
+      "heading": "Kinematic Equations and the Motion of Objects",
+      "body": "The kinematics equations bridge our observations to mathematical expressions. They use initial velocity, acceleration due to gravity (on Earth), time, and displacement as variables in calculations for free-fall or projectile motion scenarios without considering air resistance.",
+      "key_points": [
+        "Used common physics problems",
+        "No consideration of forces"
+      ]
+    }
+  ],
+  "key_facts": [
+    "Displacement, velocity and acceleration are three core components in kinematics."
+  ],
+  "visual_style": "mixed"
+}

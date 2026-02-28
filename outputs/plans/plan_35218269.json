@@ -1,0 +1,267 @@
+{
+  "concept": "Acid Bases and salts",
+  "title": "Acids, Bases, and Salts: Chemical Foundations",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Acids, Bases, and Salts: Chemical Foundations",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\acid_bases_and_salts_0_dbd1e24b.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Acids, Bases, and Salts: Chemical Foundations"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Acids, Bases, and Salts: Chemical Foundations",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\acid_bases_and_salts_1_964ed70f.png",
+      "x": 180,
+      "y": 140,
+      "width": 220,
+      "height": 140
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\acid_bases_and_salts_2_a2041b1b.png",
+      "x": 440,
+      "y": 140,
+      "width": 220,
+      "height": 140
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\acid_bases_and_salts_3_23114e3d.png",
+      "x": 180,
+      "y": 310,
+      "width": 220,
+      "height": 140
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\acid_bases_and_salts_20_01e43619.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Introduce the Br\u00f8nsted-Lowry theory, which defines acids as proton donors and bases as proton acceptors. Describe how these definitions are applicable to various substances."
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Introduce the Br\u00f8nsted-Lowry theory, which defines acids as proton donors and bases as proton acceptors. Describe how these definitions are applicable to...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "Introduce the Br\u00f8nsted-Lowry theory, which defines acids as proton donors and bases as proton...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\acid_bases_and_salts_21_760807c9.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Discuss common examples of strong and weak acids (e.g., HCl, NaOH) and bases (e.g., NH3), emphasizing their behavior in water solutions by detailing the dissociation process."
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "Discuss common examples of strong and weak acids (e.g., HCl, NaOH) and bases (e.g., NH3), emphasizing their behavior in water solutions by...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "Discuss common examples of strong and weak acids (e.g., HCl, NaOH) and bases (e.g.,...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\acid_bases_and_salts_22_1fe05292.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Explain how salts are formed through neutralization reactions between acids and bases, providing examples like NaCl from HCl + NaOH. Highlight the significance of these substances in industrial applications such as fertilizers (NH4Cl) or table salt."
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Explain how salts are formed through neutralization reactions between acids and bases, providing examples like NaCl from HCl + NaOH. Highlight the...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 120,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "Explain how salts are formed through neutralization reactions between acids and bases, providing examples...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 74,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 3.2,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 2.8,
+      "transition": "fade"
+    }
+  ],
+  "topic_analysis": {
+    "topic_type": "context",
+    "category": "general",
+    "visual_approach": {
+      "image_style": "concept_card",
+      "text_density": "rich",
+      "scene_count": 5,
+      "animation_focus": false,
+      "show_steps": false,
+      "caption_length": "detailed"
+    },
+    "animation_style": {
+      "type": "text_reveal",
+      "transitions": [
+        "fade"
+      ],
+      "element_animations": false,
+      "simulation_elements": false,
+      "timing": "steady"
+    }
+  },
+  "theme": "generic",
+  "theme_colors": [
+    [
+      24,
+      62,
+      116
+    ],
+    [
+      50,
+      108,
+      164
+    ]
+  ]
+}

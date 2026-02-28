@@ -1,0 +1,524 @@
+{
+  "concept": "wurtz reaction",
+  "title": "Wurtz Reaction Simulation Guide",
+  "visual_elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "description": "Wurtz Reaction Simulation Guide",
+      "x": 160,
+      "y": 16,
+      "font_scale": 0.95,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 64,
+      "max_lines": 1
+    },
+    {
+      "id": "hero_image",
+      "type": "image",
+      "path": "outputs\\generated_images\\wurtz_reaction_0_85d98ff7.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Wurtz Reaction Simulation Guide"
+    },
+    {
+      "id": "hero_caption",
+      "type": "text",
+      "description": "Wurtz Reaction Simulation Guide",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "sim_indicator",
+      "type": "text",
+      "description": "\ud83d\udd2c PROCESS",
+      "x": 720,
+      "y": 24,
+      "font_scale": 0.6,
+      "color": [
+        140,
+        255,
+        180
+      ]
+    },
+    {
+      "id": "step_dot_0",
+      "type": "circle",
+      "x": 190,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        80,
+        160,
+        220
+      ]
+    },
+    {
+      "id": "step_dot_1",
+      "type": "circle",
+      "x": 215,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        60,
+        80,
+        100
+      ]
+    },
+    {
+      "id": "step_dot_2",
+      "type": "circle",
+      "x": 240,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        60,
+        80,
+        100
+      ]
+    },
+    {
+      "id": "step_dot_3",
+      "type": "circle",
+      "x": 265,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        60,
+        80,
+        100
+      ]
+    },
+    {
+      "id": "step_dot_4",
+      "type": "circle",
+      "x": 290,
+      "y": 418,
+      "radius": 8,
+      "color": [
+        60,
+        80,
+        100
+      ]
+    },
+    {
+      "id": "node_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\wurtz_reaction_1_b903850d.png",
+      "x": 110,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\wurtz_reaction_2_03a95e5e.png",
+      "x": 330,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\wurtz_reaction_3_80e1a8c3.png",
+      "x": 550,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_3",
+      "type": "image",
+      "path": "outputs\\generated_images\\wurtz_reaction_4_686e76ba.png",
+      "x": 770,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_4",
+      "type": "image",
+      "path": "outputs\\generated_images\\wurtz_reaction_5_e09a12a9.png",
+      "x": 990,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "node_5",
+      "type": "image",
+      "path": "outputs\\generated_images\\wurtz_reaction_6_123974c7.png",
+      "x": 1210,
+      "y": 220,
+      "width": 200,
+      "height": 120
+    },
+    {
+      "id": "image_step_0",
+      "type": "image",
+      "path": "outputs\\generated_images\\wurtz_reaction_20_93e27dbb.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Input: Elemental sodium and iodine are represented as separate entities within a reactive environment."
+    },
+    {
+      "id": "text_step_0",
+      "type": "text",
+      "description": "Input: Elemental sodium and iodine are represented as separate entities within a reactive environment.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_0",
+      "type": "text",
+      "description": "Input: Elemental sodium and iodine are represented as...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_1",
+      "type": "image",
+      "path": "outputs\\generated_images\\wurtz_reaction_21_c299b5fe.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Actionable frame showing the introduction of an appropriate non-polar solvent to mix with elemental reactants; visual cues indicate polar and non-polar areas for mixing."
+    },
+    {
+      "id": "text_step_1",
+      "type": "text",
+      "description": "Actionable frame showing the introduction of an appropriate non-polar solvent to mix with elemental reactants; visual cues indicate polar and non-polar areas...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_1",
+      "type": "text",
+      "description": "Actionable frame showing the introduction of an appropriate...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_2",
+      "type": "image",
+      "path": "outputs\\generated_images\\wurtz_reaction_22_07402ed1.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Animation depicting atomic interactions where sodium donates electrons which are transferred towards iodine to form a diatomic halogen molecule; visual representation of electron transfer is shown through energy release or absorption."
+    },
+    {
+      "id": "text_step_2",
+      "type": "text",
+      "description": "Animation depicting atomic interactions where sodium donates electrons which are transferred towards iodine to form a diatomic halogen molecule; visual representation of...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_2",
+      "type": "text",
+      "description": "Animation depicting atomic interactions where sodium donates electrons...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_3",
+      "type": "image",
+      "path": "outputs\\generated_images\\wurtz_reaction_23_dfd4c47c.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Transformation sequence where the sodium atoms lose an electron and become positively charged (sodium cation)."
+    },
+    {
+      "id": "text_step_3",
+      "type": "text",
+      "description": "Transformation sequence where the sodium atoms lose an electron and become positively charged (sodium cation).",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_3",
+      "type": "text",
+      "description": "Transformation sequence where the sodium atoms lose an...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_4",
+      "type": "image",
+      "path": "outputs\\generated_images\\wurtz_reaction_24_0034ec1e.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Simultaneous transformation of iodine diatomic molecule into two negative ionized halogens as they accept the electrons from sodium atoms."
+    },
+    {
+      "id": "text_step_4",
+      "type": "text",
+      "description": "Simultaneous transformation of iodine diatomic molecule into two negative ionized halogens as they accept the electrons from sodium atoms.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_4",
+      "type": "text",
+      "description": "Simultaneous transformation of iodine diatomic molecule into two...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    },
+    {
+      "id": "image_step_5",
+      "type": "image",
+      "path": "outputs\\generated_images\\wurtz_reaction_25_65949e07.png",
+      "x": 160,
+      "y": 98,
+      "width": 680,
+      "height": 340,
+      "description": "Output frame showing newly formed solid alkali metal iodide precipitate forming in the reaction vessel due to solvation and concentration effects."
+    },
+    {
+      "id": "text_step_5",
+      "type": "text",
+      "description": "Output frame showing newly formed solid alkali metal iodide precipitate forming in the reaction vessel due to solvation and concentration effects.",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 90,
+      "max_lines": 3
+    },
+    {
+      "id": "text_step_brief_5",
+      "type": "text",
+      "description": "Output frame showing newly formed solid alkali metal...",
+      "x": 160,
+      "y": 458,
+      "font_scale": 0.8,
+      "boxed": true,
+      "box_width": 680,
+      "box_height": 54,
+      "max_lines": 1
+    }
+  ],
+  "animation_sequence": [
+    {
+      "elements": [
+        "title",
+        "hero_image",
+        "hero_caption"
+      ],
+      "duration": 4
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_brief_0"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_0",
+        "text_step_0"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_brief_1"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_1",
+        "text_step_1"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_brief_2"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_2",
+        "text_step_2"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_3",
+        "text_step_brief_3"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_3",
+        "text_step_3"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_4",
+        "text_step_brief_4"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_4",
+        "text_step_4"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_5",
+        "text_step_brief_5"
+      ],
+      "duration": 2.5,
+      "transition": "slide"
+    },
+    {
+      "elements": [
+        "title",
+        "image_step_5",
+        "text_step_5"
+      ],
+      "duration": 3.0,
+      "transition": "fade"
+    }
+  ],
+  "topic_analysis": {
+    "topic_type": "simulation",
+    "category": "chemistry",
+    "visual_approach": {
+      "image_style": "process_diagram",
+      "text_density": "minimal",
+      "scene_count": 6,
+      "animation_focus": true,
+      "show_steps": true,
+      "caption_length": "short"
+    },
+    "animation_style": {
+      "type": "step_progression",
+      "transitions": [
+        "fade",
+        "slide"
+      ],
+      "element_animations": true,
+      "simulation_elements": true,
+      "timing": "dynamic"
+    }
+  },
+  "theme": "generic",
+  "theme_colors": [
+    [
+      24,
+      62,
+      116
+    ],
+    [
+      50,
+      108,
+      164
+    ]
+  ]
+}

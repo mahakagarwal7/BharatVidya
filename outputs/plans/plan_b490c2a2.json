@@ -1,0 +1,50 @@
+{
+  "title": "Binary Search Simplified: How to Find an Item in a Sorted List Quickly",
+  "summary": "Discover how binary search efficiently locates elements within sorted lists by dividing and conquering, saving time compared to linear approaches.",
+  "category": "algorithm",
+  "sections": [
+    {
+      "heading": "Understanding Binary Search Basics",
+      "body": "Binary search is a fast algorithm for finding an item in a sorted list by repeatedly dividing the search interval in half. If the target value matches the middle element of the array, you've found your prize; if it's less, continue left; and if greater, go right.",
+      "key_points": [
+        "Sorted lists",
+        "Divide and conquer strategy"
+      ]
+    },
+    {
+      "heading": "The Binary Search Algorithm Explained",
+      "body": "Start by comparing the target value with the middle element of the array. If they match, you're done; if not, check whether your search term is greater or less than this midpoint item to decide which half contains the desired outcome.",
+      "key_points": [
+        "Middle comparison",
+        "Half selection"
+      ]
+    },
+    {
+      "heading": "Recursive Steps in Binary Search",
+      "body": "The binary search process repeats, narrowing down to smaller and smaller subsections of the list until it finds a match or concludes that there is no such element. This divide-and-conquer technique reduces time complexity significantly.",
+      "key_points": [
+        "Recursion",
+        "Efficiency"
+      ]
+    },
+    {
+      "heading": "Complexity and Performance of Binary Search",
+      "body": "Binary search has a logarithmic run-time, making it much faster than linear searches in large datasets. Its efficiency is crucial for applications requiring quick lookups.",
+      "key_points": [
+        "Logarithmic complexity (O(log n))"
+      ]
+    },
+    {
+      "heading": "Practical Applications of Binary Search",
+      "body": "Beyond the classroom, binary search is widely used in computer science for tasks like finding elements in databases and implementing efficient data structures such as balanced trees.",
+      "key_points": [
+        "Database searches",
+        "Data structure implementation"
+      ]
+    }
+  ],
+  "key_facts": [
+    "Binary search has a time complexity of O(log n)."
+  ],
+  "visual_style": "mixed"
+}

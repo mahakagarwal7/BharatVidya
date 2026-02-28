@@ -2,13 +2,13 @@
 
 """
 High-level orchestrator:
-Uses planner + renderer + narrator to produce final video with audio.
+Uses planner (Ollama content extraction) + renderer (MoviePy) + narrator to produce final video.
 """
 
 from typing import Tuple, Dict, Any, Optional
 import os
 import uuid
-from .planner import SimplePlanner
+from .planner import ContentPlanner
 from .renderer import MoviePyRenderer
 from .narrator import Narrator, generate_narration_for_plan
 
@@ -29,7 +29,7 @@ class EducationalAnimator:
             voice: TTS voice to use (auto-selected from language if None)
             language: Language code ('en', 'hi', 'es', 'fr', 'de', 'zh', 'ja', 'ko')
         """
-        self.planner = SimplePlanner()
+        self.planner = ContentPlanner()
         self.renderer = MoviePyRenderer()
         self.enable_narration = enable_narration
         self.language = language
@@ -46,21 +46,23 @@ class EducationalAnimator:
         """
         Generate educational video with optional audio narration.
         
+        Pipeline: Ollama Content Extraction → Narration (optional) → MoviePy Rendering
+        
         Args:
             text: The concept/topic to explain
-            with_narration: Override default narration setting (None uses class default)
-            language: Override default language (None uses class default)
+            with_narration: Override default narration setting
+            language: Override default language
         
         Returns:
-            Tuple of (video_path, plan_dict)
+            Tuple of (video_path, content_dict)
         """
         
-        # Determine if we should generate narration
         use_narration = with_narration if with_narration is not None else self.enable_narration
         use_language = language if language is not None else self.language
 
-        # Step 1: Generate visual plan
-        plan = self.planner.plan_universal_scene(text)
+        # Step 1: Extract content from Ollama
+        print(f"📝 Planning content for: {text}")
+        content = self.planner.plan(text)
         
         # Step 2: Generate narration if enabled
         narration = None
@@ -78,7 +80,7 @@ class EducationalAnimator:
                 }.get(use_language, use_language)
                 print(f"🎙️ Generating audio narration ({lang_display})...")
                 narration = generate_narration_for_plan(
-                    plan, session_id, 
+                    content, session_id, 
                     voice=self.voice,
                     language=use_language
                 )
@@ -88,7 +90,7 @@ class EducationalAnimator:
                 print(f"⚠️ Narration failed: {e}")
                 narration = None
 
-        # Step 3: Render video (with audio if narration succeeded)
+        # Step 3: Render video using MoviePy
         out_name = os.path.join(
             "outputs",
             f"animation_{abs(hash(text)) % 100000}.mp4"
@@ -96,19 +98,14 @@ class EducationalAnimator:
 
         try:
             video_path = self.renderer.render(
-                plan,
+                content,
                 output_filename=out_name,
                 narration=narration
             )
-            
-            # Cleanup audio temp files if video succeeded
-            if narration:
-                narrator = Narrator()
-                # Keep combined audio, cleanup individual step files
-                # narrator.cleanup(session_id)  # Uncomment to auto-cleanup
-                
         except Exception as e:
-            print("Renderer error:", e)
+            print(f"❌ Renderer error: {e}")
+            import traceback
+            traceback.print_exc()
             video_path = None
 
-        return video_path, plan
+        return video_path, content
