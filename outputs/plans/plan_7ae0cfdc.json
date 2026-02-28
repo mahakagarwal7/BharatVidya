@@ -1,0 +1,36 @@
+{
+  "title": "Heat & Temperature: Understanding Energy Transfer",
+  "summary": "This video explores heat as a form of energy transfer due to temperature differences and explains how objects with different temperatures interact. By understanding the concepts, we can grasp important phenomena in everyday life.",
+  "category": "physics",
+  "sections": [
+    {
+      "heading": "What is Heat?",
+      "body": "Heat is energy that flows between two objects or substances due to a difference in temperature. It's not something you can see but can certainly feel and measure.",
+      "key_points": [
+        "Heat as invisible form of energy",
+        "Energy flow from higher to lower temperatures"
+      ]
+    },
+    {
+      "heading": "Understanding Temperature",
+      "body": "Temperature is a measurement that indicates how hot or cold an object feels. Unlike heat, which depends on the rate of energy transfer, temperature measures internal kinetic activity.",
+      "key_points": [
+        "Internal movement relates to feeling warmth/coldness",
+        "Movement increases with rising temperatures"
+      ]
+    },
+    {
+      "heading": "Thermal Equilibrium and Conduction",
+      "body": "When two objects at different temperatures come into contact, they will exchange heat until both reach the same temperature. This state is called thermal equilibrium.",
+      "key_points": [
+        "Heat flows to cooler object in warming process",
+        "Equilibrium when no more net energy transfer"
+      ]
+    }
+  ],
+  "key_facts": [
+    "q=mc\u0394T (Specific heat capacity formula)",
+    "Temperature measured in Kelvin or Celsi0us"
+  ],
+  "visual_style": "mixed"
+}

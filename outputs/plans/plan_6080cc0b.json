@@ -1,0 +1,35 @@
+{
+  "title": "Inserting Nodes in a Linked List: A Step by Step Guide",
+  "summary": "This video explains how to insert new nodes at specific points within a linked list. We'll cover the different scenarios, like inserting before or after existing elements and adding to an empty list.",
+  "category": "algorithm",
+  "sections": [
+    {
+      "heading": "Understanding Linked List Basics",
+      "body": "Before diving into insertion techniques, it's crucial to grasp the fundamental concept of a linked list. Imagine each node as a box containing data and a pointer directing us to the next box in line.",
+      "key_points": [
+        "A 'node' is a self-contained unit with data",
+        "Nodes are connected via pointers forming a chain"
+      ]
+    },
+    {
+      "heading": "Inserting Before an Existing Node",
+      "body": "To insert before a known node, we start by creating the new one and adjust its pointer to link backward. Then, redirect our predecessor's pointer towards this freshly inserted candidate.",
+      "key_points": [
+        "Create a 'new node' with given data",
+        "Redirect pointers of neighboring nodes"
+      ]
+    },
+    {
+      "heading": "Inserting After an Existing Node and at the Head",
+      "body": "'After insertion' is simple when you have a reference to where new content should be, but inserting 'at the head', or beginning, requires reassigning this first pointer in our linked list.",
+      "key_points": [
+        "Directly link after an existing node is straightforward",
+        "Head of list changes by moving current start"
+      ]
+    }
+  ],
+  "key_facts": [
+    "Inserting at the head: previous->next = newNode; newNode->prev=NULL, newNode->next=head"
+  ],
+  "visual_style": "simulation"
+}

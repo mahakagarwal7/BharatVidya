@@ -502,8 +502,11 @@ def generate_narration_for_plan(
     animation_info = None
     try:
         from .topic_router import has_animation, get_animation_info
-        if has_animation(title):
-            anim_info = get_animation_info(title)
+        # Check original concept first (user input), then fall back to LLM title
+        original_concept = plan.get("_original_concept", "")
+        animation_match = original_concept if has_animation(original_concept) else (title if has_animation(title) else None)
+        if animation_match:
+            anim_info = get_animation_info(animation_match)
             if anim_info and anim_info.get("description"):
                 anim_desc = anim_info["description"]
                 if language != "en" and TRANSLATION_AVAILABLE:

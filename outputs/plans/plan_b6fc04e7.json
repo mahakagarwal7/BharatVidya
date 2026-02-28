@@ -1,0 +1,35 @@
+{
+  "title": "Mastering Linked List Insertion: A Step by Step Guide",
+  "summary": "Learn how to insert a new node into an existing linked list. This video breaks down the process, including pointers and traversal methods.",
+  "category": "algorithm",
+  "sections": [
+    {
+      "heading": "Understanding Linked List Structure",
+      "body": "A singly-linked list consists of nodes where each node contains data and a pointer to the next node. A linked list is dynamic, allowing efficient insertions or deletions.",
+      "key_points": [
+        "Node has two parts: data and 'next' pointer",
+        "Efficient add/remove operations"
+      ]
+    },
+    {
+      "heading": "The Insertion Process Explained",
+      "body": "To insert a new node, first create it with its own value. Traverse to the end of the list and adjust pointers to include our new node.",
+      "key_points": [
+        "Create a new node beforehand",
+        "Traverse till tail,"
+      ]
+    },
+    {
+      "heading": "Adjusting Pointers in Practice",
+      "body": "After the insertion, ensure pointers are correctly adjusted to maintain list integrity. This keeps our linked list connected and functional.",
+      "key_points": [
+        "Correct next pointer",
+        "Maintain link order"
+      ]
+    }
+  ],
+  "key_facts": [
+    "To insert a new node, allocate memory for it beforehand."
+  ],
+  "visual_style": "mixed"
+}

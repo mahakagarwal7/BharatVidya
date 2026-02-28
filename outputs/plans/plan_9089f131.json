@@ -1,0 +1,35 @@
+{
+  "title": "Projectile Motion Demystified",
+  "summary": "Explore how objects move through the air after being launched without propulsion. Learn about the forces at play and discover why projectiles follow a curved path.",
+  "category": "physics",
+  "sections": [
+    {
+      "heading": "The Basics of Projectile Motion",
+      "body": "Projectile motion occurs when an object is thrown or propelled and moves under the influence of gravity alone. The path it takes is called a trajectory.",
+      "key_points": [
+        "Launch without continuous force after launching",
+        "Object's curved flight due to Earth\u2019s gravitational pull"
+      ]
+    },
+    {
+      "heading": "Components Influencing Motion",
+      "body": "Three critical components dictate projectile motion: initial velocity, angle of projection relative to the ground, and gravity's acceleration. These influence both speed and direction.",
+      "key_points": [
+        "Initial velocity determines range",
+        "Angle affects height reached"
+      ]
+    },
+    {
+      "heading": "Real-Life Application",
+      "body": "Understanding projectile motion is essential in fields such as ballistics, sports science, and even entertainment with fireworks. It's also a classic physics problem that helps students grasp the concepts of kinematics.",
+      "key_points": [
+        "Importance across various industries",
+        "Pedagogical tool for learning"
+      ]
+    }
+  ],
+  "key_facts": [
+    "Trajectory is parabolic due to gravity"
+  ],
+  "visual_style": "mixed"
+}

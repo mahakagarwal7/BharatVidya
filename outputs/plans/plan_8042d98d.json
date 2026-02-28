@@ -1,0 +1,35 @@
+{
+  "title": "Bubble Sort Demystified: A Beginner's Guide",
+  "summary": "This video provides a step-by0573yne into bubble sort, an elementary sorting algorithm that repeatedly steps through the list to be sorted, compares adjacent items and swaps them if they are in the wrong order. The process is repeated until no more swaps are needed, which indicates that the list is sorted.",
+  "category": "algorithm",
+  "sections": [
+    {
+      "heading": "Understanding Bubble Sort Fundamentals",
+      "body": "Bubble sort starts with comparing adjacent elements in an array and swapping them if they are out of order. It's named for the way smaller items 'bubble' to the top of the list, like bubbles rising.",
+      "key_points": [
+        "Compares two items at a time",
+        "Swaps out-of-order elements"
+      ]
+    },
+    {
+      "heading": "The Bubble Sort Process Explained",
+      "body": "With each iteration, the largest (or smallest for an ascending sort) element 'bubbles' to its correct place. The entire array is then iterated over again until no more swaps are needed, indicating a sorted list.",
+      "key_points": [
+        "Iterates through elements multiple times",
+        "Sorts in-place without additional memory"
+      ]
+    },
+    {
+      "heading": "Why Bubble Sort Matters?",
+      "body": "Despite its simplicity, bubble sort is a fundamental concept that helps learners grasp the basic principles of algorithm design and understand how different sorting methods operate.",
+      "key_points": [
+        "Serves as an educational tool for understanding algorithms",
+        "Highlights importance of time complexity"
+      ]
+    }
+  ],
+  "key_facts": [
+    "In bubble sort, the worst-case time complexity is O(n^2), where n is the number of items to be sorted."
+  ],
+  "visual_style": "mixed"
+}

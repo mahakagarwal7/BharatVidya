@@ -71,6 +71,9 @@ class EducationalAnimator:
         print(f"📝 Planning content for: {text}")
         content = self.planner.plan(text)
         
+        # Store original concept for animation detection (LLM title may differ)
+        content["_original_concept"] = text
+        
         # Step 2: Generate narration if enabled
         narration = None
         session_id = str(uuid.uuid4())[:8]

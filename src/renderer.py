@@ -116,8 +116,15 @@ class MoviePyRenderer:
             try:
                 from .topic_router import has_animation, get_animation_clip
                 
-                if has_animation(title):
-                    animation_clip = get_animation_clip(title, duration=animation_dur, title=title)
+                # Use original concept for detection (more reliable than LLM-generated title)
+                original_concept = content.get("_original_concept", title)
+                
+                # Check both original concept AND title for animation match
+                if has_animation(original_concept) or has_animation(title):
+                    # Try original concept first, then title
+                    animation_clip = get_animation_clip(original_concept, duration=animation_dur, title=title)
+                    if not animation_clip:
+                        animation_clip = get_animation_clip(title, duration=animation_dur, title=title)
                     
                     if animation_clip:
                         print(f"   🎬 Adding topic animation for: {title} ({animation_dur:.1f}s)")

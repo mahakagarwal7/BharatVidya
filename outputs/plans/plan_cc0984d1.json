@@ -1,0 +1,35 @@
+{
+  "title": "Heat vs. Temperature: Understanding Thermal Energy",
+  "summary": "This video explores heat and temperature \u2013 two fundamental concepts in physics that explain how objects interact energetically.",
+  "category": "physics",
+  "sections": [
+    {
+      "heading": "What is Heat?",
+      "body": "Heat refers to the transfer of thermal energy between bodies due to a temperature difference. It's an essential concept that helps us understand how objects exchange warmth.",
+      "key_points": [
+        "Thermal energy in motion",
+        "Transfer from hotter object"
+      ]
+    },
+    {
+      "heading": "What is Temperature?",
+      "body": "Temperature measures the average kinetic energy of particles within a substance, representing how 'hot' or 'cold' an object feels. It plays a crucial role in determining heat exchange.",
+      "key_points": [
+        "Average particle energy",
+        "Indicates hot/cold"
+      ]
+    },
+    {
+      "heading": "Heat Transfer and Temperature Change",
+      "body": "When two objects with different temperatures come into contact, heat flows from the warmer to cooler object until they reach equilibrium. This process can cause temperature changes that we experience in daily life.",
+      "key_points": [
+        "Equilibrium achieved",
+        "Temperature change effect"
+      ]
+    }
+  ],
+  "key_facts": [
+    "Heat transfer occurs via conduction, convection, and radiation."
+  ],
+  "visual_style": "mixed"
+}
