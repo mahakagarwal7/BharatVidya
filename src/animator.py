@@ -3,6 +3,7 @@
 """
 High-level orchestrator:
 Uses planner (Ollama content extraction) + renderer (MoviePy) + narrator to produce final video.
+Supports optional topic-based animations for enhanced visualizations.
 """
 
 from typing import Tuple, Dict, Any, Optional
@@ -17,7 +18,8 @@ class EducationalAnimator:
 
     def __init__(
         self, 
-        enable_narration: bool = True, 
+        enable_narration: bool = True,
+        enable_animations: bool = True,
         voice: str = None,
         language: str = "en"
     ):
@@ -26,12 +28,14 @@ class EducationalAnimator:
         
         Args:
             enable_narration: Whether to generate audio narration
+            enable_animations: Whether to include topic-based animations
             voice: TTS voice to use (auto-selected from language if None)
             language: Language code ('en', 'hi', 'es', 'fr', 'de', 'zh', 'ja', 'ko')
         """
         self.planner = ContentPlanner()
         self.renderer = MoviePyRenderer()
         self.enable_narration = enable_narration
+        self.enable_animations = enable_animations
         self.language = language
         self.voice = voice
         os.makedirs("outputs", exist_ok=True)
@@ -41,6 +45,7 @@ class EducationalAnimator:
         self,
         text: str,
         with_narration: Optional[bool] = None,
+        with_animations: Optional[bool] = None,
         language: Optional[str] = None
     ) -> Tuple[str, Dict[str, Any]]:
         """
@@ -51,6 +56,7 @@ class EducationalAnimator:
         Args:
             text: The concept/topic to explain
             with_narration: Override default narration setting
+            with_animations: Override default animation setting
             language: Override default language
         
         Returns:
@@ -58,6 +64,7 @@ class EducationalAnimator:
         """
         
         use_narration = with_narration if with_narration is not None else self.enable_narration
+        use_animations = with_animations if with_animations is not None else self.enable_animations
         use_language = language if language is not None else self.language
 
         # Step 1: Extract content from Ollama
@@ -100,7 +107,8 @@ class EducationalAnimator:
             video_path = self.renderer.render(
                 content,
                 output_filename=out_name,
-                narration=narration
+                narration=narration,
+                enable_animations=use_animations
             )
         except Exception as e:
             print(f"❌ Renderer error: {e}")

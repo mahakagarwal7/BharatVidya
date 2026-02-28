@@ -38,7 +38,8 @@ class MoviePyRenderer:
         self,
         content: Dict[str, Any],
         output_filename: str,
-        narration: Optional[Dict] = None
+        narration: Optional[Dict] = None,
+        enable_animations: bool = True
     ) -> str:
         """
         Render educational content to a video file.
@@ -47,6 +48,7 @@ class MoviePyRenderer:
             content: Content dict from Ollama with title, summary, sections, etc.
             output_filename: Output video path
             narration: Optional narration data with step_durations and combined_audio_path
+            enable_animations: Whether to include topic-based animations
         
         Returns:
             Path to the rendered video file
@@ -67,15 +69,29 @@ class MoviePyRenderer:
         audio_path = None
         section_durations = []
         title_dur = TITLE_DURATION
+        animation_dur = 5.0  # Default animation duration
+        facts_dur = FACTS_DURATION
         
         if narration:
             audio_path = narration.get("combined_audio_path")
             step_durations = narration.get("step_durations", [])
-            intro_info = narration.get("intro")
             
+            # Get intro duration
+            intro_info = narration.get("intro")
             if intro_info and intro_info.get("duration"):
                 title_dur = max(TITLE_DURATION, intro_info["duration"])
             
+            # Get animation duration
+            animation_info = narration.get("animation")
+            if animation_info and animation_info.get("duration"):
+                animation_dur = animation_info["duration"]
+            
+            # Get facts duration
+            facts_info = narration.get("facts")
+            if facts_info and facts_info.get("duration"):
+                facts_dur = max(FACTS_DURATION, facts_info["duration"])
+            
+            # Get section durations
             for i in range(len(sections)):
                 if i < len(step_durations):
                     section_durations.append(max(MIN_SECTION_DURATION, step_durations[i]))
@@ -95,6 +111,22 @@ class MoviePyRenderer:
         title_scene = self._image_scene(title_card_path, title_dur)
         scene_clips.append(title_scene)
         
+        # --- Optional Animation Scene (topic-based) ---
+        if enable_animations:
+            try:
+                from .topic_router import has_animation, get_animation_clip
+                
+                if has_animation(title):
+                    animation_clip = get_animation_clip(title, duration=animation_dur, title=title)
+                    
+                    if animation_clip:
+                        print(f"   🎬 Adding topic animation for: {title} ({animation_dur:.1f}s)")
+                        # Ensure animation clip matches video dimensions
+                        animation_clip = animation_clip.resize((WIDTH, HEIGHT))
+                        scene_clips.append(animation_clip)
+            except Exception as e:
+                print(f"   ⚠️ Animation check failed: {e}")
+        
         # --- Scene 2+: Content Sections ---
         concept = content.get("title", "concept")
         for i, section in enumerate(sections):
@@ -111,16 +143,31 @@ class MoviePyRenderer:
         if key_facts:
             from .card_generator import create_facts_card
             facts_path = create_facts_card(title, key_facts, category)
-            facts_scene = self._image_scene(facts_path, FACTS_DURATION)
+            facts_scene = self._image_scene(facts_path, facts_dur)
             scene_clips.append(facts_scene)
         
         # ============================================
         # Concatenate with transitions
+        # Compensate for transition overlap to maintain sync
         # ============================================
         
         if not scene_clips:
             print("   ❌ No scenes to render")
             return None
+        
+        # Calculate transition time that will be lost
+        num_transitions = len(scene_clips) - 1
+        transition_loss = num_transitions * TRANSITION_DURATION
+        
+        # Distribute extra time across clips to compensate
+        # Add transition_loss / num_clips to each clip
+        if num_transitions > 0:
+            extra_per_clip = transition_loss / len(scene_clips)
+            compensated_clips = []
+            for clip in scene_clips:
+                new_duration = clip.duration + extra_per_clip
+                compensated_clips.append(clip.set_duration(new_duration))
+            scene_clips = compensated_clips
         
         # Add crossfade transitions
         transition_clips = []

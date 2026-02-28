@@ -1,0 +1,38 @@
+{
+  "title": "Heat Vs. Temperature: Unraveling Thermal Energy",
+  "summary": "This video demystifies heat and temperature\u2014two concepts often confused in physics. We explore their definitions, differences, energy transfer mechanisms, and significance.",
+  "category": "physics",
+  "sections": [
+    {
+      "heading": "Understanding Heat and Temperature",
+      "body": "Heat is the total kinetic energy of particles moving in a substance due to temperature, while temperature measures how hot or cold an object feels. Despite their interconnected roles, they are not identical.",
+      "key_points": [
+        "Heat relates to particle movement",
+        "Temperature gauges 'hotness'"
+      ]
+    },
+    {
+      "heading": "How Heat Transfers from One Object to Another",
+      "body": "The flow of heat, or thermal energy, occurs through three primary methods: conduction (through direct contact), convection (fluid movement transferring heat), and radiation (energy moving as electromagnetic waves). These mechanisms explain how we experience warmth from a fireplace.",
+      "key_points": [
+        "Heat transfers via conduction, convection",
+        "Radiation heats without direct contact"
+      ]
+    },
+    {
+      "heading": "Temperature's Role in Physics and Everyday Life",
+      "body": "Understanding temperature is essential for various scientific fields\u2014from predicting weather patterns to engineering materials that withstand high temperatures. It influences the state of matter, energy transfer rates, chemical reactions, and more.",
+      "key_points": [
+        "Temperature affects physical states",
+        "Crucial in science & technology"
+      ]
+    }
+  ],
+  "key_facts": [
+    {
+      "equation": "q = mc\u0394T",
+      "description": "'Heat (energy) equals mass times specific heat capacity times the temperature change', fundamental in calculating thermal energy."
+    }
+  ],
+  "visual_style": "mixed"
+}

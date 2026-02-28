@@ -1,0 +1,35 @@
+{
+  "title": "Exploring Projectile Motion: Trajectory in Physics",
+  "summary": "Dive into the fascinating world of projectile motion as objects are propelled through space under the influence of gravity. Understand its parabolic path, velocity components, and practical applications.",
+  "category": "physics",
+  "sections": [
+    {
+      "heading": "Understanding Projectile Motion Fundamentals",
+      "body": "Projectile motion occurs when an object is launched into the air with an initial speed but no sustained propulsion. It's subject to gravity and influenced by other forces like drag, making it a complex study.",
+      "key_points": [
+        "Initially only affected by launch force",
+        "Affected significantly by gravitational pull"
+      ]
+    },
+    {
+      "heading": "Breaking Down the Horizontal and Vertical Components",
+      "body": "To analyze projectile motion, we break it down into horizontal and vertical components. The horizontal velocity remains constant while the vertical is affected by gravity \u2013 this separation simplifies calculations immensely.",
+      "key_points": [
+        "Horizontal velocity independence from gravity",
+        "Vertical acceleration equals gravitational pull"
+      ]
+    },
+    {
+      "heading": "Real-world Applications of Projectile Motion Knowledge",
+      "body": "Projectile motion isn't just theoretical; it has numerous applications, including sports like basketball and soccer, as well as in engineering when designing launch systems. Mastery over this concept leads to innovative designs and strategies.",
+      "key_points": [
+        "Crucial for predicting projectiles path",
+        "Enhances performance by optimizing angle of projection"
+      ]
+    }
+  ],
+  "key_facts": [
+    "Projectile Motion = Parabolic Trajectory under Gravity, No Sustained Lift"
+  ],
+  "visual_style": "mixed"
+}

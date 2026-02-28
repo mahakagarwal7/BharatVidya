@@ -1,0 +1,35 @@
+{
+  "title": "Understanding Heat and Temperature: The Basics of Thermal Energy",
+  "summary": "This video will explore what heat is versus temperature\u2014common misconceptions they address. Learn how to measure, explain the transfer mechanisms like conduction, convection, and radiation.",
+  "category": "physics",
+  "sections": [
+    {
+      "heading": "Defining Heat and Temperature",
+      "body": "Heat is a form of energy that results from moving particles; it's the transfer of this kinetic activity between objects. Contrastingly, temperature measures how hot or cold an object feels\u2014its thermal state.",
+      "key_points": [
+        "Heat and energy are related but not identical",
+        "Temperature is a measure, heat involves transfer"
+      ]
+    },
+    {
+      "heading": "Measuring Heat and Temperature: Tools and Units",
+      "body": "To quantify temperature we use the Celsi_us or Fahrenheit scales. To gauge the amount of transferred energy in joules, calories are often used alongside modern tools like thermometers.",
+      "key_points": [
+        "Celsius and Fahrenheit for measuring temp",
+        "Joules/calories to measure heat"
+      ]
+    },
+    {
+      "heading": "Heat Transfer Mechanisms: Conduction, Convection, and Radiation",
+      "body": "Three main methods\u2014conduction transfers energy through direct contact between materials. Convection circulates fluids like air or water to transfer heat without touching. And radiation can occur in the vacuum of space as energetic particles emit waves that carry thermal energy.",
+      "key_points": [
+        "Conductive, convective and radiative transfers",
+        "Require no medium for conduction"
+      ]
+    }
+  ],
+  "key_facts": [
+    "Heat = Energy in transfer between objects; temperature measures internal state"
+  ],
+  "visual_style": "mixed"
+}

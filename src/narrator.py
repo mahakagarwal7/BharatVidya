@@ -170,6 +170,7 @@ def get_audio_duration_ffmpeg(file_path: str) -> float:
             cmd, 
             capture_output=True, 
             text=True,
+            timeout=30,  # Add timeout to prevent hanging
             creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
         )
         
@@ -357,6 +358,41 @@ class Narrator:
             "audio_path": str(output_path),
             "duration": max(duration_sec, 2.0) + STEP_BUFFER
         }
+    
+    def generate_animation_audio(self, description: str, session_id: str) -> Dict:
+        """Generate audio narration for animation segment."""
+        output_path = self.output_dir / f"{session_id}_animation.mp3"
+        
+        # Run async TTS
+        asyncio.run(self._generate_audio_async(description, str(output_path)))
+        
+        # Get duration using ffmpeg
+        duration_sec = get_audio_duration_ffmpeg(str(output_path))
+        
+        return {
+            "audio_path": str(output_path),
+            "duration": max(duration_sec, 3.0) + STEP_BUFFER
+        }
+    
+    def generate_facts_audio(self, facts: List[str], session_id: str) -> Dict:
+        """Generate audio narration for key facts."""
+        if not facts:
+            return {"audio_path": None, "duration": 0}
+        
+        # Combine facts into readable text
+        facts_text = "Key facts to remember: " + ". ".join(facts)
+        output_path = self.output_dir / f"{session_id}_facts.mp3"
+        
+        # Run async TTS
+        asyncio.run(self._generate_audio_async(facts_text, str(output_path)))
+        
+        # Get duration using ffmpeg
+        duration_sec = get_audio_duration_ffmpeg(str(output_path))
+        
+        return {
+            "audio_path": str(output_path),
+            "duration": max(duration_sec, 3.0) + STEP_BUFFER
+        }
 
     def cleanup(self, session_id: str):
         """Remove temporary audio files for a session."""
@@ -444,10 +480,80 @@ def generate_narration_for_plan(
             title = translate_text(title, "en", language)
         intro_info = narrator.generate_intro_audio(title, session_id)
     
+    # Generate animation narration if topic has animation
+    animation_info = None
+    try:
+        from .topic_router import has_animation, get_animation_info
+        if has_animation(title):
+            anim_info = get_animation_info(title)
+            if anim_info and anim_info.get("description"):
+                anim_desc = anim_info["description"]
+                if language != "en" and TRANSLATION_AVAILABLE:
+                    anim_desc = translate_text(anim_desc, "en", language)
+                animation_info = narrator.generate_animation_audio(anim_desc, session_id)
+    except Exception as e:
+        print(f"Animation narration skipped: {e}")
+    
+    # Generate facts narration
+    facts_info = None
+    key_facts = plan.get("key_facts", [])
+    if key_facts:
+        facts_to_narrate = key_facts
+        if language != "en" and TRANSLATION_AVAILABLE:
+            facts_to_narrate = translate_steps(key_facts, language)
+        facts_info = narrator.generate_facts_audio(facts_to_narrate, session_id)
+    
     # Generate step narration
     narration_result = narrator.generate_narration(steps, session_id)
     narration_result["intro"] = intro_info
+    narration_result["animation"] = animation_info
+    narration_result["facts"] = facts_info
     narration_result["language"] = language
+    
+    # ============================================
+    # Combine all audio in video playback order:
+    # intro → animation → sections → facts
+    # ============================================
+    all_audio_segments = []
+    
+    # 1. Intro audio
+    if intro_info and intro_info.get("audio_path"):
+        all_audio_segments.append({
+            "audio_path": intro_info["audio_path"],
+            "raw_duration": intro_info.get("duration", 3.0),
+            "effective_duration": intro_info.get("duration", 3.0)
+        })
+    
+    # 2. Animation audio
+    if animation_info and animation_info.get("audio_path"):
+        all_audio_segments.append({
+            "audio_path": animation_info["audio_path"],
+            "raw_duration": animation_info.get("duration", 5.0),
+            "effective_duration": animation_info.get("duration", 5.0)
+        })
+    
+    # 3. Section audio
+    for step_audio in narration_result.get("step_audios", []):
+        all_audio_segments.append(step_audio)
+    
+    # 4. Facts audio
+    if facts_info and facts_info.get("audio_path"):
+        all_audio_segments.append({
+            "audio_path": facts_info["audio_path"],
+            "raw_duration": facts_info.get("duration", 3.0),
+            "effective_duration": facts_info.get("duration", 3.0)
+        })
+    
+    # Create combined audio with all segments
+    combined_path = str(narrator.output_dir / f"{session_id}_full_combined.mp3")
+    concatenate_audio_ffmpeg(all_audio_segments, combined_path)
+    
+    # Update total duration to include all segments
+    total_duration = sum(s.get("effective_duration", 0) for s in all_audio_segments)
+    
+    narration_result["combined_audio_path"] = combined_path
+    narration_result["total_duration"] = total_duration
+    narration_result["all_segments"] = all_audio_segments
     
     return narration_result
 
