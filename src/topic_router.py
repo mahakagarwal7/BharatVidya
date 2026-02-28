@@ -111,6 +111,98 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "pendulum"
 
+    # ============================================
+    # Additional topic-specific animations
+    # ============================================
+
+    # Linear Equation / Linear Function / Graphical analysis of lines
+    linear_patterns = [
+        r"\blinear\s+(equation|function|graph)",
+        r"\bslope\b.*\b(intercept|line)\b",
+        r"\by\s*=\s*m\s*x",
+        r"\bstraight\s+line\b",
+        r"\bgraph(ical)?\s+(analysis|of)\s+.*linear",
+        r"\bline(ar)?\s+graph\b",
+        r"\bgraph\s+of\s+.*line\b",
+    ]
+    for pattern in linear_patterns:
+        if re.search(pattern, text):
+            return "linear_equation"
+
+    # Heat / Thermodynamics / Temperature
+    heat_patterns = [
+        r"\bheat\b.*\b(transfer|flow|energy)\b",
+        r"\b(heat|thermal)\s+(and\s+)?temperature\b",
+        r"\bthermodynamics\b",
+        r"\bthermal\s+(energy|equilibrium|conductivity)\b",
+        r"\bconduction\b|\bconvection\b|\bradiation\b",
+        r"\bspecific\s+heat\b",
+        r"\blatent\s+heat\b",
+    ]
+    for pattern in heat_patterns:
+        if re.search(pattern, text):
+            return "heat"
+
+    # Geometry / Shapes
+    geometry_patterns = [
+        r"\bgeometr(y|ic)\b",
+        r"\b(triangle|square|circle|rectangle)\s+(area|perimeter|properties)",
+        r"\bpythagoras\b|\bpythagorean\b",
+        r"\bangle(s)?\s+(of|in|measurement)",
+        r"\bpolygon\b",
+        r"\bcongruence\b|\bsimilarity\b",
+        r"\barea\s+and\s+perimeter\b",
+    ]
+    for pattern in geometry_patterns:
+        if re.search(pattern, text):
+            return "geometry"
+
+    # Chemistry / Atoms / Molecules
+    chemistry_patterns = [
+        r"\bchem(istry|ical)\b",
+        r"\batom(ic|s)?\b",
+        r"\bmolecule(s|ar)?\b",
+        r"\belectron(s)?\b.*\b(orbit|shell|configuration)\b",
+        r"\bperiodic\s+table\b",
+        r"\bchemical\s+(bond|reaction|equation)",
+        r"\bion(s|ic)?\b",
+        r"\bvalence\b",
+    ]
+    for pattern in chemistry_patterns:
+        if re.search(pattern, text):
+            return "chemistry"
+
+    # Wave / Wave motion (general physics)
+    wave_patterns = [
+        r"\bwave\s+(motion|propagation|nature)\b",
+        r"\b(transverse|longitudinal)\s+wave\b",
+        r"\bwavelength\b",
+        r"\bamplitude\b.*\b(wave|frequency)\b",
+        r"\bfrequency\b.*\bwave\b",
+        r"\bwave\s+(interference|diffraction)\b",
+        r"\bsound\s+wave\b",
+        r"\blight\s+wave\b",
+    ]
+    for pattern in wave_patterns:
+        if re.search(pattern, text):
+            return "wave"
+
+    # Statistics / Data Analysis
+    statistics_patterns = [
+        r"\bstatistics\b",
+        r"\bmean\b.*\b(median|mode)\b",
+        r"\bstandard\s+deviation\b",
+        r"\bprobability\s+distribution\b",
+        r"\bbar\s+(chart|graph)\b",
+        r"\bhistogram\b",
+        r"\bdata\s+(analysis|visualization)\b",
+        r"\bnormal\s+distribution\b",
+        r"\bregression\b",
+    ]
+    for pattern in statistics_patterns:
+        if re.search(pattern, text):
+            return "statistics"
+
     return "generic"
 
 
@@ -131,7 +223,8 @@ def has_specialized_animation(concept: str) -> bool:
     topic = detect_topic(concept)
     animated_topics = [
         "bubble_sort", "binary_search", "quadratic", 
-        "sine_wave", "projectile_motion", "pendulum"
+        "sine_wave", "projectile_motion", "pendulum",
+        "linear_equation", "heat", "geometry", "chemistry", "wave", "statistics"
     ]
     return topic in animated_topics
 
@@ -159,6 +252,12 @@ def get_animation_clip(concept: str, duration: float = 5.0, **kwargs) -> Optiona
             create_binary_search_clip,
             create_quadratic_clip,
             create_pendulum_clip,
+            create_linear_equation_clip,
+            create_heat_clip,
+            create_geometry_clip,
+            create_chemistry_clip,
+            create_wave_clip,
+            create_statistics_clip,
             create_generic_clip
         )
         
@@ -210,6 +309,44 @@ def get_animation_clip(concept: str, duration: float = 5.0, **kwargs) -> Optiona
                 title=kwargs.get("title", "Simple Pendulum")
             )
         
+        elif topic == "linear_equation":
+            return create_linear_equation_clip(
+                duration=duration,
+                slope=kwargs.get("slope", 2.0),
+                intercept=kwargs.get("intercept", 1.0),
+                title=kwargs.get("title", "Linear Equation")
+            )
+        
+        elif topic == "heat":
+            return create_heat_clip(
+                duration=duration,
+                title=kwargs.get("title", "Heat & Temperature")
+            )
+        
+        elif topic == "geometry":
+            return create_geometry_clip(
+                duration=duration,
+                title=kwargs.get("title", "Geometry")
+            )
+        
+        elif topic == "chemistry":
+            return create_chemistry_clip(
+                duration=duration,
+                title=kwargs.get("title", "Chemistry")
+            )
+        
+        elif topic == "wave":
+            return create_wave_clip(
+                duration=duration,
+                title=kwargs.get("title", "Wave Motion")
+            )
+        
+        elif topic == "statistics":
+            return create_statistics_clip(
+                duration=duration,
+                title=kwargs.get("title", "Statistics")
+            )
+        
         else:
             # Generic animation for any other topic
             return create_generic_clip(
@@ -240,11 +377,21 @@ def get_animation_info(concept: str) -> dict:
         "sine_wave": "Watch the sine wave propagate, showing the periodic nature of trigonometric functions.",
         "projectile_motion": "See a projectile follow its parabolic trajectory under gravity.",
         "pendulum": "Observe simple harmonic motion as the pendulum swings back and forth.",
+        "linear_equation": "Watch a linear equation graph being drawn with slope and y-intercept visualization.",
+        "heat": "Observe heat transfer between hot and cold regions with particle motion visualization.",
+        "geometry": "See geometric shapes rotating with their properties and formulas displayed.",
+        "chemistry": "Explore the atomic model with electrons orbiting the nucleus in energy shells.",
+        "wave": "Watch wave propagation with amplitude and wavelength visualization.",
+        "statistics": "See data come alive with animated bar charts and statistical measures.",
         "generic": "Animated visualization with floating concepts and dynamic effects."
     }
     
-    is_specialized = topic in ["bubble_sort", "binary_search", "quadratic", 
-                                "sine_wave", "projectile_motion", "pendulum"]
+    specialized_topics = [
+        "bubble_sort", "binary_search", "quadratic", "sine_wave", 
+        "projectile_motion", "pendulum", "linear_equation", "heat", 
+        "geometry", "chemistry", "wave", "statistics"
+    ]
+    is_specialized = topic in specialized_topics
     
     return {
         "has_animation": True,  # Always True - we have generic animations for any topic

@@ -637,6 +637,621 @@ def create_pendulum_clip(duration: float = 5.0,
 
 
 # ============================================================
+# LINEAR EQUATION / GRAPH ANIMATION
+# ============================================================
+
+def create_linear_equation_clip(duration: float = 5.0,
+                                 slope: float = 2.0,
+                                 intercept: float = 1.0,
+                                 title: str = "Linear Equation") -> VideoClip:
+    """
+    Create animated linear equation graph.
+    Shows line being drawn with slope and y-intercept highlighted.
+    """
+    font_title = _load_font(28)
+    font_label = _load_font(18)
+    font_info = _load_font(16)
+    
+    # Graph area
+    margin = 80
+    graph_left = margin + 40
+    graph_right = WIDTH - margin
+    graph_top = 100
+    graph_bottom = HEIGHT - 80
+    graph_width = graph_right - graph_left
+    graph_height = graph_bottom - graph_top
+    
+    # X and Y ranges
+    x_range = (-5, 5)
+    y_range = (-5, 10)
+    
+    def world_to_screen(x, y):
+        sx = graph_left + (x - x_range[0]) / (x_range[1] - x_range[0]) * graph_width
+        sy = graph_bottom - (y - y_range[0]) / (y_range[1] - y_range[0]) * graph_height
+        return int(sx), int(sy)
+    
+    def make_frame(t):
+        img = Image.new("RGB", (WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        
+        # Gradient background
+        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (20, 35, 60), (40, 65, 100))
+        
+        # Title
+        draw.text((WIDTH // 2 - 100, 25), title, fill=(220, 240, 255), font=font_title)
+        
+        # Draw axes
+        origin = world_to_screen(0, 0)
+        
+        # X-axis
+        draw.line([world_to_screen(x_range[0], 0), world_to_screen(x_range[1], 0)],
+                  fill=(150, 180, 220), width=2)
+        # Y-axis  
+        draw.line([world_to_screen(0, y_range[0]), world_to_screen(0, y_range[1])],
+                  fill=(150, 180, 220), width=2)
+        
+        # Axis labels
+        draw.text((graph_right - 20, origin[1] + 5), "x", fill=(180, 200, 240), font=font_label)
+        draw.text((origin[0] + 10, graph_top - 5), "y", fill=(180, 200, 240), font=font_label)
+        
+        # Grid lines
+        for x in range(int(x_range[0]), int(x_range[1]) + 1):
+            if x != 0:
+                sx, _ = world_to_screen(x, 0)
+                draw.line([(sx, graph_top), (sx, graph_bottom)], fill=(60, 80, 110), width=1)
+                draw.text((sx - 5, origin[1] + 10), str(x), fill=(120, 150, 180), font=font_info)
+        
+        for y in range(int(y_range[0]), int(y_range[1]) + 1):
+            if y != 0:
+                _, sy = world_to_screen(0, y)
+                draw.line([(graph_left, sy), (graph_right, sy)], fill=(60, 80, 110), width=1)
+                draw.text((origin[0] - 25, sy - 8), str(y), fill=(120, 150, 180), font=font_info)
+        
+        # Animate line drawing
+        progress = min(1.0, t / (duration * 0.6))
+        
+        # Calculate line points
+        x_start = x_range[0]
+        x_end = x_range[0] + (x_range[1] - x_range[0]) * progress
+        
+        if progress > 0:
+            y_start = slope * x_start + intercept
+            y_end = slope * x_end + intercept
+            
+            # Clip to graph bounds
+            points = []
+            for px in np.linspace(x_start, x_end, 50):
+                py = slope * px + intercept
+                if y_range[0] <= py <= y_range[1]:
+                    points.append(world_to_screen(px, py))
+            
+            if len(points) >= 2:
+                draw.line(points, fill=(100, 200, 255), width=3)
+        
+        # Show y-intercept
+        if t > duration * 0.3:
+            y_int_pos = world_to_screen(0, intercept)
+            draw.ellipse([y_int_pos[0] - 6, y_int_pos[1] - 6, 
+                         y_int_pos[0] + 6, y_int_pos[1] + 6],
+                        fill=(255, 200, 100), outline=(255, 255, 255))
+            draw.text((y_int_pos[0] + 15, y_int_pos[1] - 10), 
+                     f"b = {intercept:.1f}", fill=(255, 200, 100), font=font_label)
+        
+        # Show equation
+        if t > duration * 0.5:
+            eq_text = f"y = {slope:.1f}x + {intercept:.1f}" if intercept >= 0 else f"y = {slope:.1f}x - {abs(intercept):.1f}"
+            draw.text((50, HEIGHT - 60), eq_text, fill=(150, 255, 200), font=font_title)
+        
+        # Show slope visualization
+        if t > duration * 0.7:
+            # Draw rise/run triangle
+            x1, y1 = 1, slope * 1 + intercept
+            x2, y2 = 2, slope * 2 + intercept
+            p1 = world_to_screen(x1, y1)
+            p2 = world_to_screen(x2, y1)  # Horizontal
+            p3 = world_to_screen(x2, y2)
+            
+            draw.line([p1, p2], fill=(255, 150, 100), width=2)  # Run
+            draw.line([p2, p3], fill=(100, 255, 150), width=2)  # Rise
+            draw.text((p2[0] + 10, (p2[1] + p3[1]) // 2), f"m = {slope:.1f}",
+                     fill=(200, 255, 200), font=font_label)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
+
+
+# ============================================================
+# HEAT / THERMODYNAMICS ANIMATION
+# ============================================================
+
+def create_heat_clip(duration: float = 5.0,
+                     title: str = "Heat & Temperature") -> VideoClip:
+    """
+    Create animated heat/thermodynamics visualization.
+    Shows temperature gauge, particle motion, and heat transfer.
+    """
+    font_title = _load_font(28)
+    font_label = _load_font(18)
+    font_info = _load_font(16)
+    
+    import random
+    random.seed(42)
+    
+    # Create particles for visualization
+    class Particle:
+        def __init__(self, x, y, temp_zone):
+            self.x = x
+            self.y = y
+            self.temp_zone = temp_zone  # 'hot' or 'cold'
+            self.vx = random.uniform(-2, 2)
+            self.vy = random.uniform(-2, 2)
+            
+        def update(self, t, speed_mult):
+            self.x += self.vx * speed_mult
+            self.y += self.vy * speed_mult
+            
+            # Bounce off boundaries
+            if self.temp_zone == 'hot':
+                if self.x < 500 or self.x > 850:
+                    self.vx *= -1
+                if self.y < 150 or self.y > 400:
+                    self.vy *= -1
+            else:
+                if self.x < 100 or self.x > 450:
+                    self.vx *= -1
+                if self.y < 150 or self.y > 400:
+                    self.vy *= -1
+    
+    # Initialize particles
+    hot_particles = [Particle(random.randint(520, 830), random.randint(170, 380), 'hot') for _ in range(25)]
+    cold_particles = [Particle(random.randint(120, 430), random.randint(170, 380), 'cold') for _ in range(25)]
+    
+    def make_frame(t):
+        img = Image.new("RGB", (WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        
+        # Gradient background
+        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (25, 30, 50), (45, 55, 85))
+        
+        # Title
+        draw.text((WIDTH // 2 - 120, 25), title, fill=(220, 240, 255), font=font_title)
+        
+        # Draw two containers
+        # Cold container (left)
+        draw.rectangle([100, 150, 450, 400], outline=(100, 150, 255), width=3)
+        draw.text((220, 410), "Cold", fill=(100, 180, 255), font=font_label)
+        
+        # Hot container (right)
+        draw.rectangle([500, 150, 850, 400], outline=(255, 150, 100), width=3)
+        draw.text((630, 410), "Hot", fill=(255, 150, 100), font=font_label)
+        
+        # Animated temperature transfer
+        transfer_progress = min(1.0, t / (duration * 0.8))
+        
+        # Draw heat flow arrows
+        if t > duration * 0.3:
+            arrow_alpha = int(200 * (0.5 + 0.5 * math.sin(t * 4)))
+            for i in range(3):
+                y_pos = 200 + i * 70
+                # Arrow from hot to cold
+                draw.line([(480, y_pos), (460, y_pos)], fill=(255, 200, 100), width=2)
+                draw.polygon([(460, y_pos), (470, y_pos - 8), (470, y_pos + 8)], 
+                           fill=(255, 200, 100))
+        
+        # Update and draw particles
+        for p in hot_particles:
+            p.update(t, 1.5)  # Hot particles move faster
+            color = (255, int(100 + 50 * math.sin(t * 5 + p.x)), 80)
+            draw.ellipse([p.x - 4, p.y - 4, p.x + 4, p.y + 4], fill=color)
+        
+        for p in cold_particles:
+            p.update(t, 0.5)  # Cold particles move slower
+            color = (80, int(150 + 50 * math.sin(t * 2 + p.y)), 255)
+            draw.ellipse([p.x - 4, p.y - 4, p.x + 4, p.y + 4], fill=color)
+        
+        # Temperature gauge
+        gauge_x = 50
+        gauge_y = 150
+        gauge_height = 250
+        temp = 0.3 + 0.4 * transfer_progress + 0.1 * math.sin(t * 2)
+        
+        # Gauge background
+        draw.rectangle([gauge_x - 10, gauge_y, gauge_x + 10, gauge_y + gauge_height],
+                      outline=(150, 150, 160), fill=(40, 45, 60), width=2)
+        
+        # Temperature fill
+        fill_height = int(gauge_height * temp)
+        for i in range(fill_height):
+            ratio = i / gauge_height
+            r = int(100 + 155 * ratio)
+            g = int(100 - 50 * ratio)
+            b = int(200 - 150 * ratio)
+            y = gauge_y + gauge_height - i
+            draw.line([(gauge_x - 8, y), (gauge_x + 8, y)], fill=(r, g, b))
+        
+        # Gauge bulb
+        draw.ellipse([gauge_x - 15, gauge_y + gauge_height - 5, 
+                     gauge_x + 15, gauge_y + gauge_height + 25],
+                    fill=(200, 80, 80), outline=(255, 100, 100))
+        
+        # Temperature label
+        temp_c = int(20 + 80 * temp)
+        draw.text((gauge_x - 20, gauge_y - 30), f"{temp_c}°C", 
+                 fill=(255, 200, 150), font=font_label)
+        
+        # Info text
+        info_y = HEIGHT - 50
+        draw.text((WIDTH // 2 - 200, info_y), 
+                 "Heat flows from hot to cold regions",
+                 fill=(180, 200, 220), font=font_info)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
+
+
+# ============================================================
+# GEOMETRY / SHAPES ANIMATION
+# ============================================================
+
+def create_geometry_clip(duration: float = 5.0,
+                         title: str = "Geometry") -> VideoClip:
+    """
+    Create animated geometry visualization.
+    Shows shapes, angles, and geometric properties.
+    """
+    font_title = _load_font(28)
+    font_label = _load_font(18)
+    font_info = _load_font(16)
+    
+    center_x = WIDTH // 2
+    center_y = HEIGHT // 2 + 20
+    
+    def make_frame(t):
+        img = Image.new("RGB", (WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        
+        # Gradient background
+        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (20, 30, 55), (35, 55, 90))
+        
+        # Title
+        draw.text((WIDTH // 2 - 80, 25), title, fill=(220, 240, 255), font=font_title)
+        
+        # Rotating shapes
+        rotation = t * 0.5  # Radians per second
+        
+        # Draw triangle (rotating)
+        tri_radius = 80
+        tri_center = (center_x - 200, center_y)
+        tri_points = []
+        for i in range(3):
+            angle = rotation + i * (2 * math.pi / 3) - math.pi / 2
+            x = tri_center[0] + tri_radius * math.cos(angle)
+            y = tri_center[1] + tri_radius * math.sin(angle)
+            tri_points.append((x, y))
+        draw.polygon(tri_points, outline=(100, 200, 255), width=3)
+        draw.text((tri_center[0] - 30, tri_center[1] + 100), "Triangle", 
+                 fill=(100, 200, 255), font=font_label)
+        
+        # Draw square (rotating)
+        sq_radius = 60
+        sq_center = (center_x, center_y)
+        sq_points = []
+        for i in range(4):
+            angle = -rotation + i * (2 * math.pi / 4) + math.pi / 4
+            x = sq_center[0] + sq_radius * math.cos(angle)
+            y = sq_center[1] + sq_radius * math.sin(angle)
+            sq_points.append((x, y))
+        draw.polygon(sq_points, outline=(255, 200, 100), width=3)
+        draw.text((sq_center[0] - 25, sq_center[1] + 100), "Square", 
+                 fill=(255, 200, 100), font=font_label)
+        
+        # Draw circle (pulsing)
+        circle_center = (center_x + 200, center_y)
+        pulse = 1 + 0.1 * math.sin(t * 3)
+        circle_radius = int(60 * pulse)
+        draw.ellipse([circle_center[0] - circle_radius, circle_center[1] - circle_radius,
+                     circle_center[0] + circle_radius, circle_center[1] + circle_radius],
+                    outline=(150, 255, 150), width=3)
+        draw.text((circle_center[0] - 20, circle_center[1] + 100), "Circle", 
+                 fill=(150, 255, 150), font=font_label)
+        
+        # Show angle measurement in triangle
+        if t > duration * 0.3:
+            angle_arc_radius = 25
+            # Draw angle arc at first vertex
+            p0, p1, p2 = tri_points[0], tri_points[1], tri_points[2]
+            draw.arc([p0[0] - angle_arc_radius, p0[1] - angle_arc_radius,
+                     p0[0] + angle_arc_radius, p0[1] + angle_arc_radius],
+                    0, 60, fill=(255, 150, 200), width=2)
+            draw.text((p0[0] + 15, p0[1] - 25), "60°", fill=(255, 150, 200), font=font_info)
+        
+        # Show formulas
+        if t > duration * 0.5:
+            formula_y = HEIGHT - 80
+            draw.text((100, formula_y), "A = ½bh", fill=(100, 200, 255), font=font_label)
+            draw.text((400, formula_y), "A = s²", fill=(255, 200, 100), font=font_label)
+            draw.text((700, formula_y), "A = πr²", fill=(150, 255, 150), font=font_label)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
+
+
+# ============================================================
+# CHEMISTRY / ATOMS ANIMATION
+# ============================================================
+
+def create_chemistry_clip(duration: float = 5.0,
+                          title: str = "Chemistry") -> VideoClip:
+    """
+    Create animated chemistry/atomic visualization.
+    Shows atoms, electron orbits, and molecular bonds.
+    """
+    font_title = _load_font(28)
+    font_label = _load_font(18)
+    font_info = _load_font(16)
+    
+    center_x = WIDTH // 2
+    center_y = HEIGHT // 2 + 20
+    
+    def make_frame(t):
+        img = Image.new("RGB", (WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        
+        # Gradient background
+        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (15, 25, 45), (30, 50, 80))
+        
+        # Title
+        draw.text((WIDTH // 2 - 80, 25), title, fill=(220, 240, 255), font=font_title)
+        
+        # Draw atom model
+        atom_center = (center_x, center_y)
+        
+        # Nucleus
+        nucleus_radius = 25
+        draw.ellipse([atom_center[0] - nucleus_radius, atom_center[1] - nucleus_radius,
+                     atom_center[0] + nucleus_radius, atom_center[1] + nucleus_radius],
+                    fill=(255, 100, 100), outline=(255, 150, 150))
+        
+        # Protons and neutrons in nucleus
+        for i in range(4):
+            angle = i * math.pi / 2 + t * 0.5
+            px = atom_center[0] + 10 * math.cos(angle)
+            py = atom_center[1] + 10 * math.sin(angle)
+            color = (255, 150, 150) if i % 2 == 0 else (150, 150, 255)
+            draw.ellipse([px - 6, py - 6, px + 6, py + 6], fill=color)
+        
+        # Electron orbits
+        orbit_radii = [70, 120, 170]
+        electrons_per_orbit = [2, 4, 2]
+        
+        for orbit_idx, (radius, n_electrons) in enumerate(zip(orbit_radii, electrons_per_orbit)):
+            # Draw orbit path
+            draw.ellipse([atom_center[0] - radius, atom_center[1] - radius,
+                         atom_center[0] + radius, atom_center[1] + radius],
+                        outline=(80, 120, 180), width=1)
+            
+            # Draw electrons
+            speed = (3 - orbit_idx) * 0.8  # Inner orbits faster
+            for e in range(n_electrons):
+                angle = t * speed + e * (2 * math.pi / n_electrons)
+                ex = atom_center[0] + radius * math.cos(angle)
+                ey = atom_center[1] + radius * math.sin(angle)
+                
+                # Electron glow
+                draw.ellipse([ex - 10, ey - 10, ex + 10, ey + 10], 
+                           fill=(50, 100, 200))
+                draw.ellipse([ex - 6, ey - 6, ex + 6, ey + 6], 
+                           fill=(100, 180, 255))
+        
+        # Labels
+        draw.text((atom_center[0] - 30, atom_center[1] + 190), "Atomic Model",
+                 fill=(180, 200, 240), font=font_label)
+        
+        # Info panel
+        if t > duration * 0.3:
+            info_x = 50
+            info_y = HEIGHT - 100
+            draw.text((info_x, info_y), "● Protons (+)", fill=(255, 150, 150), font=font_info)
+            draw.text((info_x, info_y + 22), "● Neutrons", fill=(150, 150, 255), font=font_info)
+            draw.text((info_x, info_y + 44), "● Electrons (-)", fill=(100, 180, 255), font=font_info)
+        
+        # Energy levels
+        if t > duration * 0.5:
+            draw.text((WIDTH - 150, 120), "n=1", fill=(100, 180, 255), font=font_info)
+            draw.text((WIDTH - 150, 170), "n=2", fill=(100, 180, 255), font=font_info)
+            draw.text((WIDTH - 150, 220), "n=3", fill=(100, 180, 255), font=font_info)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
+
+
+# ============================================================
+# WAVE / PHYSICS ANIMATION (General)
+# ============================================================
+
+def create_wave_clip(duration: float = 5.0,
+                     title: str = "Wave Motion") -> VideoClip:
+    """
+    Create animated wave visualization for general physics topics.
+    Shows wave propagation, amplitude, wavelength.
+    """
+    font_title = _load_font(28)
+    font_label = _load_font(18)
+    font_info = _load_font(16)
+    
+    def make_frame(t):
+        img = Image.new("RGB", (WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        
+        # Gradient background
+        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (18, 30, 55), (35, 58, 95))
+        
+        # Title
+        draw.text((WIDTH // 2 - 80, 25), title, fill=(220, 240, 255), font=font_title)
+        
+        # Wave parameters
+        amplitude = 80
+        wavelength = 200
+        wave_y = HEIGHT // 2
+        
+        # Draw axis
+        draw.line([(50, wave_y), (WIDTH - 50, wave_y)], fill=(100, 140, 180), width=1)
+        
+        # Draw wave
+        points = []
+        phase = t * 2  # Wave moves right
+        
+        for x in range(50, WIDTH - 50, 3):
+            y = wave_y - amplitude * math.sin(2 * math.pi * (x - 50) / wavelength - phase)
+            points.append((x, int(y)))
+        
+        if len(points) >= 2:
+            draw.line(points, fill=(100, 200, 255), width=3)
+        
+        # Second wave (different phase for interference visualization)
+        if t > duration * 0.4:
+            points2 = []
+            for x in range(50, WIDTH - 50, 3):
+                y = wave_y - (amplitude * 0.6) * math.sin(2 * math.pi * (x - 50) / (wavelength * 0.7) - phase * 1.3)
+                points2.append((x, int(y)))
+            
+            if len(points2) >= 2:
+                draw.line(points2, fill=(255, 180, 100), width=2)
+        
+        # Amplitude indicator
+        if t > duration * 0.2:
+            amp_x = 100
+            draw.line([(amp_x, wave_y), (amp_x, wave_y - amplitude)], 
+                     fill=(255, 150, 200), width=2)
+            draw.line([(amp_x - 10, wave_y - amplitude), (amp_x + 10, wave_y - amplitude)],
+                     fill=(255, 150, 200), width=2)
+            draw.text((amp_x + 15, wave_y - amplitude // 2 - 10), "A",
+                     fill=(255, 150, 200), font=font_label)
+        
+        # Wavelength indicator
+        if t > duration * 0.3:
+            wl_y = wave_y + 60
+            wl_x1 = 150
+            wl_x2 = 150 + wavelength
+            draw.line([(wl_x1, wl_y), (wl_x2, wl_y)], fill=(150, 255, 150), width=2)
+            draw.line([(wl_x1, wl_y - 10), (wl_x1, wl_y + 10)], fill=(150, 255, 150), width=2)
+            draw.line([(wl_x2, wl_y - 10), (wl_x2, wl_y + 10)], fill=(150, 255, 150), width=2)
+            draw.text([(wl_x1 + wl_x2) // 2 - 10, wl_y + 15], "λ",
+                     fill=(150, 255, 150), font=font_label)
+        
+        # Wave equation
+        if t > duration * 0.6:
+            draw.text((WIDTH // 2 - 80, HEIGHT - 60), "y = A sin(kx - ωt)",
+                     fill=(180, 220, 255), font=font_label)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
+
+
+# ============================================================
+# STATISTICS / DATA VISUALIZATION ANIMATION
+# ============================================================
+
+def create_statistics_clip(duration: float = 5.0,
+                           title: str = "Statistics") -> VideoClip:
+    """
+    Create animated statistics/data visualization.
+    Shows bar chart, distribution curve, mean/median.
+    """
+    font_title = _load_font(28)
+    font_label = _load_font(18)
+    font_info = _load_font(14)
+    
+    import random
+    random.seed(123)
+    
+    # Sample data
+    data = [random.gauss(50, 15) for _ in range(7)]
+    data = [max(10, min(90, d)) for d in data]  # Clamp values
+    labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+    
+    def make_frame(t):
+        img = Image.new("RGB", (WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        
+        # Gradient background
+        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (22, 32, 55), (40, 60, 95))
+        
+        # Title
+        draw.text((WIDTH // 2 - 80, 25), title, fill=(220, 240, 255), font=font_title)
+        
+        # Chart area
+        chart_left = 100
+        chart_right = WIDTH - 100
+        chart_top = 100
+        chart_bottom = HEIGHT - 100
+        chart_height = chart_bottom - chart_top
+        
+        # Animate bar growth
+        progress = min(1.0, t / (duration * 0.5))
+        
+        # Draw bars
+        bar_width = (chart_right - chart_left) // len(data) - 20
+        
+        colors = [
+            (100, 180, 255), (255, 150, 100), (150, 255, 150),
+            (255, 200, 100), (200, 150, 255), (255, 150, 200), (150, 220, 200)
+        ]
+        
+        for i, (value, label) in enumerate(zip(data, labels)):
+            x = chart_left + i * (bar_width + 20) + 10
+            bar_height = int((value / 100) * chart_height * progress)
+            y_top = chart_bottom - bar_height
+            
+            # Bar with gradient effect
+            for j in range(bar_height):
+                ratio = j / max(1, bar_height)
+                color = tuple(int(c * (0.6 + 0.4 * ratio)) for c in colors[i])
+                draw.line([(x, chart_bottom - j), (x + bar_width, chart_bottom - j)], fill=color)
+            
+            # Bar outline
+            draw.rectangle([x, y_top, x + bar_width, chart_bottom], outline=(255, 255, 255), width=1)
+            
+            # Label
+            draw.text((x + bar_width // 2 - 5, chart_bottom + 10), label,
+                     fill=(200, 220, 240), font=font_info)
+            
+            # Value
+            if progress > 0.8:
+                draw.text((x + bar_width // 2 - 10, y_top - 25), f"{value:.0f}",
+                         fill=(220, 240, 255), font=font_info)
+        
+        # Calculate and show statistics
+        if t > duration * 0.6:
+            mean_val = sum(data) / len(data)
+            sorted_data = sorted(data)
+            median_val = sorted_data[len(data) // 2]
+            
+            stats_x = 50
+            stats_y = 80
+            draw.text((stats_x, stats_y), f"Mean: {mean_val:.1f}", 
+                     fill=(100, 255, 200), font=font_label)
+            draw.text((stats_x + 150, stats_y), f"Median: {median_val:.1f}", 
+                     fill=(255, 200, 100), font=font_label)
+        
+        # Draw mean line
+        if t > duration * 0.7:
+            mean_val = sum(data) / len(data)
+            mean_y = chart_bottom - int((mean_val / 100) * chart_height)
+            draw.line([(chart_left, mean_y), (chart_right, mean_y)],
+                     fill=(100, 255, 200), width=2)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
+
+
+# ============================================================
 # GENERIC TOPIC ANIMATION (for any topic)
 # ============================================================
 

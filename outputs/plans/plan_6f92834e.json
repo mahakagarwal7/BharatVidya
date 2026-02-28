@@ -1,0 +1,36 @@
+{
+  "title": "Heat vs. Temperature: A Fundamental Physics Concept",
+  "summary": "This video will clarify common misconceptions about heat and temperature by explaining their definitions, differences, how they are measured, factors affecting them, and practical implications in various fields.",
+  "category": "physics",
+  "sections": [
+    {
+      "heading": "Defining Heat and Temperature",
+      "body": "In the realm of physics, heat is energy transferred due to a difference in temperature between two systems or objects. It can flow as thermal radiation or conduction without any physical contact required.",
+      "key_points": [
+        "Heat transfers even when separated by empty space.",
+        "Temperature measures an object's internal kinetic energy."
+      ]
+    },
+    {
+      "heading": "Measuring Heat and Temperature",
+      "body": "To measure heat, we employ calorimetry to observe the change in a system as it exchanges thermal energy. On the other hand, temperature is gauged using thermometers that rely on materials expanding or contracting with kinetic changes.",
+      "key_points": [
+        "Calorimetry measures energy exchange",
+        "'Thermometer' uses material properties to gauge heat"
+      ]
+    },
+    {
+      "heading": "Factors Influencing Heat and Temperature",
+      "body": "The amount of heat transferred depends on the materials involved, their masses, temperature difference (the greater, more rapid transfer), while factors like pressure also play a role. The specific heat capacity is essential in determining how substances absorb or release heat.",
+      "key_points": [
+        "Materials and mass impact energy exchange",
+        "'Specific heat' defines absorption/release rates"
+      ]
+    }
+  ],
+  "key_facts": [
+    "Heat can be measured with a calorimeter, temperature is gauged in degrees Celsisus or Kelvin.",
+    "Stefan-Boltzmann law: Radiant heat energy emitted by a body per unit surface area."
+  ],
+  "visual_style": "mixed"
+}
