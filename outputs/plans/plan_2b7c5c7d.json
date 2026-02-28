@@ -1,0 +1,35 @@
+{
+  "title": "Newton's Laws of Motion Unveiled",
+  "summary": "Discover Isaac Newton\u2019s groundbreaking laws that govern motion and explain their profound impact on physics.",
+  "category": "physics",
+  "sections": [
+    {
+      "heading": "Newton's First Law - The Law of Inertia",
+      "body": "The first law states an object at rest will stay at rest, and one in motion will remain in motion unless acted upon by a net external force. This is often called 'inertia'. A key application can be seen when you observe objects like frictionless pucks on ice moving smoothly until they strike something.",
+      "key_points": [
+        "Objects maintain their state",
+        "Inertia defines resistance to changes in motion"
+      ]
+    },
+    {
+      "heading": "Newton's Second Law - The Relationship Between Force, Mass, and Acceleration",
+      "body": "The second law introduces the equation F=ma (Force equals mass times acceleration), revealing that heavier objects require more force to change their motion. This concept is vital for understanding why larger vehicles take longer to speed up or stop than smaller ones.",
+      "key_points": [
+        "Mass and acceleration are directly proportional",
+        "Greater mass demands greater net force"
+      ]
+    },
+    {
+      "heading": "Newton's Third Law - Action-Reaction Pairs",
+      "body": "The third law tells us that for every action, there is an equal and opposite reaction. This explains why when you jump off a small boat into the water, it moves in the other direction; your legs push down on the boat (action), and the boat reacts by moving away from you.",
+      "key_points": [
+        "Action-reaction pairs are always equal",
+        "Interactions between objects"
+      ]
+    }
+  ],
+  "key_facts": [
+    "F=ma is Newton\u2019s Second Law of Motion equation"
+  ],
+  "visual_style": "mixed"
+}

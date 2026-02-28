@@ -1436,3 +1436,527 @@ def create_generic_clip(duration: float = 5.0,
     
     return VideoClip(make_frame, duration=duration)
 
+
+# ============================================================
+# COORDINATE GEOMETRY / GRAPHICAL ANALYSIS ANIMATION
+# ============================================================
+
+def create_coordinate_geometry_clip(duration: float = 5.0,
+                                    title: str = "Coordinate Geometry") -> VideoClip:
+    """
+    Create animated coordinate geometry visualization.
+    Shows coordinate axes, point plotting, distance formula, and midpoint.
+    """
+    font_title = _load_font(28)
+    font_label = _load_font(16)
+    font_info = _load_font(18)
+    font_small = _load_font(14)
+    
+    # Coordinate system setup
+    origin_x = WIDTH // 2
+    origin_y = HEIGHT // 2 + 30
+    scale = 40  # pixels per unit
+    
+    # Points to plot
+    point_a = (-3, 2)
+    point_b = (4, -1)
+    
+    def make_frame(t):
+        img = Image.new("RGB", (WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        
+        # Gradient background
+        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (20, 28, 50), (35, 50, 85))
+        
+        # Title
+        draw.text((WIDTH // 2 - 120, 20), title, fill=(220, 240, 255), font=font_title)
+        
+        # Draw grid
+        grid_alpha = 0.3
+        for i in range(-10, 11):
+            x = origin_x + i * scale
+            y = origin_y - i * scale
+            # Vertical grid lines
+            if -5 <= i <= 5:
+                draw.line([(x, origin_y - 5 * scale), (x, origin_y + 4 * scale)],
+                         fill=(60, 80, 110), width=1)
+                # Horizontal grid lines
+                draw.line([(origin_x - 5 * scale, y), (origin_x + 5 * scale, y)],
+                         fill=(60, 80, 110), width=1)
+        
+        # Draw axes
+        draw.line([(origin_x - 220, origin_y), (origin_x + 220, origin_y)],
+                  fill=(150, 180, 220), width=2)
+        draw.line([(origin_x, origin_y - 180), (origin_x, origin_y + 160)],
+                  fill=(150, 180, 220), width=2)
+        
+        # Axis labels
+        draw.text((origin_x + 225, origin_y - 10), "X", fill=(150, 180, 220), font=font_label)
+        draw.text((origin_x + 5, origin_y - 195), "Y", fill=(150, 180, 220), font=font_label)
+        draw.text((origin_x + 5, origin_y + 5), "O", fill=(150, 180, 220), font=font_small)
+        
+        # Animate point plotting
+        plot_time = duration * 0.3
+        
+        # Point A - appears first
+        if t > duration * 0.15:
+            ax = origin_x + point_a[0] * scale
+            ay = origin_y - point_a[1] * scale
+            # Pulsing effect
+            pulse = 1 + 0.2 * math.sin(t * 4)
+            r = int(8 * pulse)
+            draw.ellipse([ax - r, ay - r, ax + r, ay + r], fill=(100, 200, 255))
+            draw.text((ax + 12, ay - 20), f"A({point_a[0]}, {point_a[1]})", 
+                     fill=(100, 200, 255), font=font_label)
+        
+        # Point B - appears second
+        if t > duration * 0.3:
+            bx = origin_x + point_b[0] * scale
+            by = origin_y - point_b[1] * scale
+            pulse = 1 + 0.2 * math.sin(t * 4 + 1)
+            r = int(8 * pulse)
+            draw.ellipse([bx - r, by - r, bx + r, by + r], fill=(255, 180, 100))
+            draw.text((bx + 12, by - 20), f"B({point_b[0]}, {point_b[1]})", 
+                     fill=(255, 180, 100), font=font_label)
+        
+        # Draw line segment connecting points
+        if t > duration * 0.45:
+            ax = origin_x + point_a[0] * scale
+            ay = origin_y - point_a[1] * scale
+            bx = origin_x + point_b[0] * scale
+            by = origin_y - point_b[1] * scale
+            
+            # Animated line drawing
+            line_progress = min(1.0, (t - duration * 0.45) / (duration * 0.2))
+            curr_x = ax + (bx - ax) * line_progress
+            curr_y = ay + (by - ay) * line_progress
+            draw.line([(ax, ay), (curr_x, curr_y)], fill=(180, 255, 180), width=2)
+        
+        # Midpoint calculation
+        if t > duration * 0.6:
+            ax = origin_x + point_a[0] * scale
+            ay = origin_y - point_a[1] * scale
+            bx = origin_x + point_b[0] * scale
+            by = origin_y - point_b[1] * scale
+            
+            mid_x = (ax + bx) // 2
+            mid_y = (ay + by) // 2
+            mid_coords = ((point_a[0] + point_b[0]) / 2, (point_a[1] + point_b[1]) / 2)
+            
+            # Draw midpoint
+            pulse = 1 + 0.15 * math.sin(t * 5)
+            r = int(6 * pulse)
+            draw.ellipse([mid_x - r, mid_y - r, mid_x + r, mid_y + r], fill=(255, 150, 200))
+            draw.text((mid_x + 10, mid_y + 5), f"M({mid_coords[0]}, {mid_coords[1]})", 
+                     fill=(255, 150, 200), font=font_small)
+        
+        # Show distance formula
+        if t > duration * 0.75:
+            dx = point_b[0] - point_a[0]
+            dy = point_b[1] - point_a[1]
+            dist = math.sqrt(dx**2 + dy**2)
+            
+            formula_y = HEIGHT - 60
+            draw.text((80, formula_y), f"Distance = √[(x₂-x₁)² + (y₂-y₁)²]", 
+                     fill=(180, 220, 255), font=font_label)
+            draw.text((520, formula_y), f"= √[{dx}² + {dy}²] = {dist:.2f}", 
+                     fill=(180, 255, 180), font=font_label)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
+
+
+# ============================================================
+# ELECTRIC CIRCUIT ANIMATION
+# ============================================================
+
+def create_circuit_clip(duration: float = 5.0,
+                        title: str = "Electric Circuit") -> VideoClip:
+    """
+    Create animated electric circuit visualization.
+    Shows current flow, resistors, and voltage source.
+    """
+    font_title = _load_font(28)
+    font_label = _load_font(16)
+    font_info = _load_font(14)
+    
+    def make_frame(t):
+        img = Image.new("RGB", (WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        
+        # Gradient background
+        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (22, 30, 55), (40, 55, 90))
+        
+        # Title
+        draw.text((WIDTH // 2 - 100, 20), title, fill=(220, 240, 255), font=font_title)
+        
+        # Circuit layout
+        cx, cy = WIDTH // 2, HEIGHT // 2 + 20
+        rect_w, rect_h = 400, 200
+        
+        # Draw circuit rectangle (wires)
+        wire_color = (180, 200, 220)
+        # Top wire
+        draw.line([(cx - rect_w//2, cy - rect_h//2), (cx + rect_w//2, cy - rect_h//2)],
+                  fill=wire_color, width=3)
+        # Right wire
+        draw.line([(cx + rect_w//2, cy - rect_h//2), (cx + rect_w//2, cy + rect_h//2)],
+                  fill=wire_color, width=3)
+        # Bottom wire
+        draw.line([(cx - rect_w//2, cy + rect_h//2), (cx + rect_w//2, cy + rect_h//2)],
+                  fill=wire_color, width=3)
+        # Left wire
+        draw.line([(cx - rect_w//2, cy - rect_h//2), (cx - rect_w//2, cy + rect_h//2)],
+                  fill=wire_color, width=3)
+        
+        # Draw battery (left side)
+        batt_x = cx - rect_w//2 - 15
+        batt_y = cy
+        # Long line (positive)
+        draw.line([(batt_x, batt_y - 20), (batt_x, batt_y + 20)], fill=(255, 100, 100), width=4)
+        # Short line (negative)
+        draw.line([(batt_x + 15, batt_y - 12), (batt_x + 15, batt_y + 12)], fill=(100, 100, 255), width=3)
+        draw.text((batt_x - 30, batt_y + 30), "+  -", fill=(200, 200, 220), font=font_info)
+        draw.text((batt_x - 25, batt_y - 50), "9V", fill=(255, 200, 100), font=font_label)
+        
+        # Draw resistor (top)
+        res_x = cx
+        res_y = cy - rect_h//2
+        zigzag_w = 60
+        zigzag_h = 15
+        points = [(res_x - zigzag_w, res_y)]
+        for i in range(6):
+            y_offset = zigzag_h if i % 2 == 0 else -zigzag_h
+            points.append((res_x - zigzag_w + (i + 1) * 20, res_y + y_offset))
+        points.append((res_x + zigzag_w, res_y))
+        
+        # Draw zigzag resistor
+        for i in range(len(points) - 1):
+            draw.line([points[i], points[i + 1]], fill=(255, 200, 100), width=3)
+        draw.text((res_x - 15, res_y - 40), "R = 3Ω", fill=(255, 200, 100), font=font_label)
+        
+        # Draw bulb (right side)
+        bulb_x = cx + rect_w//2 + 15
+        bulb_y = cy
+        bulb_r = 25
+        # Bulb glow effect (pulsing)
+        glow_intensity = 0.6 + 0.4 * math.sin(t * 5)
+        glow_color = (int(255 * glow_intensity), int(220 * glow_intensity), int(100 * glow_intensity))
+        for r_off in range(15, 0, -3):
+            alpha = int(100 * (1 - r_off / 15) * glow_intensity)
+            draw.ellipse([bulb_x - bulb_r - r_off, bulb_y - bulb_r - r_off,
+                         bulb_x + bulb_r + r_off, bulb_y + bulb_r + r_off],
+                        fill=(int(255 * alpha/255), int(180 * alpha/255), int(50 * alpha/255)))
+        draw.ellipse([bulb_x - bulb_r, bulb_y - bulb_r, bulb_x + bulb_r, bulb_y + bulb_r],
+                    outline=(255, 220, 100), fill=glow_color, width=2)
+        draw.text((bulb_x - 20, bulb_y + 35), "Bulb", fill=(255, 220, 150), font=font_info)
+        
+        # Animated current flow (electrons)
+        num_electrons = 12
+        for i in range(num_electrons):
+            phase = (t * 2 + i * 0.5) % 4
+            
+            if phase < 1:  # Top wire (left to right)
+                ex = cx - rect_w//2 + phase * rect_w
+                ey = cy - rect_h//2
+            elif phase < 2:  # Right wire (top to bottom)
+                ex = cx + rect_w//2
+                ey = cy - rect_h//2 + (phase - 1) * rect_h
+            elif phase < 3:  # Bottom wire (right to left)
+                ex = cx + rect_w//2 - (phase - 2) * rect_w
+                ey = cy + rect_h//2
+            else:  # Left wire (bottom to top)
+                ex = cx - rect_w//2
+                ey = cy + rect_h//2 - (phase - 3) * rect_h
+            
+            # Draw electron
+            e_size = 6
+            draw.ellipse([ex - e_size, ey - e_size, ex + e_size, ey + e_size],
+                        fill=(100, 180, 255))
+            draw.text((ex - 3, ey - 5), "-", fill=(255, 255, 255), font=font_info)
+        
+        # Current direction arrow
+        arrow_x = cx
+        arrow_y = cy + rect_h//2 + 30
+        draw.line([(arrow_x - 50, arrow_y), (arrow_x + 50, arrow_y)], fill=(100, 200, 255), width=2)
+        draw.polygon([(arrow_x - 60, arrow_y), (arrow_x - 50, arrow_y - 8), (arrow_x - 50, arrow_y + 8)],
+                    fill=(100, 200, 255))
+        draw.text((arrow_x - 70, arrow_y + 10), "Current (I)", fill=(100, 200, 255), font=font_info)
+        
+        # Ohm's law text
+        if t > duration * 0.4:
+            draw.text((80, HEIGHT - 50), "Ohm's Law: V = I × R", fill=(180, 220, 255), font=font_label)
+            draw.text((350, HEIGHT - 50), "I = V/R = 9V/3Ω = 3A", fill=(150, 255, 150), font=font_label)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
+
+
+# ============================================================
+# OPTICS / LIGHT ANIMATION
+# ============================================================
+
+def create_optics_clip(duration: float = 5.0,
+                       title: str = "Light & Optics") -> VideoClip:
+    """
+    Create animated optics visualization.
+    Shows light reflection and refraction.
+    """
+    font_title = _load_font(28)
+    font_label = _load_font(16)
+    font_info = _load_font(14)
+    
+    def make_frame(t):
+        img = Image.new("RGB", (WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        
+        # Dark gradient background
+        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (15, 20, 40), (30, 40, 70))
+        
+        # Title
+        draw.text((WIDTH // 2 - 80, 20), title, fill=(220, 240, 255), font=font_title)
+        
+        # Mirror/glass surface (horizontal)
+        surface_y = HEIGHT // 2 + 30
+        surface_x1 = 100
+        surface_x2 = WIDTH - 100
+        
+        # Draw surface
+        draw.line([(surface_x1, surface_y), (surface_x2, surface_y)], 
+                  fill=(200, 220, 255), width=4)
+        
+        # Label surfaces
+        draw.text((120, surface_y - 70), "Air (n=1.0)", fill=(180, 200, 220), font=font_label)
+        draw.text((120, surface_y + 50), "Glass (n=1.5)", fill=(180, 200, 220), font=font_label)
+        
+        # Normal line (dashed)
+        normal_x = WIDTH // 2 - 50
+        for y in range(surface_y - 120, surface_y + 120, 15):
+            draw.line([(normal_x, y), (normal_x, y + 8)], fill=(150, 150, 180), width=1)
+        draw.text((normal_x - 35, surface_y - 140), "Normal", fill=(150, 150, 180), font=font_info)
+        
+        # Incident ray animation
+        incident_start = (normal_x - 150, surface_y - 150)
+        incident_end = (normal_x, surface_y)
+        
+        # Calculate ray animation progress
+        ray_progress = min(1.0, t / (duration * 0.4))
+        
+        if ray_progress > 0:
+            # Draw incident ray with animated glow
+            for width in range(8, 1, -2):
+                alpha = 100 - width * 10
+                color = (255, int(200 + 55 * math.sin(t * 8)), 50)
+                curr_x = incident_start[0] + (incident_end[0] - incident_start[0]) * ray_progress
+                curr_y = incident_start[1] + (incident_end[1] - incident_start[1]) * ray_progress
+                draw.line([incident_start, (curr_x, curr_y)], fill=color, width=width)
+            
+            draw.text((incident_start[0] - 30, incident_start[1] - 20), "Incident Ray", 
+                     fill=(255, 220, 100), font=font_info)
+        
+        # After incident ray reaches surface
+        if t > duration * 0.4:
+            # Draw angle of incidence arc
+            angle_radius = 40
+            draw.arc([normal_x - angle_radius, surface_y - angle_radius,
+                     normal_x + angle_radius, surface_y + angle_radius],
+                    225, 270, fill=(255, 200, 100), width=2)
+            draw.text((normal_x - 70, surface_y - 60), "θ₁=45°", fill=(255, 200, 100), font=font_info)
+            
+            # Reflected ray
+            reflect_progress = min(1.0, (t - duration * 0.4) / (duration * 0.25))
+            if reflect_progress > 0:
+                reflect_end = (normal_x + 150, surface_y - 150)
+                curr_x = incident_end[0] + (reflect_end[0] - incident_end[0]) * reflect_progress
+                curr_y = incident_end[1] + (reflect_end[1] - incident_end[1]) * reflect_progress
+                
+                for width in range(6, 1, -2):
+                    color = (100, 200, 255)
+                    draw.line([incident_end, (curr_x, curr_y)], fill=color, width=width)
+                
+                if reflect_progress > 0.8:
+                    draw.text((reflect_end[0] - 20, reflect_end[1] - 20), "Reflected Ray", 
+                             fill=(100, 200, 255), font=font_info)
+                    # Angle of reflection
+                    draw.arc([normal_x - angle_radius, surface_y - angle_radius,
+                             normal_x + angle_radius, surface_y + angle_radius],
+                            270, 315, fill=(100, 200, 255), width=2)
+                    draw.text((normal_x + 25, surface_y - 60), "θ₁'=45°", fill=(100, 200, 255), font=font_info)
+            
+            # Refracted ray
+            refract_progress = min(1.0, (t - duration * 0.5) / (duration * 0.3))
+            if refract_progress > 0:
+                # Snell's law: n1*sin(θ1) = n2*sin(θ2)
+                # θ2 = arcsin(1.0/1.5 * sin(45°)) ≈ 28°
+                refract_end = (normal_x + 80, surface_y + 150)
+                curr_x = incident_end[0] + (refract_end[0] - incident_end[0]) * refract_progress
+                curr_y = incident_end[1] + (refract_end[1] - incident_end[1]) * refract_progress
+                
+                for width in range(6, 1, -2):
+                    color = (150, 255, 150)
+                    draw.line([incident_end, (curr_x, curr_y)], fill=color, width=width)
+                
+                if refract_progress > 0.8:
+                    draw.text((refract_end[0] - 20, refract_end[1] + 5), "Refracted Ray", 
+                             fill=(150, 255, 150), font=font_info)
+                    # Angle of refraction
+                    draw.arc([normal_x - angle_radius, surface_y - angle_radius,
+                             normal_x + angle_radius, surface_y + angle_radius],
+                            90, 118, fill=(150, 255, 150), width=2)
+                    draw.text((normal_x - 70, surface_y + 25), "θ₂=28°", fill=(150, 255, 150), font=font_info)
+        
+        # Snell's law text
+        if t > duration * 0.7:
+            draw.text((80, HEIGHT - 55), "Snell's Law: n₁ sin θ₁ = n₂ sin θ₂", 
+                     fill=(180, 220, 255), font=font_label)
+            draw.text((450, HEIGHT - 55), "1.0 × sin(45°) = 1.5 × sin(28°)", 
+                     fill=(150, 255, 150), font=font_info)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
+
+
+# ============================================================
+# FORCE / NEWTON'S LAWS ANIMATION
+# ============================================================
+
+def create_force_clip(duration: float = 5.0,
+                      title: str = "Forces & Newton's Laws") -> VideoClip:
+    """
+    Create animated force/Newton's laws visualization.
+    Shows force vectors, mass, and acceleration.
+    """
+    font_title = _load_font(28)
+    font_label = _load_font(16)
+    font_info = _load_font(14)
+    
+    def make_frame(t):
+        img = Image.new("RGB", (WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        
+        # Gradient background
+        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (20, 30, 50), (40, 55, 85))
+        
+        # Title
+        draw.text((WIDTH // 2 - 130, 20), title, fill=(220, 240, 255), font=font_title)
+        
+        # Ground line
+        ground_y = HEIGHT - 100
+        draw.line([(50, ground_y), (WIDTH - 50, ground_y)], fill=(120, 140, 160), width=2)
+        
+        # Moving box
+        box_w, box_h = 80, 60
+        # Accelerating motion
+        acceleration = 50  # pixels per second^2
+        initial_x = 150
+        box_x = initial_x + 0.5 * acceleration * t * t
+        box_x = min(box_x, WIDTH - 200)  # Limit position
+        box_y = ground_y - box_h
+        
+        # Draw box with shading
+        draw.rectangle([box_x, box_y, box_x + box_w, box_y + box_h],
+                      fill=(180, 150, 100), outline=(220, 180, 120), width=2)
+        draw.text((box_x + 15, box_y + 20), "5 kg", fill=(60, 40, 20), font=font_label)
+        
+        # Force arrows
+        arrow_y = box_y + box_h // 2
+        
+        # Applied force (right arrow) - pulsing
+        pulse = 0.9 + 0.1 * math.sin(t * 6)
+        f_length = int(120 * pulse)
+        f_color = (255, 150, 100)
+        draw.line([(box_x + box_w, arrow_y), (box_x + box_w + f_length, arrow_y)],
+                  fill=f_color, width=4)
+        # Arrowhead
+        draw.polygon([(box_x + box_w + f_length + 15, arrow_y),
+                     (box_x + box_w + f_length, arrow_y - 10),
+                     (box_x + box_w + f_length, arrow_y + 10)],
+                    fill=f_color)
+        draw.text((box_x + box_w + 30, arrow_y - 35), "F = 20 N", fill=f_color, font=font_label)
+        
+        # Friction force (left arrow)
+        friction_length = 60
+        fr_color = (150, 100, 255)
+        draw.line([(box_x, arrow_y), (box_x - friction_length, arrow_y)],
+                  fill=fr_color, width=3)
+        draw.polygon([(box_x - friction_length - 12, arrow_y),
+                     (box_x - friction_length, arrow_y - 8),
+                     (box_x - friction_length, arrow_y + 10)],
+                    fill=fr_color)
+        draw.text((box_x - friction_length - 10, arrow_y - 30), "f = 5 N", fill=fr_color, font=font_info)
+        
+        # Normal force (up arrow)
+        normal_length = 80
+        n_color = (100, 255, 150)
+        draw.line([(box_x + box_w // 2, box_y + box_h), 
+                  (box_x + box_w // 2, box_y + box_h + normal_length)],
+                  fill=n_color, width=3)
+        # Draw at bottom going down then flip
+        n_start_y = box_y
+        draw.line([(box_x + box_w // 2, n_start_y), 
+                  (box_x + box_w // 2, n_start_y - normal_length)],
+                  fill=n_color, width=3)
+        draw.polygon([(box_x + box_w // 2, n_start_y - normal_length - 12),
+                     (box_x + box_w // 2 - 8, n_start_y - normal_length),
+                     (box_x + box_w // 2 + 8, n_start_y - normal_length)],
+                    fill=n_color)
+        draw.text((box_x + box_w // 2 + 10, n_start_y - normal_length - 10), "N", 
+                 fill=n_color, font=font_label)
+        
+        # Weight/Gravity (down arrow)
+        w_color = (255, 100, 100)
+        w_start_y = box_y + box_h
+        draw.line([(box_x + box_w // 2, w_start_y), 
+                  (box_x + box_w // 2, w_start_y + normal_length)],
+                  fill=w_color, width=3)
+        draw.polygon([(box_x + box_w // 2, w_start_y + normal_length + 12),
+                     (box_x + box_w // 2 - 8, w_start_y + normal_length),
+                     (box_x + box_w // 2 + 8, w_start_y + normal_length)],
+                    fill=w_color)
+        draw.text((box_x + box_w // 2 + 10, w_start_y + normal_length - 5), "W = mg", 
+                 fill=w_color, font=font_info)
+        
+        # Acceleration indicator (animated)
+        accel_x = box_x + box_w + 180
+        accel_y = arrow_y
+        accel_phase = (t * 3) % 1
+        for i in range(3):
+            offset = int(20 * accel_phase) + i * 25
+            alpha = int(200 * (1 - accel_phase))
+            a_color = (255, 255, 100)
+            draw.line([(accel_x + offset, accel_y - 15), (accel_x + offset, accel_y + 15)],
+                     fill=a_color, width=2)
+        draw.text((accel_x, accel_y + 25), "a = 3 m/s²", fill=(255, 255, 100), font=font_label)
+        
+        # Newton's Second Law
+        if t > duration * 0.3:
+            law_y = 70
+            draw.text((80, law_y), "Newton's Second Law:", fill=(200, 220, 255), font=font_label)
+            draw.text((300, law_y), "F_net = ma", fill=(255, 200, 150), font=font_label)
+            
+            if t > duration * 0.5:
+                draw.text((80, law_y + 30), "F_net = F - f = 20 - 5 = 15 N", 
+                         fill=(180, 200, 220), font=font_info)
+                draw.text((80, law_y + 55), "a = F_net / m = 15 / 5 = 3 m/s²", 
+                         fill=(180, 200, 220), font=font_info)
+        
+        # Speed indicator
+        velocity = acceleration * t  # v = at (starting from rest)
+        speed_text = f"v = {velocity:.1f} m/s"
+        draw.text((WIDTH - 180, ground_y + 20), speed_text, fill=(180, 220, 255), font=font_label)
+        
+        # Motion lines behind box
+        for i in range(5):
+            line_x = box_x - 20 - i * 15
+            if line_x > 100:
+                alpha = 150 - i * 25
+                line_y = arrow_y
+                draw.line([(line_x, line_y - 10), (line_x, line_y + 10)],
+                         fill=(100, 150, 200), width=2)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)

@@ -144,6 +144,23 @@ def detect_topic(concept: str) -> str:
             return "heat"
 
     # Geometry / Shapes
+    # Check coordinate geometry FIRST (more specific)
+    coordinate_patterns = [
+        r"\bcoordinate\s+geometr(y|ic)",
+        r"\bdistance\s+formula\b",
+        r"\bmidpoint\s+(formula|theorem)",
+        r"\bplotting\s+points\b",
+        r"\bcartesian\s+(plane|coordinate)",
+        r"\bgraphical\s+analysis\b",
+        r"\bgraph\s+plotting\b",
+        r"\bcoordinate\s+system\b",
+        r"\bpoint(s)?\s+on\s+(a\s+)?plane\b",
+    ]
+    for pattern in coordinate_patterns:
+        if re.search(pattern, text):
+            return "coordinate_geometry"
+
+    # General Geometry / Shapes (after coordinate geometry check)
     geometry_patterns = [
         r"\bgeometr(y|ic)\b",
         r"\b(triangle|square|circle|rectangle)\s+(area|perimeter|properties)",
@@ -203,6 +220,59 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "statistics"
 
+    # Electric Circuits
+    circuit_patterns = [
+        r"\belectric\s+circuit\b",
+        r"\bcircuit\s+(diagram|analysis)\b",
+        r"\bohm'?s?\s+law\b",
+        r"\bresist(or|ance)\b.*\bcircuit\b",
+        r"\bvoltage\b.*\bcurrent\b",
+        r"\bcurrent\b.*\bvoltage\b",
+        r"\bseries\s+(and\s+)?parallel\s+circuit",
+        r"\bkirchh?off'?s?\s+law\b",
+        r"\bcapacitor\b.*\bcircuit\b",
+    ]
+    for pattern in circuit_patterns:
+        if re.search(pattern, text):
+            return "circuit"
+
+    # Optics / Light
+    optics_patterns = [
+        r"\boptics\b",
+        r"\blight\s+(reflection|refraction)\b",
+        r"\breflection\s+(of\s+)?light\b",
+        r"\brefraction\s+(of\s+)?light\b",
+        r"\bsnell'?s?\s+law\b",
+        r"\brefractive\s+index\b",
+        r"\bmirror\s+(image|reflection)\b",
+        r"\blens\s+(formula|equation)\b",
+        r"\btotal\s+internal\s+reflection\b",
+        r"\bangle\s+of\s+(incidence|reflection|refraction)\b",
+    ]
+    for pattern in optics_patterns:
+        if re.search(pattern, text):
+            return "optics"
+
+    # Force / Newton's Laws
+    force_patterns = [
+        r"\bnewton'?s?\s+(first|second|third)\s+law\b",
+        r"\bnewton'?s?\s+laws?\s+(of\s+)?motion\b",
+        r"\bforce\s+(and\s+)?(motion|acceleration)\b",
+        r"\b(motion|acceleration)\s+(and\s+)?force\b",
+        r"\bforce\s+vector(s)?\b",
+        r"\bf\s*=\s*m\s*a\b",
+        r"\bfriction(al)?\s+force\b",
+        r"\bnet\s+force\b",
+        r"\bfree\s+body\s+diagram\b",
+        r"\baction\s+(and\s+)?reaction\b",
+        r"\bequilibrium\s+of\s+forces\b",
+        r"\bapplied\s+force\b",
+        r"\bforces\s+on\b",
+    ]
+    for pattern in force_patterns:
+        if re.search(pattern, text):
+            return "force"
+
     return "generic"
 
 
@@ -224,7 +294,8 @@ def has_specialized_animation(concept: str) -> bool:
     animated_topics = [
         "bubble_sort", "binary_search", "quadratic", 
         "sine_wave", "projectile_motion", "pendulum",
-        "linear_equation", "heat", "geometry", "chemistry", "wave", "statistics"
+        "linear_equation", "heat", "geometry", "chemistry", "wave", "statistics",
+        "coordinate_geometry", "circuit", "optics", "force"
     ]
     return topic in animated_topics
 
@@ -258,7 +329,11 @@ def get_animation_clip(concept: str, duration: float = 5.0, **kwargs) -> Optiona
             create_chemistry_clip,
             create_wave_clip,
             create_statistics_clip,
-            create_generic_clip
+            create_generic_clip,
+            create_coordinate_geometry_clip,
+            create_circuit_clip,
+            create_optics_clip,
+            create_force_clip
         )
         
         if topic == "projectile_motion":
@@ -347,6 +422,30 @@ def get_animation_clip(concept: str, duration: float = 5.0, **kwargs) -> Optiona
                 title=kwargs.get("title", "Statistics")
             )
         
+        elif topic == "coordinate_geometry":
+            return create_coordinate_geometry_clip(
+                duration=duration,
+                title=kwargs.get("title", "Coordinate Geometry")
+            )
+        
+        elif topic == "circuit":
+            return create_circuit_clip(
+                duration=duration,
+                title=kwargs.get("title", "Electric Circuit")
+            )
+        
+        elif topic == "optics":
+            return create_optics_clip(
+                duration=duration,
+                title=kwargs.get("title", "Light & Optics")
+            )
+        
+        elif topic == "force":
+            return create_force_clip(
+                duration=duration,
+                title=kwargs.get("title", "Forces & Newton's Laws")
+            )
+        
         else:
             # Generic animation for any other topic
             return create_generic_clip(
@@ -383,13 +482,18 @@ def get_animation_info(concept: str) -> dict:
         "chemistry": "Explore the atomic model with electrons orbiting the nucleus in energy shells.",
         "wave": "Watch wave propagation with amplitude and wavelength visualization.",
         "statistics": "See data come alive with animated bar charts and statistical measures.",
+        "coordinate_geometry": "Visualize coordinate plane with point plotting, distance and midpoint formulas.",
+        "circuit": "See electric current flow through a circuit with Ohm's law visualization.",
+        "optics": "Watch light reflection and refraction with Snell's law demonstration.",
+        "force": "See force vectors and Newton's laws in action with acceleration visualization.",
         "generic": "Animated visualization with floating concepts and dynamic effects."
     }
     
     specialized_topics = [
         "bubble_sort", "binary_search", "quadratic", "sine_wave", 
         "projectile_motion", "pendulum", "linear_equation", "heat", 
-        "geometry", "chemistry", "wave", "statistics"
+        "geometry", "chemistry", "wave", "statistics",
+        "coordinate_geometry", "circuit", "optics", "force"
     ]
     is_specialized = topic in specialized_topics
     
