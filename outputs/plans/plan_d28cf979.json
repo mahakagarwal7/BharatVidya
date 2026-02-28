@@ -1,0 +1,35 @@
+{
+  "title": "Understanding Bubble Sort: An Algorithm Unwrapped",
+  "summary": "The bubble sort algorithm is a simple sorting method that repeatedly steps through an unsorted list, compares adjacent elements, and swaps them if they are in the wrong order. This video will demystify this age-old technique with clear explanations of its process.",
+  "category": "algorithm",
+  "sections": [
+    {
+      "heading": "How Bubble Sort Works: The Basics",
+      "body": "Bubble sort is a comparison-based algorithm where each pair of adjacent elements is compared and swapped if they are in the wrong order. This process repeats until no swaps are needed, indicating that the list is sorted.",
+      "key_points": [
+        "Compares adjacent items",
+        "Repeatedly steps through the list"
+      ]
+    },
+    {
+      "heading": "The Mechanics of Sorting: Step-by-Step Bubble Sort",
+      "body": "Visualize a bubble sort like watching soap froth in water, where each 'bubble' represents an item being swapped with its neighbor. The largest unsorted element is placed at the end after one full pass through all elements.",
+      "key_points": [
+        "Represents sorting as moving items",
+        "Visualizes process for clarity"
+      ]
+    },
+    {
+      "heading": "Efficiency and Use Cases: When to Employ Bubble Sort?",
+      "body": "Despite its simplicity, bubble sort is not efficient on large lists due to its O(n^2) time complexity. However, it serves as a pedagogical tool in computer science education for teaching sorting fundamentals.",
+      "key_points": [
+        "Less efficient with larger datasets",
+        "Useful educational example"
+      ]
+    }
+  ],
+  "key_facts": [
+    "Bubble Sort Algorithm, O(n^2) time complexity"
+  ],
+  "visual_style": "mixed"
+}

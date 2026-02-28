@@ -1,0 +1,36 @@
+{
+  "title": "Unlocking Graphical Analysis: Interpreting Linear Equations",
+  "summary": "This video demystifies graphical analysis of linear equations by breaking down its core concepts\u2014identifying slope and y-intercept, plotting lines on a coordinate system, and interpreting their meaning in real-world contexts.",
+  "category": "math",
+  "sections": [
+    {
+      "heading": "Understanding the Basics of Linear Equations",
+      "body": "Linear equations represent straight lines on a graph and are characterized by constant rate changes. By learning to identify variables, coefficients, y-intercepts, and slopes\u2014also known as 'rise over run' or gradient\u2014viewers will gain the foundational knowledge required for further analysis.",
+      "key_points": [
+        "Linear equations form straight lines",
+        "Identify slope (rate of change) and y-intercept"
+      ]
+    },
+    {
+      "heading": "Plotting Lines on a Coordinate System",
+      "body": "Graphical analysis starts with plotting the line that represents your linear equation. Know how to convert an equation into slope-intercept form, y = mx + b, and understand that each part of this formula corresponds directly onto specific points on the graph\u2014a crucial skill in visually interpreting equations.",
+      "key_points": [
+        "Convert to slope-intercept form",
+        "Plot using rise over run method"
+      ]
+    },
+    {
+      "heading": "Interpreting Graphs and Making Real World Predictions",
+      "body": "Once the line is plotted, interpreting its direction (increasing or decreasing) becomes essential. This segment explores how to infer information about variables in real-life scenarios from a graph\u2014becoming increasingly vital as we dive deeper into applied mathematics.",
+      "key0_points": [
+        "Infer line's slope",
+        "'rise over run'"
+      ],
+      "key_points": []
+    }
+  ],
+  "key_facts": [
+    "A linear equation always forms a straight line on the graph."
+  ],
+  "visual_style": "mixed"
+}

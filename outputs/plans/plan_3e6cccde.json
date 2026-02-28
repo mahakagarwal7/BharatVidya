@@ -1,0 +1,37 @@
+{
+  "title": "Graphical Analysis of Linear Equations - Understanding Slope & Y-Intercept",
+  "summary": "This video explains how to graphically analyze linear equations by focusing on slope and y-intercept, demonstrating the significance of these concepts in interpreting real-world data.",
+  "category": "math",
+  "sections": [
+    {
+      "heading": "Understanding Slope (Gradient)",
+      "body": "The slope or gradient represents how steep a line is on the graph. It tells us about the rate of change, showing whether an increase in one variable will result in an increasing or decreasing response when another variable changes.",
+      "key_points": [
+        "Slope indicates direction",
+        "Positive slope means direct relationship"
+      ]
+    },
+    {
+      "heading": "Interpreting the Y-Intercept (Starting Point)",
+      "body": "The y-intercept is where a line crosses the vertical axis on a graph. It's crucial because it gives us an initial value when one of our variables equals zero, often representing starting conditions in real-life situations.",
+      "key_points": [
+        "Y-Intercept shows beginning condition",
+        "Crucial for predicting outcomes at variable=0"
+      ]
+    },
+    {
+      "heading": "Creating and Analyzing Graphs of Linear Equations",
+      "body": "To create a graph, we plot points that satisfy the linear equation. We then draw a line through these points to visualize how two variables are related across different scenarios.",
+      "key_points": [
+        "Plotting points on Cartesian plane",
+        "Line represents all possible solutions"
+      ]
+    }
+  ],
+  "key_facts": [
+    {
+      "Important equation, formula, or memorable fact": "The slope-intercept form of a line: y = mx + b"
+    }
+  ],
+  "visual_style": "mixed"
+}

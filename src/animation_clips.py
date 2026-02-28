@@ -634,3 +634,190 @@ def create_pendulum_clip(duration: float = 5.0,
         return np.array(img)
     
     return VideoClip(make_frame, duration=duration)
+
+
+# ============================================================
+# GENERIC TOPIC ANIMATION (for any topic)
+# ============================================================
+
+def create_generic_clip(duration: float = 5.0,
+                        title: str = "Educational Topic",
+                        keywords: Optional[List[str]] = None) -> VideoClip:
+    """
+    Create a generic animated clip for any topic.
+    Uses floating keywords, particles, and dynamic visuals.
+    
+    Args:
+        duration: Animation duration in seconds
+        title: Topic title to display
+        keywords: Optional list of keywords to animate (extracted from title if not provided)
+    """
+    import re
+    import random
+    
+    # Extract keywords from title if not provided
+    if not keywords:
+        # Remove common words and extract meaningful terms
+        stop_words = {'the', 'a', 'an', 'of', 'in', 'to', 'for', 'and', 'or', 'is', 
+                      'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 
+                      'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should',
+                      'may', 'might', 'must', 'shall', 'can', 'with', 'by', 'from',
+                      'up', 'about', 'into', 'through', 'during', 'before', 'after',
+                      'above', 'below', 'between', 'under', 'again', 'further', 'then',
+                      'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all',
+                      'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no',
+                      'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very',
+                      'just', 'also', 'now', 'explain', 'understanding', 'introduction'}
+        words = re.findall(r'\b[a-zA-Z]{3,}\b', title.lower())
+        keywords = [w.capitalize() for w in words if w.lower() not in stop_words][:6]
+    
+    if not keywords:
+        keywords = ["Learn", "Explore", "Discover"]
+    
+    # Generate random seed for consistent animation
+    random.seed(hash(title) % 10000)
+    
+    # Create floating keyword particles with random properties
+    class KeywordParticle:
+        def __init__(self, word, index, total):
+            self.word = word
+            self.start_x = random.randint(100, WIDTH - 200)
+            self.start_y = random.randint(150, HEIGHT - 150)
+            self.amplitude_x = random.uniform(20, 60)
+            self.amplitude_y = random.uniform(15, 40)
+            self.freq_x = random.uniform(0.3, 0.8)
+            self.freq_y = random.uniform(0.4, 0.9)
+            self.phase = random.uniform(0, 2 * math.pi)
+            self.appear_time = index * 0.3  # Stagger appearance
+            self.color = self._get_color(index)
+            
+        def _get_color(self, index):
+            colors = [
+                (100, 200, 255),  # Light blue
+                (255, 180, 100),  # Orange
+                (150, 255, 150),  # Light green
+                (255, 150, 200),  # Pink
+                (200, 180, 255),  # Lavender
+                (255, 255, 150),  # Yellow
+            ]
+            return colors[index % len(colors)]
+        
+        def get_position(self, t):
+            x = self.start_x + self.amplitude_x * math.sin(self.freq_x * t * 2 * math.pi + self.phase)
+            y = self.start_y + self.amplitude_y * math.sin(self.freq_y * t * 2 * math.pi + self.phase * 1.5)
+            return int(x), int(y)
+        
+        def get_alpha(self, t):
+            if t < self.appear_time:
+                return 0
+            fade_in = min(1.0, (t - self.appear_time) / 0.5)
+            return fade_in
+    
+    # Create background particles
+    class BackgroundParticle:
+        def __init__(self):
+            self.x = random.randint(0, WIDTH)
+            self.y = random.randint(0, HEIGHT)
+            self.speed = random.uniform(20, 60)
+            self.size = random.randint(2, 5)
+            self.alpha = random.uniform(0.3, 0.7)
+            
+        def get_position(self, t):
+            x = (self.x + self.speed * t) % WIDTH
+            y = self.y + 10 * math.sin(t * 2 + self.x / 50)
+            return int(x), int(y)
+    
+    # Initialize particles
+    keyword_particles = [KeywordParticle(kw, i, len(keywords)) for i, kw in enumerate(keywords)]
+    bg_particles = [BackgroundParticle() for _ in range(30)]
+    
+    font_title = _load_font(32)
+    font_keyword = _load_font(24)
+    font_small = _load_font(14)
+    
+    # Reset random seed
+    random.seed()
+    
+    def make_frame(t):
+        img = Image.new("RGB", (WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        
+        # Animated gradient background
+        shift = int(20 * math.sin(t * 0.5))
+        color_top = (25 + shift, 35 + shift, 65 + shift)
+        color_bottom = (45 + shift, 70 + shift, 110 + shift)
+        _draw_gradient_bg(draw, (WIDTH, HEIGHT), color_top, color_bottom)
+        
+        # Draw background particles
+        for bp in bg_particles:
+            px, py = bp.get_position(t)
+            alpha_val = int(255 * bp.alpha * (0.5 + 0.5 * math.sin(t * 2 + bp.x)))
+            color = (100, 150, 200, min(255, max(0, alpha_val)))
+            draw.ellipse([px - bp.size, py - bp.size, px + bp.size, py + bp.size],
+                        fill=(100, 150, 200))
+        
+        # Draw connecting lines between keywords (constellation effect)
+        positions = []
+        for kp in keyword_particles:
+            if kp.get_alpha(t) > 0.5:
+                positions.append(kp.get_position(t))
+        
+        for i, pos1 in enumerate(positions):
+            for pos2 in positions[i+1:]:
+                dist = math.sqrt((pos1[0] - pos2[0])**2 + (pos1[1] - pos2[1])**2)
+                if dist < 300:
+                    alpha = int(100 * (1 - dist / 300))
+                    draw.line([pos1, pos2], fill=(80, 120, 180), width=1)
+        
+        # Draw floating keywords
+        for kp in keyword_particles:
+            alpha = kp.get_alpha(t)
+            if alpha > 0:
+                x, y = kp.get_position(t)
+                # Glow effect
+                glow_color = tuple(int(c * 0.3) for c in kp.color)
+                for offset in range(3, 0, -1):
+                    draw.text((x - offset, y), kp.word, fill=glow_color, font=font_keyword)
+                # Main text
+                color = tuple(int(c * alpha) for c in kp.color)
+                draw.text((x, y), kp.word, fill=kp.color, font=font_keyword)
+        
+        # Draw title at top with pulsing effect
+        pulse = 0.9 + 0.1 * math.sin(t * 3)
+        title_color = tuple(int(c * pulse) for c in (240, 250, 255))
+        
+        # Center title
+        try:
+            bbox = draw.textbbox((0, 0), title, font=font_title)
+            title_w = bbox[2] - bbox[0]
+        except:
+            title_w = len(title) * 15
+        title_x = (WIDTH - title_w) // 2
+        draw.text((title_x, 40), title, fill=title_color, font=font_title)
+        
+        # Decorative line under title
+        line_y = 85
+        line_progress = min(1.0, t / 1.0)
+        line_w = int(300 * line_progress)
+        draw.line([(WIDTH // 2 - line_w // 2, line_y), (WIDTH // 2 + line_w // 2, line_y)],
+                  fill=(100, 180, 255), width=2)
+        
+        # Animated corner decorations
+        corner_size = 40 + int(10 * math.sin(t * 2))
+        corners = [(20, 20), (WIDTH - 60, 20), (20, HEIGHT - 60), (WIDTH - 60, HEIGHT - 60)]
+        for cx, cy in corners:
+            draw.arc([cx, cy, cx + corner_size, cy + corner_size],
+                    0, 90, fill=(80, 140, 200), width=2)
+        
+        # Progress indicator at bottom
+        progress = t / duration
+        bar_width = int((WIDTH - 200) * progress)
+        draw.rectangle([100, HEIGHT - 30, 100 + bar_width, HEIGHT - 25],
+                       fill=(100, 180, 255))
+        draw.rectangle([100, HEIGHT - 30, WIDTH - 100, HEIGHT - 25],
+                       outline=(80, 120, 160), width=1)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
+

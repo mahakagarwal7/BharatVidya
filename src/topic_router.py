@@ -12,6 +12,7 @@ from typing import Optional, Tuple, Any
 __all__ = [
     "detect_topic",
     "has_animation",
+    "has_specialized_animation",
     "get_animation_clip",
     "get_animation_info",
 ]
@@ -116,7 +117,16 @@ def detect_topic(concept: str) -> str:
 def has_animation(concept: str) -> bool:
     """
     Check if an animation is available for the given concept.
-    Returns True if animated visualization can be generated.
+    Returns True for all topics since we have a generic animation fallback.
+    """
+    # Always return True - we have generic animations for any topic
+    return True
+
+
+def has_specialized_animation(concept: str) -> bool:
+    """
+    Check if a specialized (non-generic) animation is available.
+    Returns True only for topics with custom animations.
     """
     topic = detect_topic(concept)
     animated_topics = [
@@ -148,7 +158,8 @@ def get_animation_clip(concept: str, duration: float = 5.0, **kwargs) -> Optiona
             create_bubble_sort_clip,
             create_binary_search_clip,
             create_quadratic_clip,
-            create_pendulum_clip
+            create_pendulum_clip,
+            create_generic_clip
         )
         
         if topic == "projectile_motion":
@@ -199,6 +210,13 @@ def get_animation_clip(concept: str, duration: float = 5.0, **kwargs) -> Optiona
                 title=kwargs.get("title", "Simple Pendulum")
             )
         
+        else:
+            # Generic animation for any other topic
+            return create_generic_clip(
+                duration=duration,
+                title=kwargs.get("title", concept)
+            )
+        
     except ImportError as e:
         print(f"   ⚠️ Animation import failed: {e}")
         return None
@@ -211,7 +229,7 @@ def get_animation_info(concept: str) -> dict:
     Get animation availability info for a concept.
     
     Returns:
-        Dict with keys: has_animation, topic, description
+        Dict with keys: has_animation, topic, description, is_specialized
     """
     topic = detect_topic(concept)
     
@@ -222,14 +240,15 @@ def get_animation_info(concept: str) -> dict:
         "sine_wave": "Watch the sine wave propagate, showing the periodic nature of trigonometric functions.",
         "projectile_motion": "See a projectile follow its parabolic trajectory under gravity.",
         "pendulum": "Observe simple harmonic motion as the pendulum swings back and forth.",
-        "generic": "Educational content presentation"
+        "generic": "Animated visualization with floating concepts and dynamic effects."
     }
     
-    is_animated = topic in ["bubble_sort", "binary_search", "quadratic", 
-                            "sine_wave", "projectile_motion", "pendulum"]
+    is_specialized = topic in ["bubble_sort", "binary_search", "quadratic", 
+                                "sine_wave", "projectile_motion", "pendulum"]
     
     return {
-        "has_animation": is_animated,
+        "has_animation": True,  # Always True - we have generic animations for any topic
+        "is_specialized": is_specialized,
         "topic": topic,
-        "description": descriptions.get(topic, "Educational demonstration")
+        "description": descriptions.get(topic, descriptions["generic"])
     }
