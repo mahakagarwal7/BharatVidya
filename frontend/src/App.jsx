@@ -11,7 +11,21 @@ function App() {
   const [jobId, setJobId] = useState(null)
   const [status, setStatus] = useState(null)
   const [videos, setVideos] = useState([])
-  const [languages, setLanguages] = useState([])
+  // Default languages - used as fallback if API fails
+  const defaultLanguages = [
+    { code: 'en', name: 'English' },
+    { code: 'hi', name: 'Hindi' },
+    { code: 'ta', name: 'Tamil' },
+    { code: 'te', name: 'Telugu' },
+    { code: 'bn', name: 'Bengali' },
+    { code: 'mr', name: 'Marathi' },
+    { code: 'gu', name: 'Gujarati' },
+    { code: 'kn', name: 'Kannada' },
+    { code: 'ml', name: 'Malayalam' },
+    { code: 'pa', name: 'Punjabi' }
+  ]
+  
+  const [languages, setLanguages] = useState(defaultLanguages)
   const [isGenerating, setIsGenerating] = useState(false)
   const pollInterval = useRef(null)
 
@@ -19,7 +33,11 @@ function App() {
   useEffect(() => {
     fetch(`${API_BASE}/api/topics`)
       .then(res => res.json())
-      .then(data => setLanguages(data.supported_languages || []))
+      .then(data => {
+        if (data.supported_languages && data.supported_languages.length > 0) {
+          setLanguages(data.supported_languages)
+        }
+      })
       .catch(err => console.error('Failed to fetch topics:', err))
     
     // Fetch existing videos
