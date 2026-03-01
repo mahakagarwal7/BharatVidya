@@ -4,17 +4,261 @@
 Topic-based animation clip generators.
 Creates MoviePy VideoClip objects with frame-by-frame animations for educational topics.
 This is an ADDITIVE module - does not modify existing rendering pipeline.
+
+DOMAIN-SPECIFIC VISUAL GRAMMARS:
+================================
+Each scientific domain has a distinct visual language to prevent conceptual mode collapse:
+
+1. PHYSICS - Lab/experiment aesthetic
+   - Dark blue/purple gradients (night sky feel)
+   - Vector arrows, trajectory paths
+   - Grid backgrounds, measurement markers
+   - Motion blur effects, dotted paths
+   - Colors: Blue, cyan, orange highlights
+
+2. CHEMISTRY - Molecular/lab aesthetic
+   - Dark green/teal gradients (chemical feel)
+   - Spherical atoms, bond lines
+   - Periodic table colors (CPK convention)
+   - Glowing orbitals, particle effects
+   - Colors: Element-specific (C=gray, O=red, H=white, N=blue)
+
+3. MATHEMATICS - Clean/geometric aesthetic
+   - Pure black or dark gray backgrounds
+   - Crisp white/colored lines
+   - Coordinate grids, axes
+   - Number labels, equation overlays
+   - Colors: White, gold, purple for highlights
+
+4. COMPUTER SCIENCE - Digital/tech aesthetic
+   - Dark backgrounds with neon accents
+   - Rectangular boxes, binary patterns
+   - Step-by-step highlighting
+   - Code-like typography
+   - Colors: Neon green, cyan, magenta
 """
 
 import numpy as np
 import math
+import random
 from PIL import Image, ImageDraw, ImageFont
 from moviepy.editor import VideoClip
-from typing import Optional, Tuple, List
+from typing import Optional, Tuple, List, Dict
 
 # Video dimensions
 WIDTH = 960
 HEIGHT = 540
+
+
+# ============================================================
+# DOMAIN-SPECIFIC VISUAL THEMES
+# ============================================================
+
+class DomainTheme:
+    """Base class for domain-specific visual themes."""
+    
+    # Physics theme - Lab/experiment aesthetic
+    PHYSICS = {
+        "bg_top": (15, 20, 45),          # Deep navy
+        "bg_bottom": (30, 45, 80),        # Lighter navy
+        "primary": (100, 180, 255),       # Sky blue
+        "secondary": (255, 180, 100),     # Orange
+        "accent": (150, 255, 200),        # Cyan-green
+        "text": (220, 235, 255),          # Light blue-white
+        "grid": (40, 60, 100),            # Subtle blue grid
+        "highlight": (255, 220, 100),     # Golden highlight
+        "border_style": "dashed",         # Measurement style
+        "particle_style": "glow",         # Glowing particles
+    }
+    
+    # Chemistry theme - Molecular/lab aesthetic
+    CHEMISTRY = {
+        "bg_top": (15, 35, 30),           # Dark teal
+        "bg_bottom": (25, 55, 50),        # Lighter teal
+        "primary": (100, 255, 200),       # Mint green
+        "secondary": (255, 100, 100),     # Oxygen red
+        "accent": (200, 150, 255),        # Violet
+        "text": (220, 255, 240),          # Light mint
+        "grid": (30, 50, 45),             # Subtle teal grid
+        "highlight": (255, 220, 150),     # Warm glow
+        "border_style": "orbital",        # Electron orbit style
+        "particle_style": "molecular",    # Solid spheres
+        # CPK atom colors
+        "carbon": (80, 80, 80),
+        "hydrogen": (220, 220, 255),
+        "oxygen": (255, 80, 80),
+        "nitrogen": (80, 80, 255),
+        "sulfur": (255, 255, 80),
+    }
+    
+    # Mathematics theme - Clean geometric aesthetic
+    MATH = {
+        "bg_top": (10, 10, 15),           # Near black
+        "bg_bottom": (25, 25, 35),        # Dark gray
+        "primary": (255, 255, 255),       # Pure white
+        "secondary": (255, 200, 100),     # Gold
+        "accent": (180, 100, 255),        # Purple
+        "text": (255, 255, 255),          # White
+        "grid": (50, 50, 70),             # Visible gray grid
+        "highlight": (100, 255, 200),     # Teal highlight
+        "border_style": "solid",          # Clean lines
+        "particle_style": "point",        # Mathematical points
+        "axis_color": (150, 150, 180),    # Gray axes
+    }
+    
+    # Computer Science theme - Digital/tech aesthetic
+    CS = {
+        "bg_top": (5, 15, 20),            # Almost black with tint
+        "bg_bottom": (15, 30, 40),        # Dark with blue tint
+        "primary": (0, 255, 180),         # Neon green
+        "secondary": (255, 100, 200),     # Magenta
+        "accent": (100, 200, 255),        # Cyan
+        "text": (200, 255, 230),          # Greenish white
+        "grid": (20, 40, 50),             # Subtle tech grid
+        "highlight": (255, 255, 100),     # Yellow highlight
+        "border_style": "pixel",          # Sharp edges
+        "particle_style": "binary",       # Digital particles
+        "box_fill": (20, 50, 60),         # Dark box fill
+        "box_active": (40, 80, 100),      # Active box
+        "box_highlight": (80, 200, 150),  # Highlighted box
+    }
+
+
+def _get_theme(domain: str) -> Dict:
+    """Get the visual theme for a domain."""
+    themes = {
+        "physics": DomainTheme.PHYSICS,
+        "chemistry": DomainTheme.CHEMISTRY,
+        "math": DomainTheme.MATH,
+        "cs": DomainTheme.CS,
+    }
+    return themes.get(domain, DomainTheme.PHYSICS)
+
+
+def _draw_domain_background(draw: ImageDraw, size: Tuple[int, int], 
+                            theme: Dict, domain: str):
+    """Draw domain-specific background with visual grammar."""
+    w, h = size
+    color_top = theme["bg_top"]
+    color_bottom = theme["bg_bottom"]
+    grid_color = theme["grid"]
+    
+    # Base gradient
+    for y in range(h):
+        ratio = y / h
+        r = int(color_top[0] + ratio * (color_bottom[0] - color_top[0]))
+        g = int(color_top[1] + ratio * (color_bottom[1] - color_top[1]))
+        b = int(color_top[2] + ratio * (color_bottom[2] - color_top[2]))
+        draw.line([(0, y), (w, y)], fill=(r, g, b))
+    
+    # Domain-specific overlays
+    if domain == "physics":
+        # Draw subtle measurement grid (lab aesthetic)
+        for x in range(0, w, 80):
+            for y_pos in range(0, h, 5):
+                if y_pos % 20 == 0:
+                    draw.line([(x, y_pos), (x, y_pos + 2)], fill=grid_color, width=1)
+        for y in range(0, h, 80):
+            for x_pos in range(0, w, 5):
+                if x_pos % 20 == 0:
+                    draw.line([(x_pos, y), (x_pos + 2, y)], fill=grid_color, width=1)
+    
+    elif domain == "chemistry":
+        # Draw hexagonal pattern overlay (molecular aesthetic)
+        hex_size = 60
+        for row in range(0, h + hex_size, int(hex_size * 1.5)):
+            offset = (row // int(hex_size * 1.5)) % 2 * (hex_size // 2)
+            for col in range(-hex_size, w + hex_size, hex_size):
+                cx = col + offset
+                cy = row
+                # Subtle hexagon outline
+                for i in range(6):
+                    angle1 = math.pi / 6 + i * math.pi / 3
+                    angle2 = math.pi / 6 + (i + 1) * math.pi / 3
+                    x1 = cx + 20 * math.cos(angle1)
+                    y1 = cy + 20 * math.sin(angle1)
+                    x2 = cx + 20 * math.cos(angle2)
+                    y2 = cy + 20 * math.sin(angle2)
+                    if 0 <= cx <= w and 0 <= cy <= h:
+                        draw.line([(x1, y1), (x2, y2)], fill=grid_color, width=1)
+    
+    elif domain == "math":
+        # Draw coordinate grid (mathematical aesthetic)
+        for x in range(0, w, 40):
+            alpha = 30 if x % 80 == 0 else 15
+            line_color = tuple(min(255, c + alpha) for c in color_bottom)
+            draw.line([(x, 0), (x, h)], fill=line_color, width=1)
+        for y in range(0, h, 40):
+            alpha = 30 if y % 80 == 0 else 15
+            line_color = tuple(min(255, c + alpha) for c in color_bottom)
+            draw.line([(0, y), (w, y)], fill=line_color, width=1)
+    
+    elif domain == "cs":
+        # Draw binary/digital pattern (tech aesthetic)
+        random.seed(42)  # Consistent pattern
+        for row in range(0, h, 30):
+            for col in range(0, w, 20):
+                if random.random() < 0.15:
+                    # Binary-like dots
+                    draw.ellipse([col, row, col + 3, row + 3], fill=grid_color)
+
+
+def _draw_domain_title(draw: ImageDraw, title: str, theme: Dict, domain: str, 
+                       font, y_pos: int = 25):
+    """Draw domain-styled title with visual grammar."""
+    text_color = theme["text"]
+    accent = theme["accent"]
+    
+    # Calculate title width for centering
+    try:
+        bbox = draw.textbbox((0, 0), title, font=font)
+        title_w = bbox[2] - bbox[0]
+    except:
+        title_w = len(title) * 15
+    
+    title_x = (WIDTH - title_w) // 2
+    
+    # Domain-specific title styling
+    if domain == "physics":
+        # Underline with measurement markers
+        draw.text((title_x, y_pos), title, fill=text_color, font=font)
+        line_y = y_pos + 35
+        draw.line([(title_x - 20, line_y), (title_x + title_w + 20, line_y)], 
+                  fill=accent, width=2)
+        # Small tick marks
+        for i in range(0, title_w + 40, 20):
+            tick_h = 5 if i % 40 == 0 else 3
+            draw.line([(title_x - 20 + i, line_y), (title_x - 20 + i, line_y + tick_h)],
+                     fill=accent, width=1)
+    
+    elif domain == "chemistry":
+        # Orbital-style decoration
+        draw.text((title_x, y_pos), title, fill=text_color, font=font)
+        # Electron orbit ellipse around title
+        draw.arc([title_x - 30, y_pos - 10, title_x + title_w + 30, y_pos + 45],
+                0, 360, fill=accent, width=1)
+    
+    elif domain == "math":
+        # Clean mathematical style with brackets
+        draw.text((title_x, y_pos), title, fill=text_color, font=font)
+        # Mathematical brackets
+        bracket_h = 35
+        draw.line([(title_x - 25, y_pos), (title_x - 15, y_pos)], fill=accent, width=2)
+        draw.line([(title_x - 25, y_pos), (title_x - 25, y_pos + bracket_h)], fill=accent, width=2)
+        draw.line([(title_x - 25, y_pos + bracket_h), (title_x - 15, y_pos + bracket_h)], fill=accent, width=2)
+        # Right bracket
+        draw.line([(title_x + title_w + 15, y_pos), (title_x + title_w + 25, y_pos)], fill=accent, width=2)
+        draw.line([(title_x + title_w + 25, y_pos), (title_x + title_w + 25, y_pos + bracket_h)], fill=accent, width=2)
+        draw.line([(title_x + title_w + 15, y_pos + bracket_h), (title_x + title_w + 25, y_pos + bracket_h)], fill=accent, width=2)
+    
+    elif domain == "cs":
+        # Terminal/code style
+        # Prompt-like prefix
+        draw.text((title_x - 30, y_pos), ">", fill=theme["primary"], font=font)
+        draw.text((title_x, y_pos), title, fill=text_color, font=font)
+        # Blinking cursor effect (static in animation)
+        draw.rectangle([title_x + title_w + 10, y_pos + 5, title_x + title_w + 20, y_pos + 30],
+                      fill=theme["primary"])
 
 
 def _load_font(size: int):
@@ -46,8 +290,22 @@ def _draw_gradient_bg(draw: ImageDraw, size: Tuple[int, int],
         draw.line([(0, y), (w, y)], fill=(r, g, b))
 
 
+def _draw_arrow_head(draw: ImageDraw, x1: float, y1: float, x2: float, y2: float,
+                     color: Tuple[int, int, int], size: int = 10):
+    """Draw an arrow head at the end of a vector."""
+    angle = math.atan2(y2 - y1, x2 - x1)
+    # Calculate arrow head points
+    angle1 = angle + math.pi * 0.85
+    angle2 = angle - math.pi * 0.85
+    ax1 = x2 + size * math.cos(angle1)
+    ay1 = y2 + size * math.sin(angle1)
+    ax2 = x2 + size * math.cos(angle2)
+    ay2 = y2 + size * math.sin(angle2)
+    draw.polygon([(x2, y2), (ax1, ay1), (ax2, ay2)], fill=color)
+
+
 # ============================================================
-# PROJECTILE MOTION ANIMATION
+# PROJECTILE MOTION ANIMATION (PHYSICS DOMAIN)
 # ============================================================
 
 def create_projectile_clip(duration: float = 5.0, 
@@ -57,7 +315,9 @@ def create_projectile_clip(duration: float = 5.0,
     """
     Create animated projectile motion clip.
     Shows parabolic trajectory with velocity vectors.
+    Uses PHYSICS visual grammar: measurement grid, vector arrows, lab aesthetic.
     """
+    theme = _get_theme("physics")
     g = 9.8
     angle_rad = math.radians(angle)
     vx = velocity * math.cos(angle_rad)
@@ -85,17 +345,22 @@ def create_projectile_clip(duration: float = 5.0,
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (18, 32, 58), (35, 62, 102))
+        # PHYSICS themed background with measurement grid
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "physics")
         
-        # Title
-        draw.text((WIDTH // 2 - 100, 30), title, fill=(220, 240, 255), font=font_title)
+        # PHYSICS styled title with measurement markers
+        _draw_domain_title(draw, title, theme, "physics", font_title)
         
-        # Ground line
+        # Ground line with measurement markers
         draw.line([(margin - 20, ground_y), (WIDTH - margin + 20, ground_y)], 
-                  fill=(100, 150, 200), width=2)
+                  fill=theme["primary"], width=2)
+        # Distance markers on ground
+        for i in range(0, int(WIDTH - 2 * margin), 50):
+            marker_x = margin + i
+            draw.line([(marker_x, ground_y), (marker_x, ground_y + 8)], 
+                     fill=theme["grid"], width=1)
         
-        # Draw trajectory path (full parabola)
+        # Draw trajectory path (full parabola) - dotted physics style
         path_points = []
         for i in range(100):
             ti = i * t_flight / 100
@@ -103,8 +368,11 @@ def create_projectile_clip(duration: float = 5.0,
             py = ground_y - (vy * ti - 0.5 * g * ti * ti) * scale
             path_points.append((px, py))
         
-        if len(path_points) >= 2:
-            draw.line(path_points, fill=(80, 200, 255, 128), width=1)
+        # Draw as dotted path (physics lab style)
+        for i in range(0, len(path_points) - 1, 2):
+            if i + 1 < len(path_points):
+                draw.line([path_points[i], path_points[i + 1]], 
+                         fill=theme["accent"], width=1)
         
         # Current position based on animation time
         progress = min(t / duration, 1.0)
@@ -113,7 +381,7 @@ def create_projectile_clip(duration: float = 5.0,
         ball_x = origin_x + vx * current_t * scale
         ball_y = ground_y - (vy * current_t - 0.5 * g * current_t * current_t) * scale
         
-        # Trail (previous positions)
+        # Trail (previous positions) - motion blur physics effect
         for i in range(20):
             past_t = current_t - (i + 1) * 0.05
             if past_t > 0:
@@ -121,27 +389,34 @@ def create_projectile_clip(duration: float = 5.0,
                 py = ground_y - (vy * past_t - 0.5 * g * past_t * past_t) * scale
                 alpha = int(255 * (1 - i / 20))
                 radius = max(2, 8 - i // 3)
+                # Fading trail with theme primary color
+                fade_color = tuple(int(c * (1 - i/20)) for c in theme["primary"])
                 draw.ellipse([px - radius, py - radius, px + radius, py + radius],
-                            fill=(80, 200, 255))
+                            fill=fade_color)
         
-        # Ball
+        # Ball (highlighted physics object)
         radius = 12
         draw.ellipse([ball_x - radius, ball_y - radius, ball_x + radius, ball_y + radius],
-                    fill=(255, 200, 100), outline=(255, 255, 255))
+                    fill=theme["secondary"], outline=theme["highlight"], width=2)
         
-        # Velocity vector
+        # Velocity vector arrow (physics vector style)
         current_vy = vy - g * current_t
         arrow_scale = 1.5
         arrow_end_x = ball_x + vx * arrow_scale
         arrow_end_y = ball_y - current_vy * arrow_scale
-        draw.line([(ball_x, ball_y), (arrow_end_x, arrow_end_y)], fill=(100, 255, 200), width=2)
+        draw.line([(ball_x, ball_y), (arrow_end_x, arrow_end_y)], 
+                 fill=theme["accent"], width=3)
+        # Arrowhead
+        _draw_arrow_head(draw, ball_x, ball_y, arrow_end_x, arrow_end_y, theme["accent"])
         
-        # Info box
+        # Info box with physics styling
         info_y = HEIGHT - 70
+        draw.rectangle([margin - 10, info_y - 5, WIDTH - margin + 10, HEIGHT - 15],
+                      outline=theme["grid"], width=1)
         draw.text((margin, info_y), f"v₀ = {velocity} m/s  θ = {angle}°", 
-                  fill=(200, 220, 255), font=font_info)
+                  fill=theme["text"], font=font_info)
         draw.text((margin, info_y + 25), f"Range: {max_range:.1f}m  Max Height: {max_height:.1f}m",
-                  fill=(180, 200, 240), font=font_label)
+                  fill=theme["primary"], font=font_label)
         
         return np.array(img)
     
@@ -159,7 +434,10 @@ def create_sine_wave_clip(duration: float = 5.0,
     """
     Create animated sine wave clip.
     Shows wave propagation with amplitude and period labels.
+    Uses PHYSICS visual grammar: measurement markers, wave annotations.
     """
+    theme = _get_theme("physics")
+    
     font_title = _load_font(28)
     font_label = _load_font(16)
     font_info = _load_font(18)
@@ -171,15 +449,15 @@ def create_sine_wave_clip(duration: float = 5.0,
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (12, 38, 68), (28, 68, 118))
+        # PHYSICS themed background
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "physics")
         
-        # Title
-        draw.text((WIDTH // 2 - 80, 30), title, fill=(220, 245, 255), font=font_title)
+        # PHYSICS styled title
+        _draw_domain_title(draw, title, theme, "physics", font_title)
         
-        # Axis lines
-        draw.line([(50, center_y), (WIDTH - 50, center_y)], fill=(100, 150, 200), width=1)
-        draw.line([(100, center_y - 150), (100, center_y + 150)], fill=(100, 150, 200), width=1)
+        # Axis lines with physics styling
+        draw.line([(50, center_y), (WIDTH - 50, center_y)], fill=theme["primary"], width=1)
+        draw.line([(100, center_y - 150), (100, center_y + 150)], fill=theme["primary"], width=1)
         
         # Phase shift based on time
         phase = t * 2 * math.pi * frequency
@@ -222,7 +500,7 @@ def create_sine_wave_clip(duration: float = 5.0,
 
 
 # ============================================================
-# BUBBLE SORT ANIMATION
+# BUBBLE SORT ANIMATION (CS DOMAIN)
 # ============================================================
 
 def create_bubble_sort_clip(duration: float = 8.0,
@@ -231,7 +509,10 @@ def create_bubble_sort_clip(duration: float = 8.0,
     """
     Create animated bubble sort visualization.
     Shows step-by-step sorting with comparisons highlighted.
+    Uses CS visual grammar: neon accents, digital boxes, tech aesthetic.
     """
+    theme = _get_theme("cs")
+    
     if array is None:
         array = [64, 34, 25, 12, 22, 11, 90]
     
@@ -267,11 +548,11 @@ def create_bubble_sort_clip(duration: float = 8.0,
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (42, 25, 15), (78, 52, 32))
+        # CS themed background with digital pattern
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "cs")
         
-        # Title
-        draw.text((WIDTH // 2 - 80, 30), title, fill=(255, 240, 220), font=font_title)
+        # CS styled title (terminal prompt style)
+        _draw_domain_title(draw, title, theme, "cs", font_title)
         
         # Current state based on time
         progress = min(t / duration, 0.99)
@@ -283,7 +564,7 @@ def create_bubble_sort_clip(duration: float = 8.0,
         if state_idx > 0 and state_idx <= len(comparisons):
             compare_i, compare_j, swapped = comparisons[state_idx - 1]
         
-        # Draw bars
+        # Draw bars with CS neon styling
         ground_y = HEIGHT - 120
         max_bar_height = 280
         
@@ -292,27 +573,40 @@ def create_bubble_sort_clip(duration: float = 8.0,
             x = start_x + i * (bar_width + bar_gap)
             y = ground_y - bar_height
             
-            # Color based on comparison state
+            # Color based on comparison state - CS neon colors
             if i == compare_i or i == compare_j:
                 if swapped:
-                    color = (255, 100, 100)  # Red for swap
+                    color = theme["secondary"]  # Magenta for swap
+                    outline_color = (255, 150, 220)
                 else:
-                    color = (100, 255, 150)  # Green for no swap
+                    color = theme["primary"]  # Neon green for no swap
+                    outline_color = (100, 255, 200)
             else:
-                color = (255, 190, 100)  # Normal orange
+                color = theme["box_fill"]  # Dark tech fill
+                outline_color = theme["accent"]  # Cyan outline
             
-            draw.rectangle([x, y, x + bar_width, ground_y], fill=color, outline=(255, 255, 255))
+            # Sharp pixel-style boxes
+            draw.rectangle([x, y, x + bar_width, ground_y], 
+                          fill=color, outline=outline_color, width=2)
             
-            # Value label
+            # Value label with monospace-style look
             text_x = x + bar_width // 2 - 10
-            draw.text((text_x, y - 25), str(val), fill=(255, 255, 255), font=font_value)
+            draw.text((text_x, y - 25), str(val), fill=theme["text"], font=font_value)
         
-        # Info box
-        info_y = HEIGHT - 60
+        # Index labels below bars
+        for i in range(len(current_state)):
+            x = start_x + i * (bar_width + bar_gap)
+            draw.text((x + bar_width // 2 - 5, ground_y + 5), f"[{i}]", 
+                     fill=theme["grid"], font=_load_font(12))
+        
+        # Info box with terminal styling
+        info_y = HEIGHT - 50
         step_text = f"Step {state_idx}/{total_steps - 1}"
         if state_idx == total_steps - 1:
-            step_text = "Sorted!"
-        draw.text((WIDTH // 2 - 50, info_y), step_text, fill=(255, 240, 220), font=font_info)
+            step_text = "// SORTED"
+            draw.text((WIDTH // 2 - 50, info_y), step_text, fill=theme["primary"], font=font_info)
+        else:
+            draw.text((WIDTH // 2 - 50, info_y), step_text, fill=theme["text"], font=font_info)
         
         return np.array(img)
     
@@ -320,7 +614,7 @@ def create_bubble_sort_clip(duration: float = 8.0,
 
 
 # ============================================================
-# BINARY SEARCH ANIMATION
+# BINARY SEARCH ANIMATION (CS DOMAIN)
 # ============================================================
 
 def create_binary_search_clip(duration: float = 8.0,
@@ -330,7 +624,10 @@ def create_binary_search_clip(duration: float = 8.0,
     """
     Create animated binary search visualization.
     Shows narrowing search range with low/mid/high pointers.
+    Uses CS visual grammar: neon accents, array boxes, algorithm steps.
     """
+    theme = _get_theme("cs")
+    
     if array is None:
         array = [1, 3, 5, 7, 9, 11, 13, 15]
     
@@ -379,67 +676,82 @@ def create_binary_search_clip(duration: float = 8.0,
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (15, 28, 52), (32, 58, 98))
+        # CS themed background with digital pattern
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "cs")
         
-        # Title
-        draw.text((WIDTH // 2 - 80, 30), title, fill=(220, 235, 255), font=font_title)
-        draw.text((WIDTH // 2 - 60, 65), f"Finding: {target}", fill=(180, 200, 255), font=font_info)
+        # CS styled title
+        _draw_domain_title(draw, title, theme, "cs", font_title)
+        
+        # Target indicator with terminal style
+        draw.text((WIDTH // 2 - 80, 65), f"target = {target}", fill=theme["secondary"], font=font_info)
         
         # Current state
         progress = min(t / duration, 0.99)
         state_idx = int(progress * total_steps)
         low, high, mid, found = states[min(state_idx, len(states) - 1)]
         
-        # Draw array boxes
+        # Draw array boxes with CS styling
         for i, val in enumerate(arr):
             x = start_x + i * (box_size + box_gap)
             y = center_y
             
-            # Color based on state
+            # Color based on state - CS neon colors
             if found and i == mid:
-                color = (100, 255, 150)  # Green - found
+                fill_color = theme["primary"]  # Neon green - found!
+                outline_color = (150, 255, 220)
             elif i < low or i > high:
-                color = (60, 60, 80)  # Dimmed - eliminated
+                fill_color = (15, 25, 35)  # Very dark - eliminated
+                outline_color = theme["grid"]
             elif i == mid:
-                color = (255, 200, 100)  # Orange - current mid
+                fill_color = theme["highlight"]  # Yellow - current check
+                outline_color = (255, 255, 150)
             elif i == low or i == high:
-                color = (100, 180, 255)  # Blue - boundaries
+                fill_color = theme["accent"]  # Cyan - boundaries
+                outline_color = (150, 220, 255)
             else:
-                color = (80, 100, 140)  # Normal
+                fill_color = theme["box_active"]  # Active area
+                outline_color = theme["accent"]
             
-            draw.rectangle([x, y, x + box_size, y + box_size], fill=color, outline=(255, 255, 255))
+            # Sharp pixel-style boxes
+            draw.rectangle([x, y, x + box_size, y + box_size], 
+                          fill=fill_color, outline=outline_color, width=2)
             
-            # Value
+            # Value in monospace style
             text_x = x + box_size // 2 - 8
-            draw.text((text_x, y + box_size // 2 - 10), str(val), fill=(255, 255, 255), font=font_value)
+            text_color = theme["text"] if not (i < low or i > high) else theme["grid"]
+            draw.text((text_x, y + box_size // 2 - 10), str(val), fill=text_color, font=font_value)
             
-            # Index
-            draw.text((text_x, y + box_size + 5), str(i), fill=(150, 170, 200), font=font_label)
+            # Index label below
+            draw.text((text_x, y + box_size + 5), f"[{i}]", fill=theme["grid"], font=font_label)
         
-        # Pointer labels
-        pointer_y = center_y - 30
+        # Pointer labels with neon styling
+        pointer_y = center_y - 35
         if low <= n - 1:
-            lx = start_x + low * (box_size + box_gap) + box_size // 2 - 10
-            draw.text((lx, pointer_y), "low", fill=(100, 180, 255), font=font_label)
+            lx = start_x + low * (box_size + box_gap) + box_size // 2 - 15
+            draw.text((lx, pointer_y), "low", fill=theme["accent"], font=font_label)
+            # Arrow down
+            draw.polygon([(lx + 12, pointer_y + 20), (lx + 7, pointer_y + 12), (lx + 17, pointer_y + 12)],
+                        fill=theme["accent"])
         
         if high >= 0 and high <= n - 1:
-            hx = start_x + high * (box_size + box_gap) + box_size // 2 - 10
-            draw.text((hx, pointer_y - 15), "high", fill=(100, 180, 255), font=font_label)
+            hx = start_x + high * (box_size + box_gap) + box_size // 2 - 15
+            draw.text((hx, pointer_y - 15), "high", fill=theme["accent"], font=font_label)
+            draw.polygon([(hx + 12, pointer_y + 5), (hx + 7, pointer_y - 3), (hx + 17, pointer_y - 3)],
+                        fill=theme["accent"])
         
         if 0 <= mid < n:
-            mx = start_x + mid * (box_size + box_gap) + box_size // 2 - 10
-            draw.text((mx, center_y + box_size + 25), "mid", fill=(255, 200, 100), font=font_label)
+            mx = start_x + mid * (box_size + box_gap) + box_size // 2 - 15
+            draw.text((mx, center_y + box_size + 25), "mid", fill=theme["highlight"], font=font_label)
         
-        # Status
+        # Status with terminal styling
         info_y = HEIGHT - 80
         if found:
-            status = f"Found {target} at index {mid}!"
-            color = (100, 255, 150)
+            status = f"// FOUND: arr[{mid}] == {target}"
+            status_color = theme["primary"]
         else:
-            status = f"Step {state_idx + 1}: Checking index {mid}"
-            color = (200, 220, 255)
-        draw.text((WIDTH // 2 - 100, info_y), status, fill=color, font=font_info)
+            status = f"// Step {state_idx + 1}: checking arr[{mid}] = {arr[mid] if mid < n else '?'}"
+            status_color = theme["text"]
+        draw.text((WIDTH // 2 - 150, info_y), status, fill=status_color, font=font_info)
         
         return np.array(img)
     
@@ -447,7 +759,7 @@ def create_binary_search_clip(duration: float = 8.0,
 
 
 # ============================================================
-# QUADRATIC GRAPH ANIMATION
+# QUADRATIC GRAPH ANIMATION (MATH DOMAIN)
 # ============================================================
 
 def create_quadratic_clip(duration: float = 5.0,
@@ -458,7 +770,10 @@ def create_quadratic_clip(duration: float = 5.0,
     """
     Create animated quadratic function graph.
     Shows parabola being drawn with vertex and roots marked.
+    Uses MATH visual grammar: clean grid, coordinate axes, precise labels.
     """
+    theme = _get_theme("math")
+    
     # Calculate properties
     discriminant = b * b - 4 * a * c
     vertex_x = -b / (2 * a)
@@ -484,22 +799,42 @@ def create_quadratic_clip(duration: float = 5.0,
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (38, 20, 58), (68, 42, 98))
+        # MATH themed background with coordinate grid
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "math")
         
-        # Title and equation
-        draw.text((WIDTH // 2 - 100, 25), title, fill=(240, 225, 255), font=font_title)
+        # MATH styled title with brackets
+        _draw_domain_title(draw, title, theme, "math", font_title)
         
-        eq_text = f"y = {a}x² + {b}x + {c}" if b >= 0 else f"y = {a}x² {b}x + {c}"
-        draw.text((WIDTH // 2 - 80, 55), eq_text, fill=(255, 200, 150), font=font_eq)
+        # Equation display (mathematical notation)
+        eq_text = f"f(x) = {a}x² + {b}x + {c}" if b >= 0 else f"f(x) = {a}x² {b}x + {c}"
+        draw.text((WIDTH // 2 - 90, 60), eq_text, fill=theme["secondary"], font=font_eq)
         
-        # Axes
-        draw.line([(50, graph_center_y), (WIDTH - 50, graph_center_y)], fill=(150, 130, 180), width=1)
-        draw.line([(graph_center_x, 100), (graph_center_x, HEIGHT - 80)], fill=(150, 130, 180), width=1)
+        # Draw coordinate axes with tick marks
+        draw.line([(50, graph_center_y), (WIDTH - 50, graph_center_y)], 
+                 fill=theme["axis_color"], width=2)
+        draw.line([(graph_center_x, 100), (graph_center_x, HEIGHT - 80)], 
+                 fill=theme["axis_color"], width=2)
         
-        # Axis labels
-        draw.text((WIDTH - 45, graph_center_y - 20), "x", fill=(180, 160, 200), font=font_label)
-        draw.text((graph_center_x + 10, 105), "y", fill=(180, 160, 200), font=font_label)
+        # Tick marks on axes
+        for x_tick in range(-5, 6):
+            tick_px = graph_center_x + x_tick * scale
+            if 50 < tick_px < WIDTH - 50 and x_tick != 0:
+                draw.line([(tick_px, graph_center_y - 4), (tick_px, graph_center_y + 4)],
+                         fill=theme["primary"], width=1)
+                draw.text((tick_px - 5, graph_center_y + 8), str(x_tick),
+                         fill=theme["grid"], font=_load_font(10))
+        
+        for y_tick in range(-3, 4):
+            tick_py = graph_center_y - y_tick * scale
+            if 100 < tick_py < HEIGHT - 80 and y_tick != 0:
+                draw.line([(graph_center_x - 4, tick_py), (graph_center_x + 4, tick_py)],
+                         fill=theme["primary"], width=1)
+                draw.text((graph_center_x + 8, tick_py - 6), str(y_tick),
+                         fill=theme["grid"], font=_load_font(10))
+        
+        # Axis labels with mathematical style
+        draw.text((WIDTH - 45, graph_center_y - 25), "x", fill=theme["primary"], font=font_label)
+        draw.text((graph_center_x + 12, 102), "y", fill=theme["primary"], font=font_label)
         
         # Draw parabola progressively
         progress = min(t / (duration * 0.7), 1.0)  # Complete by 70% of duration
@@ -518,34 +853,36 @@ def create_quadratic_clip(duration: float = 5.0,
                 points.append((px, py))
         
         if len(points) >= 2:
-            draw.line(points, fill=(255, 180, 120), width=3)
+            draw.line(points, fill=theme["secondary"], width=3)
         
-        # Mark vertex (after curve is drawn)
+        # Mark vertex (after curve is drawn) - mathematical point
         if progress > 0.7:
             vx_px = graph_center_x + vertex_x * scale
             vy_px = graph_center_y - vertex_y * scale
             if 50 < vx_px < WIDTH - 50 and 90 < vy_px < HEIGHT - 70:
                 draw.ellipse([vx_px - 6, vy_px - 6, vx_px + 6, vy_px + 6],
-                            fill=(100, 255, 200), outline=(255, 255, 255))
-                draw.text((vx_px + 10, vy_px - 5), f"({vertex_x:.1f}, {vertex_y:.1f})",
-                          fill=(150, 255, 220), font=font_label)
+                            fill=theme["highlight"], outline=theme["primary"])
+                draw.text((vx_px + 10, vy_px - 5), f"V({vertex_x:.1f}, {vertex_y:.1f})",
+                          fill=theme["highlight"], font=font_label)
         
-        # Mark roots (after vertex)
+        # Mark roots (after vertex) - mathematical points on x-axis
         if progress > 0.85 and roots:
             for root in roots:
                 rx_px = graph_center_x + root * scale
                 if 50 < rx_px < WIDTH - 50:
                     draw.ellipse([rx_px - 5, graph_center_y - 5, rx_px + 5, graph_center_y + 5],
-                                fill=(255, 150, 150))
-                    draw.text((rx_px - 10, graph_center_y + 10), f"{root:.1f}",
-                              fill=(255, 180, 180), font=font_label)
+                                fill=theme["accent"])
+                    draw.text((rx_px - 10, graph_center_y + 12), f"{root:.1f}",
+                              fill=theme["accent"], font=font_label)
         
-        # Info box
-        info_y = HEIGHT - 60
+        # Info box with mathematical precision
+        info_y = HEIGHT - 55
+        draw.rectangle([80, info_y - 5, WIDTH - 80, HEIGHT - 15],
+                      outline=theme["grid"], width=1)
         info_text = f"Vertex: ({vertex_x:.2f}, {vertex_y:.2f})"
         if roots:
-            info_text += f"  Roots: {roots[0]:.2f}, {roots[1]:.2f}"
-        draw.text((100, info_y), info_text, fill=(220, 200, 240), font=font_info)
+            info_text += f"  |  Roots: x = {roots[0]:.2f}, {roots[1]:.2f}"
+        draw.text((100, info_y), info_text, fill=theme["primary"], font=font_info)
         
         return np.array(img)
     
@@ -553,7 +890,7 @@ def create_quadratic_clip(duration: float = 5.0,
 
 
 # ============================================================
-# PENDULUM ANIMATION
+# PENDULUM ANIMATION (PHYSICS DOMAIN)
 # ============================================================
 
 def create_pendulum_clip(duration: float = 5.0,
@@ -563,7 +900,10 @@ def create_pendulum_clip(duration: float = 5.0,
     """
     Create animated pendulum motion.
     Shows oscillation with angle and period information.
+    Uses PHYSICS visual grammar: vector annotations, measurement style.
     """
+    theme = _get_theme("physics")
+    
     g = 9.8
     period = 2 * math.pi * math.sqrt(length / g)
     omega = 2 * math.pi / period
@@ -581,11 +921,11 @@ def create_pendulum_clip(duration: float = 5.0,
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (18, 32, 58), (35, 62, 102))
+        # PHYSICS themed background with measurement grid
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "physics")
         
-        # Title
-        draw.text((WIDTH // 2 - 100, 25), title, fill=(220, 240, 255), font=font_title)
+        # PHYSICS styled title
+        _draw_domain_title(draw, title, theme, "physics", font_title)
         
         # Current angle (simple harmonic motion)
         angle = max_angle_rad * math.cos(omega * t)
@@ -594,42 +934,54 @@ def create_pendulum_clip(duration: float = 5.0,
         bob_x = pivot_x + rope_length * math.sin(angle)
         bob_y = pivot_y + rope_length * math.cos(angle)
         
-        # Draw pivot
+        # Draw pivot with physics lab style
         draw.ellipse([pivot_x - 8, pivot_y - 8, pivot_x + 8, pivot_y + 8],
-                    fill=(150, 150, 160), outline=(200, 200, 210))
+                    fill=theme["grid"], outline=theme["primary"])
         
-        # Draw rope
-        draw.line([(pivot_x, pivot_y), (bob_x, bob_y)], fill=(180, 180, 190), width=3)
+        # Draw rope/string
+        draw.line([(pivot_x, pivot_y), (bob_x, bob_y)], fill=theme["text"], width=3)
         
-        # Draw bob
+        # Draw bob with physics highlighting
         bob_radius = 25
         draw.ellipse([bob_x - bob_radius, bob_y - bob_radius, 
                      bob_x + bob_radius, bob_y + bob_radius],
-                    fill=(255, 200, 100), outline=(255, 255, 255))
+                    fill=theme["secondary"], outline=theme["highlight"], width=2)
         
-        # Draw arc showing swing range
+        # Draw arc showing swing range (measurement style)
         arc_radius = 80
         left_angle = 90 - max_angle
         right_angle = 90 + max_angle
         draw.arc([pivot_x - arc_radius, pivot_y - arc_radius,
                  pivot_x + arc_radius, pivot_y + arc_radius],
-                left_angle, right_angle, fill=(100, 180, 255), width=2)
+                left_angle, right_angle, fill=theme["primary"], width=2)
         
-        # Angle indicator line (vertical reference)
-        draw.line([(pivot_x, pivot_y), (pivot_x, pivot_y + 100)],
-                  fill=(100, 150, 200), width=1)
+        # Angle indicator line (vertical reference - dashed style)
+        for y_dash in range(pivot_y, pivot_y + 100, 8):
+            draw.line([(pivot_x, y_dash), (pivot_x, min(y_dash + 4, pivot_y + 100))],
+                      fill=theme["grid"], width=1)
         
-        # Current angle text
+        # Current angle text with physics notation
         angle_deg = math.degrees(angle)
         draw.text((pivot_x + 50, pivot_y + 40), f"θ = {angle_deg:.1f}°",
-                  fill=(150, 200, 255), font=font_label)
+                  fill=theme["accent"], font=font_label)
         
-        # Info box
+        # Velocity vector at bob (tangent to motion)
+        velocity = -max_angle_rad * omega * rope_length * math.sin(omega * t) / 5
+        v_dx = velocity * math.cos(angle)
+        v_dy = -velocity * math.sin(angle)
+        if abs(velocity) > 5:
+            draw.line([(bob_x, bob_y), (bob_x + v_dx, bob_y + v_dy)], 
+                     fill=theme["accent"], width=2)
+            _draw_arrow_head(draw, bob_x, bob_y, bob_x + v_dx, bob_y + v_dy, theme["accent"], 8)
+        
+        # Info box with physics measurements
         info_y = HEIGHT - 80
-        draw.text((100, info_y), f"Length: {length} m  Period: {period:.2f} s",
-                  fill=(200, 220, 255), font=font_info)
-        draw.text((100, info_y + 25), f"Max angle: ±{max_angle}°",
-                  fill=(180, 200, 240), font=font_label)
+        draw.rectangle([80, info_y - 10, WIDTH - 80, HEIGHT - 20],
+                      outline=theme["grid"], width=1)
+        draw.text((100, info_y), f"L = {length} m  |  T = {period:.2f} s",
+                  fill=theme["text"], font=font_info)
+        draw.text((100, info_y + 25), f"θ_max = ±{max_angle}°  |  g = 9.8 m/s²",
+                  fill=theme["primary"], font=font_label)
         
         return np.array(img)
     
@@ -637,7 +989,7 @@ def create_pendulum_clip(duration: float = 5.0,
 
 
 # ============================================================
-# LINEAR EQUATION / GRAPH ANIMATION
+# LINEAR EQUATION / GRAPH ANIMATION (MATH DOMAIN)
 # ============================================================
 
 def create_linear_equation_clip(duration: float = 5.0,
@@ -647,7 +999,10 @@ def create_linear_equation_clip(duration: float = 5.0,
     """
     Create animated linear equation graph.
     Shows line being drawn with slope and y-intercept highlighted.
+    Uses MATH visual grammar: clean coordinate grid, mathematical notation.
     """
+    theme = _get_theme("math")
+    
     font_title = _load_font(28)
     font_label = _load_font(18)
     font_info = _load_font(16)
@@ -674,38 +1029,38 @@ def create_linear_equation_clip(duration: float = 5.0,
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (20, 35, 60), (40, 65, 100))
+        # MATH themed background with coordinate grid
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "math")
         
-        # Title
-        draw.text((WIDTH // 2 - 100, 25), title, fill=(220, 240, 255), font=font_title)
+        # MATH styled title
+        _draw_domain_title(draw, title, theme, "math", font_title)
         
-        # Draw axes
+        # Draw axes with math styling
         origin = world_to_screen(0, 0)
         
         # X-axis
         draw.line([world_to_screen(x_range[0], 0), world_to_screen(x_range[1], 0)],
-                  fill=(150, 180, 220), width=2)
+                  fill=theme["axis_color"], width=2)
         # Y-axis  
         draw.line([world_to_screen(0, y_range[0]), world_to_screen(0, y_range[1])],
-                  fill=(150, 180, 220), width=2)
+                  fill=theme["axis_color"], width=2)
         
-        # Axis labels
-        draw.text((graph_right - 20, origin[1] + 5), "x", fill=(180, 200, 240), font=font_label)
-        draw.text((origin[0] + 10, graph_top - 5), "y", fill=(180, 200, 240), font=font_label)
+        # Axis labels (mathematical style)
+        draw.text((graph_right - 20, origin[1] + 5), "x", fill=theme["primary"], font=font_label)
+        draw.text((origin[0] + 10, graph_top - 5), "y", fill=theme["primary"], font=font_label)
         
-        # Grid lines
+        # Grid lines (subtle math grid)
         for x in range(int(x_range[0]), int(x_range[1]) + 1):
             if x != 0:
                 sx, _ = world_to_screen(x, 0)
-                draw.line([(sx, graph_top), (sx, graph_bottom)], fill=(60, 80, 110), width=1)
-                draw.text((sx - 5, origin[1] + 10), str(x), fill=(120, 150, 180), font=font_info)
+                draw.line([(sx, graph_top), (sx, graph_bottom)], fill=theme["grid"], width=1)
+                draw.text((sx - 5, origin[1] + 10), str(x), fill=theme["grid"], font=font_info)
         
         for y in range(int(y_range[0]), int(y_range[1]) + 1):
             if y != 0:
                 _, sy = world_to_screen(0, y)
-                draw.line([(graph_left, sy), (graph_right, sy)], fill=(60, 80, 110), width=1)
-                draw.text((origin[0] - 25, sy - 8), str(y), fill=(120, 150, 180), font=font_info)
+                draw.line([(graph_left, sy), (graph_right, sy)], fill=theme["grid"], width=1)
+                draw.text((origin[0] - 25, sy - 8), str(y), fill=theme["grid"], font=font_info)
         
         # Animate line drawing
         progress = min(1.0, t / (duration * 0.6))
@@ -726,21 +1081,21 @@ def create_linear_equation_clip(duration: float = 5.0,
                     points.append(world_to_screen(px, py))
             
             if len(points) >= 2:
-                draw.line(points, fill=(100, 200, 255), width=3)
+                draw.line(points, fill=theme["secondary"], width=3)
         
-        # Show y-intercept
+        # Show y-intercept (mathematical point)
         if t > duration * 0.3:
             y_int_pos = world_to_screen(0, intercept)
             draw.ellipse([y_int_pos[0] - 6, y_int_pos[1] - 6, 
                          y_int_pos[0] + 6, y_int_pos[1] + 6],
-                        fill=(255, 200, 100), outline=(255, 255, 255))
+                        fill=theme["accent"], outline=theme["primary"])
             draw.text((y_int_pos[0] + 15, y_int_pos[1] - 10), 
-                     f"b = {intercept:.1f}", fill=(255, 200, 100), font=font_label)
+                     f"b = {intercept:.1f}", fill=theme["accent"], font=font_label)
         
-        # Show equation
+        # Show equation (mathematical notation)
         if t > duration * 0.5:
             eq_text = f"y = {slope:.1f}x + {intercept:.1f}" if intercept >= 0 else f"y = {slope:.1f}x - {abs(intercept):.1f}"
-            draw.text((50, HEIGHT - 60), eq_text, fill=(150, 255, 200), font=font_title)
+            draw.text((50, HEIGHT - 60), eq_text, fill=theme["highlight"], font=font_title)
         
         # Show slope visualization
         if t > duration * 0.7:
@@ -751,10 +1106,10 @@ def create_linear_equation_clip(duration: float = 5.0,
             p2 = world_to_screen(x2, y1)  # Horizontal
             p3 = world_to_screen(x2, y2)
             
-            draw.line([p1, p2], fill=(255, 150, 100), width=2)  # Run
-            draw.line([p2, p3], fill=(100, 255, 150), width=2)  # Rise
+            draw.line([p1, p2], fill=theme["secondary"], width=2)  # Run
+            draw.line([p2, p3], fill=theme["accent"], width=2)  # Rise
             draw.text((p2[0] + 10, (p2[1] + p3[1]) // 2), f"m = {slope:.1f}",
-                     fill=(200, 255, 200), font=font_label)
+                     fill=theme["highlight"], font=font_label)
         
         return np.array(img)
     
@@ -762,7 +1117,7 @@ def create_linear_equation_clip(duration: float = 5.0,
 
 
 # ============================================================
-# HEAT / THERMODYNAMICS ANIMATION
+# HEAT / THERMODYNAMICS ANIMATION (PHYSICS DOMAIN)
 # ============================================================
 
 def create_heat_clip(duration: float = 5.0,
@@ -770,7 +1125,10 @@ def create_heat_clip(duration: float = 5.0,
     """
     Create animated heat/thermodynamics visualization.
     Shows temperature gauge, particle motion, and heat transfer.
+    Uses PHYSICS visual grammar: measurement style, particle motion.
     """
+    theme = _get_theme("physics")
+    
     font_title = _load_font(28)
     font_label = _load_font(18)
     font_info = _load_font(16)
@@ -811,46 +1169,50 @@ def create_heat_clip(duration: float = 5.0,
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (25, 30, 50), (45, 55, 85))
+        # PHYSICS themed background
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "physics")
         
-        # Title
-        draw.text((WIDTH // 2 - 120, 25), title, fill=(220, 240, 255), font=font_title)
+        # PHYSICS styled title
+        _draw_domain_title(draw, title, theme, "physics", font_title)
         
         # Draw two containers
         # Cold container (left)
-        draw.rectangle([100, 150, 450, 400], outline=(100, 150, 255), width=3)
-        draw.text((220, 410), "Cold", fill=(100, 180, 255), font=font_label)
+        draw.rectangle([100, 150, 450, 400], outline=theme["primary"], width=3)
+        draw.text((220, 410), "Cold", fill=theme["primary"], font=font_label)
         
-        # Hot container (right)
-        draw.rectangle([500, 150, 850, 400], outline=(255, 150, 100), width=3)
-        draw.text((630, 410), "Hot", fill=(255, 150, 100), font=font_label)
+        # Hot container (right) - use highlight color for heat
+        hot_color = theme["highlight"]
+        draw.rectangle([500, 150, 850, 400], outline=hot_color, width=3)
+        draw.text((630, 410), "Hot", fill=hot_color, font=font_label)
         
         # Animated temperature transfer
         transfer_progress = min(1.0, t / (duration * 0.8))
         
-        # Draw heat flow arrows
+        # Draw heat flow arrows with physics vector styling
         if t > duration * 0.3:
             arrow_alpha = int(200 * (0.5 + 0.5 * math.sin(t * 4)))
             for i in range(3):
                 y_pos = 200 + i * 70
-                # Arrow from hot to cold
-                draw.line([(480, y_pos), (460, y_pos)], fill=(255, 200, 100), width=2)
-                draw.polygon([(460, y_pos), (470, y_pos - 8), (470, y_pos + 8)], 
-                           fill=(255, 200, 100))
+                # Arrow from hot to cold using highlight color
+                draw.line([(480, y_pos), (460, y_pos)], fill=theme["secondary"], width=2)
+                _draw_arrow_head(draw, 480, y_pos, 460, y_pos, theme["secondary"], 12)
         
         # Update and draw particles
         for p in hot_particles:
             p.update(t, 1.5)  # Hot particles move faster
-            color = (255, int(100 + 50 * math.sin(t * 5 + p.x)), 80)
+            # Use highlight colors for hot particles
+            h_r, h_g, h_b = theme["highlight"]
+            color = (h_r, int(h_g + 50 * math.sin(t * 5 + p.x)), h_b)
             draw.ellipse([p.x - 4, p.y - 4, p.x + 4, p.y + 4], fill=color)
         
         for p in cold_particles:
             p.update(t, 0.5)  # Cold particles move slower
-            color = (80, int(150 + 50 * math.sin(t * 2 + p.y)), 255)
+            # Use primary colors for cold particles
+            c_r, c_g, c_b = theme["primary"]
+            color = (c_r, int(c_g + 50 * math.sin(t * 2 + p.y)), c_b)
             draw.ellipse([p.x - 4, p.y - 4, p.x + 4, p.y + 4], fill=color)
         
-        # Temperature gauge
+        # Temperature gauge with physics lab styling
         gauge_x = 50
         gauge_y = 150
         gauge_height = 250
@@ -858,33 +1220,35 @@ def create_heat_clip(duration: float = 5.0,
         
         # Gauge background
         draw.rectangle([gauge_x - 10, gauge_y, gauge_x + 10, gauge_y + gauge_height],
-                      outline=(150, 150, 160), fill=(40, 45, 60), width=2)
+                      outline=theme["grid"], fill=theme["bg_bottom"], width=2)
         
-        # Temperature fill
+        # Temperature fill - gradient from primary to highlight
         fill_height = int(gauge_height * temp)
+        p_r, p_g, p_b = theme["primary"]
+        h_r, h_g, h_b = theme["highlight"]
         for i in range(fill_height):
             ratio = i / gauge_height
-            r = int(100 + 155 * ratio)
-            g = int(100 - 50 * ratio)
-            b = int(200 - 150 * ratio)
+            r = int(p_r + (h_r - p_r) * ratio)
+            g = int(p_g + (h_g - p_g) * ratio)
+            b = int(p_b + (h_b - p_b) * ratio)
             y = gauge_y + gauge_height - i
             draw.line([(gauge_x - 8, y), (gauge_x + 8, y)], fill=(r, g, b))
         
         # Gauge bulb
         draw.ellipse([gauge_x - 15, gauge_y + gauge_height - 5, 
                      gauge_x + 15, gauge_y + gauge_height + 25],
-                    fill=(200, 80, 80), outline=(255, 100, 100))
+                    fill=theme["highlight"], outline=theme["secondary"])
         
         # Temperature label
         temp_c = int(20 + 80 * temp)
         draw.text((gauge_x - 20, gauge_y - 30), f"{temp_c}°C", 
-                 fill=(255, 200, 150), font=font_label)
+                 fill=theme["secondary"], font=font_label)
         
-        # Info text
+        # Info text with physics styling
         info_y = HEIGHT - 50
         draw.text((WIDTH // 2 - 200, info_y), 
                  "Heat flows from hot to cold regions",
-                 fill=(180, 200, 220), font=font_info)
+                 fill=theme["text"], font=font_info)
         
         return np.array(img)
     
@@ -908,20 +1272,23 @@ def create_geometry_clip(duration: float = 5.0,
     center_x = WIDTH // 2
     center_y = HEIGHT // 2 + 20
     
+    # MATH domain theme for geometry
+    theme = _get_theme("math")
+    
     def make_frame(t):
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (20, 30, 55), (35, 55, 90))
+        # MATH themed background with coordinate grid
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "math")
         
-        # Title
-        draw.text((WIDTH // 2 - 80, 25), title, fill=(220, 240, 255), font=font_title)
+        # MATH styled title
+        _draw_domain_title(draw, title, theme, "math", font_title)
         
         # Rotating shapes
         rotation = t * 0.5  # Radians per second
         
-        # Draw triangle (rotating)
+        # Draw triangle (rotating) - using primary color
         tri_radius = 80
         tri_center = (center_x - 200, center_y)
         tri_points = []
@@ -930,11 +1297,11 @@ def create_geometry_clip(duration: float = 5.0,
             x = tri_center[0] + tri_radius * math.cos(angle)
             y = tri_center[1] + tri_radius * math.sin(angle)
             tri_points.append((x, y))
-        draw.polygon(tri_points, outline=(100, 200, 255), width=3)
+        draw.polygon(tri_points, outline=theme["primary"], width=3)
         draw.text((tri_center[0] - 30, tri_center[1] + 100), "Triangle", 
-                 fill=(100, 200, 255), font=font_label)
+                 fill=theme["primary"], font=font_label)
         
-        # Draw square (rotating)
+        # Draw square (rotating) - using secondary color
         sq_radius = 60
         sq_center = (center_x, center_y)
         sq_points = []
@@ -943,19 +1310,19 @@ def create_geometry_clip(duration: float = 5.0,
             x = sq_center[0] + sq_radius * math.cos(angle)
             y = sq_center[1] + sq_radius * math.sin(angle)
             sq_points.append((x, y))
-        draw.polygon(sq_points, outline=(255, 200, 100), width=3)
+        draw.polygon(sq_points, outline=theme["secondary"], width=3)
         draw.text((sq_center[0] - 25, sq_center[1] + 100), "Square", 
-                 fill=(255, 200, 100), font=font_label)
+                 fill=theme["secondary"], font=font_label)
         
-        # Draw circle (pulsing)
+        # Draw circle (pulsing) - using highlight color
         circle_center = (center_x + 200, center_y)
         pulse = 1 + 0.1 * math.sin(t * 3)
         circle_radius = int(60 * pulse)
         draw.ellipse([circle_center[0] - circle_radius, circle_center[1] - circle_radius,
                      circle_center[0] + circle_radius, circle_center[1] + circle_radius],
-                    outline=(150, 255, 150), width=3)
+                    outline=theme["highlight"], width=3)
         draw.text((circle_center[0] - 20, circle_center[1] + 100), "Circle", 
-                 fill=(150, 255, 150), font=font_label)
+                 fill=theme["highlight"], font=font_label)
         
         # Show angle measurement in triangle
         if t > duration * 0.3:
@@ -964,15 +1331,15 @@ def create_geometry_clip(duration: float = 5.0,
             p0, p1, p2 = tri_points[0], tri_points[1], tri_points[2]
             draw.arc([p0[0] - angle_arc_radius, p0[1] - angle_arc_radius,
                      p0[0] + angle_arc_radius, p0[1] + angle_arc_radius],
-                    0, 60, fill=(255, 150, 200), width=2)
-            draw.text((p0[0] + 15, p0[1] - 25), "60°", fill=(255, 150, 200), font=font_info)
+                    0, 60, fill=theme["accent"], width=2)
+            draw.text((p0[0] + 15, p0[1] - 25), "60°", fill=theme["accent"], font=font_info)
         
-        # Show formulas
+        # Show formulas with math notation styling
         if t > duration * 0.5:
             formula_y = HEIGHT - 80
-            draw.text((100, formula_y), "A = ½bh", fill=(100, 200, 255), font=font_label)
-            draw.text((400, formula_y), "A = s²", fill=(255, 200, 100), font=font_label)
-            draw.text((700, formula_y), "A = πr²", fill=(150, 255, 150), font=font_label)
+            draw.text((100, formula_y), "A = ½bh", fill=theme["primary"], font=font_label)
+            draw.text((400, formula_y), "A = s²", fill=theme["secondary"], font=font_label)
+            draw.text((700, formula_y), "A = πr²", fill=theme["highlight"], font=font_label)
         
         return np.array(img)
     
@@ -980,7 +1347,7 @@ def create_geometry_clip(duration: float = 5.0,
 
 
 # ============================================================
-# CHEMISTRY / ATOMS ANIMATION
+# CHEMISTRY / ATOMS ANIMATION (CHEMISTRY DOMAIN)
 # ============================================================
 
 def create_chemistry_clip(duration: float = 5.0,
@@ -988,7 +1355,10 @@ def create_chemistry_clip(duration: float = 5.0,
     """
     Create animated chemistry/atomic visualization.
     Shows atoms, electron orbits, and molecular bonds.
+    Uses CHEMISTRY visual grammar: hexagonal patterns, CPK colors, orbital style.
     """
+    theme = _get_theme("chemistry")
+    
     font_title = _load_font(28)
     font_label = _load_font(18)
     font_info = _load_font(16)
@@ -1000,69 +1370,72 @@ def create_chemistry_clip(duration: float = 5.0,
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (15, 25, 45), (30, 50, 80))
+        # CHEMISTRY themed background with hexagonal molecular pattern
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "chemistry")
         
-        # Title
-        draw.text((WIDTH // 2 - 80, 25), title, fill=(220, 240, 255), font=font_title)
+        # CHEMISTRY styled title with orbital decoration
+        _draw_domain_title(draw, title, theme, "chemistry", font_title)
         
         # Draw atom model
         atom_center = (center_x, center_y)
         
-        # Nucleus
+        # Nucleus (using chemistry theme colors)
         nucleus_radius = 25
         draw.ellipse([atom_center[0] - nucleus_radius, atom_center[1] - nucleus_radius,
                      atom_center[0] + nucleus_radius, atom_center[1] + nucleus_radius],
-                    fill=(255, 100, 100), outline=(255, 150, 150))
+                    fill=theme["secondary"], outline=theme["highlight"])
         
-        # Protons and neutrons in nucleus
+        # Protons and neutrons in nucleus (CPK-inspired colors)
         for i in range(4):
             angle = i * math.pi / 2 + t * 0.5
             px = atom_center[0] + 10 * math.cos(angle)
             py = atom_center[1] + 10 * math.sin(angle)
-            color = (255, 150, 150) if i % 2 == 0 else (150, 150, 255)
+            color = theme["secondary"] if i % 2 == 0 else theme["nitrogen"]  # Red/Blue
             draw.ellipse([px - 6, py - 6, px + 6, py + 6], fill=color)
         
-        # Electron orbits
+        # Electron orbits (chemistry orbital style)
         orbit_radii = [70, 120, 170]
         electrons_per_orbit = [2, 4, 2]
         
         for orbit_idx, (radius, n_electrons) in enumerate(zip(orbit_radii, electrons_per_orbit)):
-            # Draw orbit path
+            # Draw orbit path with chemistry styling
             draw.ellipse([atom_center[0] - radius, atom_center[1] - radius,
                          atom_center[0] + radius, atom_center[1] + radius],
-                        outline=(80, 120, 180), width=1)
+                        outline=theme["accent"], width=1)
             
-            # Draw electrons
+            # Draw electrons with molecular glow
             speed = (3 - orbit_idx) * 0.8  # Inner orbits faster
             for e in range(n_electrons):
                 angle = t * speed + e * (2 * math.pi / n_electrons)
                 ex = atom_center[0] + radius * math.cos(angle)
                 ey = atom_center[1] + radius * math.sin(angle)
                 
-                # Electron glow
+                # Electron glow (chemistry style)
                 draw.ellipse([ex - 10, ey - 10, ex + 10, ey + 10], 
-                           fill=(50, 100, 200))
+                           fill=theme["grid"])
                 draw.ellipse([ex - 6, ey - 6, ex + 6, ey + 6], 
-                           fill=(100, 180, 255))
+                           fill=theme["primary"])
         
-        # Labels
-        draw.text((atom_center[0] - 30, atom_center[1] + 190), "Atomic Model",
-                 fill=(180, 200, 240), font=font_label)
+        # Labels with chemistry styling
+        draw.text((atom_center[0] - 45, atom_center[1] + 190), "Atomic Model",
+                 fill=theme["text"], font=font_label)
         
-        # Info panel
+        # Info panel (chemistry legend style)
         if t > duration * 0.3:
             info_x = 50
             info_y = HEIGHT - 100
-            draw.text((info_x, info_y), "● Protons (+)", fill=(255, 150, 150), font=font_info)
-            draw.text((info_x, info_y + 22), "● Neutrons", fill=(150, 150, 255), font=font_info)
-            draw.text((info_x, info_y + 44), "● Electrons (-)", fill=(100, 180, 255), font=font_info)
+            # Draw legend box
+            draw.rectangle([info_x - 10, info_y - 10, info_x + 160, info_y + 70],
+                          outline=theme["grid"], width=1)
+            draw.text((info_x, info_y), "● Protons (+)", fill=theme["secondary"], font=font_info)
+            draw.text((info_x, info_y + 22), "● Neutrons", fill=theme["nitrogen"], font=font_info)
+            draw.text((info_x, info_y + 44), "● Electrons (-)", fill=theme["primary"], font=font_info)
         
-        # Energy levels
+        # Energy levels (shell notation)
         if t > duration * 0.5:
-            draw.text((WIDTH - 150, 120), "n=1", fill=(100, 180, 255), font=font_info)
-            draw.text((WIDTH - 150, 170), "n=2", fill=(100, 180, 255), font=font_info)
-            draw.text((WIDTH - 150, 220), "n=3", fill=(100, 180, 255), font=font_info)
+            draw.text((WIDTH - 150, 120), "K shell (n=1)", fill=theme["primary"], font=font_info)
+            draw.text((WIDTH - 150, 145), "L shell (n=2)", fill=theme["primary"], font=font_info)
+            draw.text((WIDTH - 150, 170), "M shell (n=3)", fill=theme["primary"], font=font_info)
         
         return np.array(img)
     
@@ -1070,7 +1443,7 @@ def create_chemistry_clip(duration: float = 5.0,
 
 
 # ============================================================
-# WAVE / PHYSICS ANIMATION (General)
+# WAVE / PHYSICS ANIMATION (PHYSICS DOMAIN)
 # ============================================================
 
 def create_wave_clip(duration: float = 5.0,
@@ -1078,7 +1451,10 @@ def create_wave_clip(duration: float = 5.0,
     """
     Create animated wave visualization for general physics topics.
     Shows wave propagation, amplitude, wavelength.
+    Uses PHYSICS visual grammar: measurement markers, vector annotations.
     """
+    theme = _get_theme("physics")
+    
     font_title = _load_font(28)
     font_label = _load_font(18)
     font_info = _load_font(16)
@@ -1087,11 +1463,11 @@ def create_wave_clip(duration: float = 5.0,
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (18, 30, 55), (35, 58, 95))
+        # PHYSICS themed background with measurement grid
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "physics")
         
-        # Title
-        draw.text((WIDTH // 2 - 80, 25), title, fill=(220, 240, 255), font=font_title)
+        # PHYSICS styled title
+        _draw_domain_title(draw, title, theme, "physics", font_title)
         
         # Wave parameters
         amplitude = 80
@@ -1175,15 +1551,18 @@ def create_statistics_clip(duration: float = 5.0,
     data = [max(10, min(90, d)) for d in data]  # Clamp values
     labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
     
+    # MATH domain theme for statistics
+    theme = _get_theme("math")
+    
     def make_frame(t):
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (22, 32, 55), (40, 60, 95))
+        # MATH themed background with coordinate grid
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "math")
         
-        # Title
-        draw.text((WIDTH // 2 - 80, 25), title, fill=(220, 240, 255), font=font_title)
+        # MATH styled title
+        _draw_domain_title(draw, title, theme, "math", font_title)
         
         # Chart area
         chart_left = 100
@@ -1195,12 +1574,18 @@ def create_statistics_clip(duration: float = 5.0,
         # Animate bar growth
         progress = min(1.0, t / (duration * 0.5))
         
-        # Draw bars
+        # Draw bars with math-themed color progression
         bar_width = (chart_right - chart_left) // len(data) - 20
         
-        colors = [
-            (100, 180, 255), (255, 150, 100), (150, 255, 150),
-            (255, 200, 100), (200, 150, 255), (255, 150, 200), (150, 220, 200)
+        # Math theme colors - variations based on theme
+        base_colors = [
+            theme["primary"],      # White
+            theme["secondary"],    # Gold
+            theme["highlight"],    # Cyan
+            theme["accent"],       # Yellow
+            (180, 180, 255),       # Soft purple
+            (255, 180, 180),       # Soft red
+            (180, 255, 200)        # Soft green
         ]
         
         for i, (value, label) in enumerate(zip(data, labels)):
@@ -1211,20 +1596,20 @@ def create_statistics_clip(duration: float = 5.0,
             # Bar with gradient effect
             for j in range(bar_height):
                 ratio = j / max(1, bar_height)
-                color = tuple(int(c * (0.6 + 0.4 * ratio)) for c in colors[i])
+                color = tuple(int(c * (0.6 + 0.4 * ratio)) for c in base_colors[i])
                 draw.line([(x, chart_bottom - j), (x + bar_width, chart_bottom - j)], fill=color)
             
-            # Bar outline
-            draw.rectangle([x, y_top, x + bar_width, chart_bottom], outline=(255, 255, 255), width=1)
+            # Bar outline with grid color
+            draw.rectangle([x, y_top, x + bar_width, chart_bottom], outline=theme["grid"], width=1)
             
             # Label
             draw.text((x + bar_width // 2 - 5, chart_bottom + 10), label,
-                     fill=(200, 220, 240), font=font_info)
+                     fill=theme["text"], font=font_info)
             
             # Value
             if progress > 0.8:
                 draw.text((x + bar_width // 2 - 10, y_top - 25), f"{value:.0f}",
-                         fill=(220, 240, 255), font=font_info)
+                         fill=theme["primary"], font=font_info)
         
         # Calculate and show statistics
         if t > duration * 0.6:
@@ -1235,16 +1620,16 @@ def create_statistics_clip(duration: float = 5.0,
             stats_x = 50
             stats_y = 80
             draw.text((stats_x, stats_y), f"Mean: {mean_val:.1f}", 
-                     fill=(100, 255, 200), font=font_label)
+                     fill=theme["highlight"], font=font_label)
             draw.text((stats_x + 150, stats_y), f"Median: {median_val:.1f}", 
-                     fill=(255, 200, 100), font=font_label)
+                     fill=theme["secondary"], font=font_label)
         
         # Draw mean line
         if t > duration * 0.7:
             mean_val = sum(data) / len(data)
             mean_y = chart_bottom - int((mean_val / 100) * chart_height)
             draw.line([(chart_left, mean_y), (chart_right, mean_y)],
-                     fill=(100, 255, 200), width=2)
+                     fill=theme["highlight"], width=2)
         
         return np.array(img)
     
@@ -1269,6 +1654,9 @@ def create_generic_clip(duration: float = 5.0,
     """
     import re
     import random
+    
+    # Use PHYSICS theme as default for generic content
+    theme = _get_theme("physics")
     
     # Extract keywords from title if not provided
     if not keywords:
@@ -1307,13 +1695,14 @@ def create_generic_clip(duration: float = 5.0,
             self.color = self._get_color(index)
             
         def _get_color(self, index):
+            # Use physics theme colors
             colors = [
-                (100, 200, 255),  # Light blue
-                (255, 180, 100),  # Orange
-                (150, 255, 150),  # Light green
-                (255, 150, 200),  # Pink
-                (200, 180, 255),  # Lavender
-                (255, 255, 150),  # Yellow
+                theme["primary"],    # Cyan-blue
+                theme["secondary"],  # Light cyan
+                theme["highlight"],  # Orange/highlight
+                theme["accent"],     # Yellow
+                (150, 200, 255),     # Light blue
+                (200, 230, 255),     # Pale blue
             ]
             return colors[index % len(colors)]
         
@@ -1357,19 +1746,16 @@ def create_generic_clip(duration: float = 5.0,
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Animated gradient background
-        shift = int(20 * math.sin(t * 0.5))
-        color_top = (25 + shift, 35 + shift, 65 + shift)
-        color_bottom = (45 + shift, 70 + shift, 110 + shift)
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), color_top, color_bottom)
+        # PHYSICS themed background
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "physics")
         
-        # Draw background particles
+        # Draw background particles using theme colors
         for bp in bg_particles:
             px, py = bp.get_position(t)
-            alpha_val = int(255 * bp.alpha * (0.5 + 0.5 * math.sin(t * 2 + bp.x)))
-            color = (100, 150, 200, min(255, max(0, alpha_val)))
+            p_r, p_g, p_b = theme["primary"]
+            color = (p_r // 2, p_g // 2, p_b // 2)
             draw.ellipse([px - bp.size, py - bp.size, px + bp.size, py + bp.size],
-                        fill=(100, 150, 200))
+                        fill=color)
         
         # Draw connecting lines between keywords (constellation effect)
         positions = []
@@ -1382,7 +1768,7 @@ def create_generic_clip(duration: float = 5.0,
                 dist = math.sqrt((pos1[0] - pos2[0])**2 + (pos1[1] - pos2[1])**2)
                 if dist < 300:
                     alpha = int(100 * (1 - dist / 300))
-                    draw.line([pos1, pos2], fill=(80, 120, 180), width=1)
+                    draw.line([pos1, pos2], fill=theme["grid"], width=1)
         
         # Draw floating keywords
         for kp in keyword_particles:
@@ -1399,7 +1785,7 @@ def create_generic_clip(duration: float = 5.0,
         
         # Draw title at top with pulsing effect
         pulse = 0.9 + 0.1 * math.sin(t * 3)
-        title_color = tuple(int(c * pulse) for c in (240, 250, 255))
+        title_color = tuple(int(c * pulse) for c in theme["text"])
         
         # Center title
         try:
@@ -1415,22 +1801,22 @@ def create_generic_clip(duration: float = 5.0,
         line_progress = min(1.0, t / 1.0)
         line_w = int(300 * line_progress)
         draw.line([(WIDTH // 2 - line_w // 2, line_y), (WIDTH // 2 + line_w // 2, line_y)],
-                  fill=(100, 180, 255), width=2)
+                  fill=theme["primary"], width=2)
         
         # Animated corner decorations
         corner_size = 40 + int(10 * math.sin(t * 2))
         corners = [(20, 20), (WIDTH - 60, 20), (20, HEIGHT - 60), (WIDTH - 60, HEIGHT - 60)]
         for cx, cy in corners:
             draw.arc([cx, cy, cx + corner_size, cy + corner_size],
-                    0, 90, fill=(80, 140, 200), width=2)
+                    0, 90, fill=theme["secondary"], width=2)
         
         # Progress indicator at bottom
         progress = t / duration
         bar_width = int((WIDTH - 200) * progress)
         draw.rectangle([100, HEIGHT - 30, 100 + bar_width, HEIGHT - 25],
-                       fill=(100, 180, 255))
+                       fill=theme["primary"])
         draw.rectangle([100, HEIGHT - 30, WIDTH - 100, HEIGHT - 25],
-                       outline=(80, 120, 160), width=1)
+                       outline=theme["grid"], width=1)
         
         return np.array(img)
     
@@ -1452,6 +1838,9 @@ def create_coordinate_geometry_clip(duration: float = 5.0,
     font_info = _load_font(18)
     font_small = _load_font(14)
     
+    # MATH domain theme for coordinate geometry
+    theme = _get_theme("math")
+    
     # Coordinate system setup
     origin_x = WIDTH // 2
     origin_y = HEIGHT // 2 + 30
@@ -1465,59 +1854,58 @@ def create_coordinate_geometry_clip(duration: float = 5.0,
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (20, 28, 50), (35, 50, 85))
+        # MATH themed background with coordinate grid
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "math")
         
-        # Title
-        draw.text((WIDTH // 2 - 120, 20), title, fill=(220, 240, 255), font=font_title)
+        # MATH styled title
+        _draw_domain_title(draw, title, theme, "math", font_title)
         
-        # Draw grid
-        grid_alpha = 0.3
+        # Draw grid using theme colors
         for i in range(-10, 11):
             x = origin_x + i * scale
             y = origin_y - i * scale
             # Vertical grid lines
             if -5 <= i <= 5:
                 draw.line([(x, origin_y - 5 * scale), (x, origin_y + 4 * scale)],
-                         fill=(60, 80, 110), width=1)
+                         fill=theme["grid"], width=1)
                 # Horizontal grid lines
                 draw.line([(origin_x - 5 * scale, y), (origin_x + 5 * scale, y)],
-                         fill=(60, 80, 110), width=1)
+                         fill=theme["grid"], width=1)
         
-        # Draw axes
+        # Draw axes with theme primary color
         draw.line([(origin_x - 220, origin_y), (origin_x + 220, origin_y)],
-                  fill=(150, 180, 220), width=2)
+                  fill=theme["primary"], width=2)
         draw.line([(origin_x, origin_y - 180), (origin_x, origin_y + 160)],
-                  fill=(150, 180, 220), width=2)
+                  fill=theme["primary"], width=2)
         
         # Axis labels
-        draw.text((origin_x + 225, origin_y - 10), "X", fill=(150, 180, 220), font=font_label)
-        draw.text((origin_x + 5, origin_y - 195), "Y", fill=(150, 180, 220), font=font_label)
-        draw.text((origin_x + 5, origin_y + 5), "O", fill=(150, 180, 220), font=font_small)
+        draw.text((origin_x + 225, origin_y - 10), "X", fill=theme["primary"], font=font_label)
+        draw.text((origin_x + 5, origin_y - 195), "Y", fill=theme["primary"], font=font_label)
+        draw.text((origin_x + 5, origin_y + 5), "O", fill=theme["primary"], font=font_small)
         
         # Animate point plotting
         plot_time = duration * 0.3
         
-        # Point A - appears first
+        # Point A - appears first - using highlight color
         if t > duration * 0.15:
             ax = origin_x + point_a[0] * scale
             ay = origin_y - point_a[1] * scale
             # Pulsing effect
             pulse = 1 + 0.2 * math.sin(t * 4)
             r = int(8 * pulse)
-            draw.ellipse([ax - r, ay - r, ax + r, ay + r], fill=(100, 200, 255))
+            draw.ellipse([ax - r, ay - r, ax + r, ay + r], fill=theme["highlight"])
             draw.text((ax + 12, ay - 20), f"A({point_a[0]}, {point_a[1]})", 
-                     fill=(100, 200, 255), font=font_label)
+                     fill=theme["highlight"], font=font_label)
         
-        # Point B - appears second
+        # Point B - appears second - using secondary color
         if t > duration * 0.3:
             bx = origin_x + point_b[0] * scale
             by = origin_y - point_b[1] * scale
             pulse = 1 + 0.2 * math.sin(t * 4 + 1)
             r = int(8 * pulse)
-            draw.ellipse([bx - r, by - r, bx + r, by + r], fill=(255, 180, 100))
+            draw.ellipse([bx - r, by - r, bx + r, by + r], fill=theme["secondary"])
             draw.text((bx + 12, by - 20), f"B({point_b[0]}, {point_b[1]})", 
-                     fill=(255, 180, 100), font=font_label)
+                     fill=theme["secondary"], font=font_label)
         
         # Draw line segment connecting points
         if t > duration * 0.45:
@@ -1530,7 +1918,7 @@ def create_coordinate_geometry_clip(duration: float = 5.0,
             line_progress = min(1.0, (t - duration * 0.45) / (duration * 0.2))
             curr_x = ax + (bx - ax) * line_progress
             curr_y = ay + (by - ay) * line_progress
-            draw.line([(ax, ay), (curr_x, curr_y)], fill=(180, 255, 180), width=2)
+            draw.line([(ax, ay), (curr_x, curr_y)], fill=theme["accent"], width=2)
         
         # Midpoint calculation
         if t > duration * 0.6:
@@ -1543,14 +1931,14 @@ def create_coordinate_geometry_clip(duration: float = 5.0,
             mid_y = (ay + by) // 2
             mid_coords = ((point_a[0] + point_b[0]) / 2, (point_a[1] + point_b[1]) / 2)
             
-            # Draw midpoint
+            # Draw midpoint using accent color
             pulse = 1 + 0.15 * math.sin(t * 5)
             r = int(6 * pulse)
-            draw.ellipse([mid_x - r, mid_y - r, mid_x + r, mid_y + r], fill=(255, 150, 200))
+            draw.ellipse([mid_x - r, mid_y - r, mid_x + r, mid_y + r], fill=theme["accent"])
             draw.text((mid_x + 10, mid_y + 5), f"M({mid_coords[0]}, {mid_coords[1]})", 
-                     fill=(255, 150, 200), font=font_small)
+                     fill=theme["accent"], font=font_small)
         
-        # Show distance formula
+        # Show distance formula with math notation styling
         if t > duration * 0.75:
             dx = point_b[0] - point_a[0]
             dy = point_b[1] - point_a[1]
@@ -1558,9 +1946,9 @@ def create_coordinate_geometry_clip(duration: float = 5.0,
             
             formula_y = HEIGHT - 60
             draw.text((80, formula_y), f"Distance = √[(x₂-x₁)² + (y₂-y₁)²]", 
-                     fill=(180, 220, 255), font=font_label)
+                     fill=theme["text"], font=font_label)
             draw.text((520, formula_y), f"= √[{dx}² + {dy}²] = {dist:.2f}", 
-                     fill=(180, 255, 180), font=font_label)
+                     fill=theme["highlight"], font=font_label)
         
         return np.array(img)
     
@@ -1581,22 +1969,25 @@ def create_circuit_clip(duration: float = 5.0,
     font_label = _load_font(16)
     font_info = _load_font(14)
     
+    # PHYSICS domain theme for circuits
+    theme = _get_theme("physics")
+    
     def make_frame(t):
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (22, 30, 55), (40, 55, 90))
+        # PHYSICS themed background
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "physics")
         
-        # Title
-        draw.text((WIDTH // 2 - 100, 20), title, fill=(220, 240, 255), font=font_title)
+        # PHYSICS styled title
+        _draw_domain_title(draw, title, theme, "physics", font_title)
         
         # Circuit layout
         cx, cy = WIDTH // 2, HEIGHT // 2 + 20
         rect_w, rect_h = 400, 200
         
-        # Draw circuit rectangle (wires)
-        wire_color = (180, 200, 220)
+        # Draw circuit rectangle (wires) using theme colors
+        wire_color = theme["text"]
         # Top wire
         draw.line([(cx - rect_w//2, cy - rect_h//2), (cx + rect_w//2, cy - rect_h//2)],
                   fill=wire_color, width=3)
@@ -1610,17 +2001,17 @@ def create_circuit_clip(duration: float = 5.0,
         draw.line([(cx - rect_w//2, cy - rect_h//2), (cx - rect_w//2, cy + rect_h//2)],
                   fill=wire_color, width=3)
         
-        # Draw battery (left side)
+        # Draw battery (left side) - using highlight and primary colors
         batt_x = cx - rect_w//2 - 15
         batt_y = cy
-        # Long line (positive)
-        draw.line([(batt_x, batt_y - 20), (batt_x, batt_y + 20)], fill=(255, 100, 100), width=4)
-        # Short line (negative)
-        draw.line([(batt_x + 15, batt_y - 12), (batt_x + 15, batt_y + 12)], fill=(100, 100, 255), width=3)
-        draw.text((batt_x - 30, batt_y + 30), "+  -", fill=(200, 200, 220), font=font_info)
-        draw.text((batt_x - 25, batt_y - 50), "9V", fill=(255, 200, 100), font=font_label)
+        # Long line (positive) - highlight color
+        draw.line([(batt_x, batt_y - 20), (batt_x, batt_y + 20)], fill=theme["highlight"], width=4)
+        # Short line (negative) - primary color
+        draw.line([(batt_x + 15, batt_y - 12), (batt_x + 15, batt_y + 12)], fill=theme["primary"], width=3)
+        draw.text((batt_x - 30, batt_y + 30), "+  -", fill=theme["text"], font=font_info)
+        draw.text((batt_x - 25, batt_y - 50), "9V", fill=theme["accent"], font=font_label)
         
-        # Draw resistor (top)
+        # Draw resistor (top) - using secondary color
         res_x = cx
         res_y = cy - rect_h//2
         zigzag_w = 60
@@ -1631,28 +2022,29 @@ def create_circuit_clip(duration: float = 5.0,
             points.append((res_x - zigzag_w + (i + 1) * 20, res_y + y_offset))
         points.append((res_x + zigzag_w, res_y))
         
-        # Draw zigzag resistor
+        # Draw zigzag resistor with secondary color
         for i in range(len(points) - 1):
-            draw.line([points[i], points[i + 1]], fill=(255, 200, 100), width=3)
-        draw.text((res_x - 15, res_y - 40), "R = 3Ω", fill=(255, 200, 100), font=font_label)
+            draw.line([points[i], points[i + 1]], fill=theme["secondary"], width=3)
+        draw.text((res_x - 15, res_y - 40), "R = 3Ω", fill=theme["secondary"], font=font_label)
         
-        # Draw bulb (right side)
+        # Draw bulb (right side) - glowing with highlight color
         bulb_x = cx + rect_w//2 + 15
         bulb_y = cy
         bulb_r = 25
         # Bulb glow effect (pulsing)
         glow_intensity = 0.6 + 0.4 * math.sin(t * 5)
-        glow_color = (int(255 * glow_intensity), int(220 * glow_intensity), int(100 * glow_intensity))
+        h_r, h_g, h_b = theme["highlight"]
+        glow_color = (int(h_r * glow_intensity), int(h_g * glow_intensity), int(h_b * 0.5 * glow_intensity))
         for r_off in range(15, 0, -3):
             alpha = int(100 * (1 - r_off / 15) * glow_intensity)
             draw.ellipse([bulb_x - bulb_r - r_off, bulb_y - bulb_r - r_off,
                          bulb_x + bulb_r + r_off, bulb_y + bulb_r + r_off],
-                        fill=(int(255 * alpha/255), int(180 * alpha/255), int(50 * alpha/255)))
+                        fill=(int(h_r * alpha/255), int(h_g * 0.7 * alpha/255), int(50 * alpha/255)))
         draw.ellipse([bulb_x - bulb_r, bulb_y - bulb_r, bulb_x + bulb_r, bulb_y + bulb_r],
-                    outline=(255, 220, 100), fill=glow_color, width=2)
-        draw.text((bulb_x - 20, bulb_y + 35), "Bulb", fill=(255, 220, 150), font=font_info)
+                    outline=theme["accent"], fill=glow_color, width=2)
+        draw.text((bulb_x - 20, bulb_y + 35), "Bulb", fill=theme["accent"], font=font_info)
         
-        # Animated current flow (electrons)
+        # Animated current flow (electrons) - using primary color
         num_electrons = 12
         for i in range(num_electrons):
             phase = (t * 2 + i * 0.5) % 4
@@ -1670,24 +2062,23 @@ def create_circuit_clip(duration: float = 5.0,
                 ex = cx - rect_w//2
                 ey = cy + rect_h//2 - (phase - 3) * rect_h
             
-            # Draw electron
+            # Draw electron with primary color
             e_size = 6
             draw.ellipse([ex - e_size, ey - e_size, ex + e_size, ey + e_size],
-                        fill=(100, 180, 255))
-            draw.text((ex - 3, ey - 5), "-", fill=(255, 255, 255), font=font_info)
+                        fill=theme["primary"])
+            draw.text((ex - 3, ey - 5), "-", fill=theme["text"], font=font_info)
         
         # Current direction arrow
         arrow_x = cx
         arrow_y = cy + rect_h//2 + 30
-        draw.line([(arrow_x - 50, arrow_y), (arrow_x + 50, arrow_y)], fill=(100, 200, 255), width=2)
-        draw.polygon([(arrow_x - 60, arrow_y), (arrow_x - 50, arrow_y - 8), (arrow_x - 50, arrow_y + 8)],
-                    fill=(100, 200, 255))
-        draw.text((arrow_x - 70, arrow_y + 10), "Current (I)", fill=(100, 200, 255), font=font_info)
+        draw.line([(arrow_x - 50, arrow_y), (arrow_x + 50, arrow_y)], fill=theme["primary"], width=2)
+        _draw_arrow_head(draw, arrow_x - 50, arrow_y, arrow_x - 60, arrow_y, theme["primary"], 12)
+        draw.text((arrow_x - 70, arrow_y + 10), "Current (I)", fill=theme["primary"], font=font_info)
         
-        # Ohm's law text
+        # Ohm's law text with physics styling
         if t > duration * 0.4:
-            draw.text((80, HEIGHT - 50), "Ohm's Law: V = I × R", fill=(180, 220, 255), font=font_label)
-            draw.text((350, HEIGHT - 50), "I = V/R = 9V/3Ω = 3A", fill=(150, 255, 150), font=font_label)
+            draw.text((80, HEIGHT - 50), "Ohm's Law: V = I × R", fill=theme["text"], font=font_label)
+            draw.text((350, HEIGHT - 50), "I = V/R = 9V/3Ω = 3A", fill=theme["highlight"], font=font_label)
         
         return np.array(img)
     
@@ -1703,7 +2094,10 @@ def create_optics_clip(duration: float = 5.0,
     """
     Create animated optics visualization.
     Shows light reflection and refraction.
+    Uses PHYSICS visual grammar: ray diagrams, measurement style.
     """
+    theme = _get_theme("physics")
+    
     font_title = _load_font(28)
     font_label = _load_font(16)
     font_info = _load_font(14)
@@ -1712,20 +2106,20 @@ def create_optics_clip(duration: float = 5.0,
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Dark gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (15, 20, 40), (30, 40, 70))
+        # PHYSICS themed background
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "physics")
         
-        # Title
-        draw.text((WIDTH // 2 - 80, 20), title, fill=(220, 240, 255), font=font_title)
+        # PHYSICS styled title
+        _draw_domain_title(draw, title, theme, "physics", font_title)
         
         # Mirror/glass surface (horizontal)
         surface_y = HEIGHT // 2 + 30
         surface_x1 = 100
         surface_x2 = WIDTH - 100
         
-        # Draw surface
+        # Draw surface with physics styling
         draw.line([(surface_x1, surface_y), (surface_x2, surface_y)], 
-                  fill=(200, 220, 255), width=4)
+                  fill=theme["primary"], width=4)
         
         # Label surfaces
         draw.text((120, surface_y - 70), "Air (n=1.0)", fill=(180, 200, 220), font=font_label)
@@ -1833,19 +2227,22 @@ def create_force_clip(duration: float = 5.0,
     font_label = _load_font(16)
     font_info = _load_font(14)
     
+    # PHYSICS domain theme for forces/mechanics
+    theme = _get_theme("physics")
+    
     def make_frame(t):
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (20, 30, 50), (40, 55, 85))
+        # PHYSICS themed background
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "physics")
         
-        # Title
-        draw.text((WIDTH // 2 - 130, 20), title, fill=(220, 240, 255), font=font_title)
+        # PHYSICS styled title
+        _draw_domain_title(draw, title, theme, "physics", font_title)
         
-        # Ground line
+        # Ground line using grid color
         ground_y = HEIGHT - 100
-        draw.line([(50, ground_y), (WIDTH - 50, ground_y)], fill=(120, 140, 160), width=2)
+        draw.line([(50, ground_y), (WIDTH - 50, ground_y)], fill=theme["grid"], width=2)
         
         # Moving box
         box_w, box_h = 80, 60
@@ -1856,41 +2253,35 @@ def create_force_clip(duration: float = 5.0,
         box_x = min(box_x, WIDTH - 200)  # Limit position
         box_y = ground_y - box_h
         
-        # Draw box with shading
+        # Draw box with physics styled colors
         draw.rectangle([box_x, box_y, box_x + box_w, box_y + box_h],
-                      fill=(180, 150, 100), outline=(220, 180, 120), width=2)
-        draw.text((box_x + 15, box_y + 20), "5 kg", fill=(60, 40, 20), font=font_label)
+                      fill=(100, 120, 150), outline=theme["text"], width=2)
+        draw.text((box_x + 15, box_y + 20), "5 kg", fill=theme["primary"], font=font_label)
         
-        # Force arrows
+        # Force arrows - using theme colors
         arrow_y = box_y + box_h // 2
         
-        # Applied force (right arrow) - pulsing
+        # Applied force (right arrow) - pulsing - using highlight color
         pulse = 0.9 + 0.1 * math.sin(t * 6)
         f_length = int(120 * pulse)
-        f_color = (255, 150, 100)
+        f_color = theme["highlight"]
         draw.line([(box_x + box_w, arrow_y), (box_x + box_w + f_length, arrow_y)],
                   fill=f_color, width=4)
-        # Arrowhead
-        draw.polygon([(box_x + box_w + f_length + 15, arrow_y),
-                     (box_x + box_w + f_length, arrow_y - 10),
-                     (box_x + box_w + f_length, arrow_y + 10)],
-                    fill=f_color)
+        # Arrowhead using helper function
+        _draw_arrow_head(draw, box_x + box_w + f_length, arrow_y, box_x + box_w + f_length + 15, arrow_y, f_color, 15)
         draw.text((box_x + box_w + 30, arrow_y - 35), "F = 20 N", fill=f_color, font=font_label)
         
-        # Friction force (left arrow)
+        # Friction force (left arrow) - using accent color
         friction_length = 60
-        fr_color = (150, 100, 255)
+        fr_color = theme["accent"]
         draw.line([(box_x, arrow_y), (box_x - friction_length, arrow_y)],
                   fill=fr_color, width=3)
-        draw.polygon([(box_x - friction_length - 12, arrow_y),
-                     (box_x - friction_length, arrow_y - 8),
-                     (box_x - friction_length, arrow_y + 10)],
-                    fill=fr_color)
+        _draw_arrow_head(draw, box_x - friction_length, arrow_y, box_x - friction_length - 12, arrow_y, fr_color, 12)
         draw.text((box_x - friction_length - 10, arrow_y - 30), "f = 5 N", fill=fr_color, font=font_info)
         
-        # Normal force (up arrow)
+        # Normal force (up arrow) - using secondary color
         normal_length = 80
-        n_color = (100, 255, 150)
+        n_color = theme["secondary"]
         draw.line([(box_x + box_w // 2, box_y + box_h), 
                   (box_x + box_w // 2, box_y + box_h + normal_length)],
                   fill=n_color, width=3)
@@ -1899,49 +2290,43 @@ def create_force_clip(duration: float = 5.0,
         draw.line([(box_x + box_w // 2, n_start_y), 
                   (box_x + box_w // 2, n_start_y - normal_length)],
                   fill=n_color, width=3)
-        draw.polygon([(box_x + box_w // 2, n_start_y - normal_length - 12),
-                     (box_x + box_w // 2 - 8, n_start_y - normal_length),
-                     (box_x + box_w // 2 + 8, n_start_y - normal_length)],
-                    fill=n_color)
+        _draw_arrow_head(draw, box_x + box_w // 2, n_start_y - normal_length, box_x + box_w // 2, n_start_y - normal_length - 12, n_color, 12)
         draw.text((box_x + box_w // 2 + 10, n_start_y - normal_length - 10), "N", 
                  fill=n_color, font=font_label)
         
-        # Weight/Gravity (down arrow)
-        w_color = (255, 100, 100)
+        # Weight/Gravity (down arrow) - using primary color
+        w_color = theme["primary"]
         w_start_y = box_y + box_h
         draw.line([(box_x + box_w // 2, w_start_y), 
                   (box_x + box_w // 2, w_start_y + normal_length)],
                   fill=w_color, width=3)
-        draw.polygon([(box_x + box_w // 2, w_start_y + normal_length + 12),
-                     (box_x + box_w // 2 - 8, w_start_y + normal_length),
-                     (box_x + box_w // 2 + 8, w_start_y + normal_length)],
-                    fill=w_color)
+        _draw_arrow_head(draw, box_x + box_w // 2, w_start_y + normal_length, box_x + box_w // 2, w_start_y + normal_length + 12, w_color, 12)
         draw.text((box_x + box_w // 2 + 10, w_start_y + normal_length - 5), "W = mg", 
                  fill=w_color, font=font_info)
         
-        # Acceleration indicator (animated)
+        # Acceleration indicator (animated) - using accent color
         accel_x = box_x + box_w + 180
         accel_y = arrow_y
         accel_phase = (t * 3) % 1
         for i in range(3):
             offset = int(20 * accel_phase) + i * 25
             alpha = int(200 * (1 - accel_phase))
-            a_color = (255, 255, 100)
+            a_color = theme["accent"]
             draw.line([(accel_x + offset, accel_y - 15), (accel_x + offset, accel_y + 15)],
                      fill=a_color, width=2)
-        draw.text((accel_x, accel_y + 25), "a = 3 m/s²", fill=(255, 255, 100), font=font_label)
+        draw.text((accel_x, accel_y + 25), "a = 3 m/s²", fill=theme["accent"], font=font_label)
         
-        # Newton's Second Law
+        # Newton's Second Law - using theme colors
         if t > duration * 0.3:
             law_y = 70
-            draw.text((80, law_y), "Newton's Second Law:", fill=(200, 220, 255), font=font_label)
-            draw.text((300, law_y), "F_net = ma", fill=(255, 200, 150), font=font_label)
+            draw.text((80, law_y), "Newton's Second Law:", fill=theme["text"], font=font_label)
+            draw.text((300, law_y), "F_net = ma", fill=theme["highlight"], font=font_label)
             
             if t > duration * 0.5:
                 draw.text((80, law_y + 30), "F_net = F - f = 20 - 5 = 15 N", 
-                         fill=(180, 200, 220), font=font_info)
+                         fill=theme["secondary"], font=font_info)
                 draw.text((80, law_y + 55), "a = F_net / m = 15 / 5 = 3 m/s²", 
-                         fill=(180, 200, 220), font=font_info)
+                         fill=theme["secondary"], font=font_info)
         
         # Speed indicator
         velocity = acceleration * t  # v = at (starting from rest)
@@ -1962,7 +2347,7 @@ def create_force_clip(duration: float = 5.0,
     return VideoClip(make_frame, duration=duration)
 
 # ============================================================
-# ORGANIC CHEMISTRY ANIMATION
+# ORGANIC CHEMISTRY ANIMATION (CHEMISTRY DOMAIN)
 # ============================================================
 
 def create_organic_chemistry_clip(duration: float = 5.0,
@@ -1970,7 +2355,10 @@ def create_organic_chemistry_clip(duration: float = 5.0,
     """
     Create animated organic chemistry visualization.
     Shows carbon chains, functional groups, and molecular structures.
+    Uses CHEMISTRY visual grammar: CPK colors, hexagonal patterns, molecular bonds.
     """
+    theme = _get_theme("chemistry")
+    
     font_title = _load_font(28)
     font_label = _load_font(18)
     font_info = _load_font(14)
@@ -1980,11 +2368,11 @@ def create_organic_chemistry_clip(duration: float = 5.0,
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background (dark green/blue for chemistry feel)
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (15, 30, 35), (25, 50, 55))
+        # CHEMISTRY themed background with hexagonal molecular pattern
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "chemistry")
         
-        # Title
-        draw.text((WIDTH // 2 - 100, 20), title, fill=(220, 240, 255), font=font_title)
+        # CHEMISTRY styled title with orbital decoration
+        _draw_domain_title(draw, title, theme, "chemistry", font_title)
         
         # ============================================
         # Draw a carbon chain (backbone of organic molecule)
@@ -2015,7 +2403,7 @@ def create_organic_chemistry_clip(duration: float = 5.0,
         # Draw atoms with animation
         atom_radius = 25
         
-        # Helper to draw atom with label
+        # Helper to draw atom with label (CPK colors from theme)
         def draw_atom(x, y, label, color, appear_time):
             if t < appear_time:
                 return
@@ -2024,49 +2412,50 @@ def create_organic_chemistry_clip(duration: float = 5.0,
             pulse = 1 + 0.05 * math.sin(t * 3 + x * 0.01)
             r = int(atom_radius * pulse)
             
-            # Glow effect
+            # Glow effect (chemistry molecular glow)
             for glow_r in range(r + 10, r, -2):
                 glow_alpha = int(50 * (1 - (glow_r - r) / 10))
                 glow_color = tuple(max(0, min(255, c - 100 + glow_alpha)) for c in color)
                 draw.ellipse([x - glow_r, y - glow_r, x + glow_r, y + glow_r],
                             fill=glow_color)
             
-            # Main atom
-            draw.ellipse([x - r, y - r, x + r, y + r], fill=color, outline=(255, 255, 255), width=2)
+            # Main atom (CPK style)
+            draw.ellipse([x - r, y - r, x + r, y + r], fill=color, 
+                        outline=theme["highlight"], width=2)
             
             # Label
             label_x = x - len(label) * 5
-            draw.text((label_x, y - 8), label, fill=(255, 255, 255), font=font_label)
+            draw.text((label_x, y - 8), label, fill=theme["text"], font=font_label)
         
-        # Draw Carbon 1
-        draw_atom(c1_x, c1_y, "C", (80, 80, 80), 0)
+        # Draw Carbon 1 (grey - CPK convention)
+        draw_atom(c1_x, c1_y, "C", theme["carbon"], 0)
         
-        # Draw bond between C1 and C2
+        # Draw bond between C1 and C2 (covalent bond style)
         if t > duration * 0.15:
             bond_progress = min(1.0, (t - duration * 0.15) / (duration * 0.15))
             bond_end_x = c1_x + (c2_x - c1_x - 2 * atom_radius) * bond_progress + atom_radius
             draw.line([(c1_x + atom_radius, c1_y), (bond_end_x, c2_y)], 
-                     fill=(200, 200, 200), width=4)
+                     fill=theme["text"], width=4)
         
         # Draw Carbon 2
         if t > duration * 0.25:
-            draw_atom(c2_x, c2_y, "C", (80, 80, 80), duration * 0.25)
+            draw_atom(c2_x, c2_y, "C", theme["carbon"], duration * 0.25)
         
         # Draw bond between C2 and O
         if t > duration * 0.35:
             bond_progress = min(1.0, (t - duration * 0.35) / (duration * 0.15))
             bond_end_x = c2_x + (o_x - c2_x - 2 * atom_radius) * bond_progress + atom_radius
             draw.line([(c2_x + atom_radius, c2_y), (bond_end_x, o_y)], 
-                     fill=(200, 200, 200), width=4)
+                     fill=theme["text"], width=4)
         
-        # Draw Oxygen
+        # Draw Oxygen (red - CPK convention)
         if t > duration * 0.45:
-            draw_atom(o_x, o_y, "O", (255, 80, 80), duration * 0.45)
+            draw_atom(o_x, o_y, "O", theme["oxygen"], duration * 0.45)
         
-        # Draw hydrogen atoms on C1 (CH3)
+        # Draw hydrogen atoms on C1 (CH3) - white/light blue CPK
         if t > duration * 0.2:
             h_radius = 15
-            h_color = (200, 200, 255)
+            h_color = theme["hydrogen"]
             
             # H atoms around C1
             h_positions_c1 = [
@@ -2078,11 +2467,11 @@ def create_organic_chemistry_clip(duration: float = 5.0,
                 if t > duration * (0.2 + i * 0.02):
                     # Bond
                     draw.line([(c1_x - atom_radius, c1_y), (hx + h_radius, hy)], 
-                             fill=(150, 150, 180), width=2)
+                             fill=theme["grid"], width=2)
                     # H atom
                     draw.ellipse([hx - h_radius, hy - h_radius, hx + h_radius, hy + h_radius],
-                                fill=h_color, outline=(255, 255, 255), width=1)
-                    draw.text((hx - 4, hy - 6), "H", fill=(50, 50, 100), font=font_info)
+                                fill=h_color, outline=theme["primary"], width=1)
+                    draw.text((hx - 4, hy - 6), "H", fill=theme["carbon"], font=font_info)
         
         # Draw hydrogen atoms on C2 (CH2)
         if t > duration * 0.35:
@@ -2177,21 +2566,25 @@ def create_organic_reaction_clip(duration: float = 5.0,
     """
     Create animated organic reaction visualization.
     Shows a simple addition/substitution reaction.
+    Uses CHEMISTRY visual grammar: CPK colors, molecular bonds.
     """
     font_title = _load_font(28)
     font_label = _load_font(18)
     font_info = _load_font(14)
     font_small = _load_font(12)
     
+    # CHEMISTRY domain theme
+    theme = _get_theme("chemistry")
+    
     def make_frame(t):
         img = Image.new("RGB", (WIDTH, HEIGHT))
         draw = ImageDraw.Draw(img)
         
-        # Gradient background
-        _draw_gradient_bg(draw, (WIDTH, HEIGHT), (20, 25, 40), (35, 45, 65))
+        # CHEMISTRY themed background with hexagonal pattern
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "chemistry")
         
-        # Title
-        draw.text((WIDTH // 2 - 100, 20), title, fill=(220, 240, 255), font=font_title)
+        # CHEMISTRY styled title
+        _draw_domain_title(draw, title, theme, "chemistry", font_title)
         
         # ============================================
         # Show combustion of methane: CH4 + 2O2 → CO2 + 2H2O
@@ -2209,45 +2602,50 @@ def create_organic_reaction_clip(duration: float = 5.0,
         ch4_x = 150
         ch4_y = center_y - 30
         
-        # Draw CH4
+        # Draw CH4 using CPK colors from theme
         c_radius = 20
         h_radius = 12
+        
+        # CPK colors
+        carbon_color = theme["carbon"]
+        hydrogen_color = theme["hydrogen"]
+        oxygen_color = theme["oxygen"]
         
         if phase < 0.7 or phase > 0.85:
             alpha = 1.0 if phase < 0.5 else max(0, 1 - (phase - 0.5) * 3) if phase < 0.7 else min(1, (phase - 0.85) * 5)
             
             if alpha > 0.1:
-                # Central carbon
-                c_color = (int(80 * alpha), int(80 * alpha), int(80 * alpha))
+                # Central carbon - using CPK color
+                c_color = tuple(int(c * alpha) for c in carbon_color)
                 draw.ellipse([ch4_x - c_radius, ch4_y - c_radius, ch4_x + c_radius, ch4_y + c_radius],
-                            fill=c_color, outline=(255, 255, 255), width=1)
+                            fill=c_color, outline=theme["text"], width=1)
                 if alpha > 0.5:
-                    draw.text((ch4_x - 5, ch4_y - 7), "C", fill=(255, 255, 255), font=font_info)
+                    draw.text((ch4_x - 5, ch4_y - 7), "C", fill=theme["text"], font=font_info)
                 
-                # Hydrogen atoms
+                # Hydrogen atoms - using CPK color
                 h_positions = [
                     (ch4_x - 45, ch4_y - 25),
                     (ch4_x + 45, ch4_y - 25),
                     (ch4_x - 45, ch4_y + 25),
                     (ch4_x + 45, ch4_y + 25),
                 ]
-                h_color = (int(200 * alpha), int(200 * alpha), int(255 * alpha))
+                h_color = tuple(int(c * alpha) for c in hydrogen_color)
                 for hx, hy in h_positions:
-                    # Bond
-                    draw.line([(ch4_x, ch4_y), (hx, hy)], fill=(150, 150, 150), width=2)
+                    # Bond using theme grid color
+                    draw.line([(ch4_x, ch4_y), (hx, hy)], fill=theme["grid"], width=2)
                     draw.ellipse([hx - h_radius, hy - h_radius, hx + h_radius, hy + h_radius],
-                                fill=h_color, outline=(255, 255, 255), width=1)
+                                fill=h_color, outline=theme["text"], width=1)
                     if alpha > 0.5:
                         draw.text((hx - 4, hy - 5), "H", fill=(50, 50, 100), font=font_small)
                 
                 if alpha > 0.5:
-                    draw.text((ch4_x - 20, ch4_y + 60), "CH₄", fill=(180, 200, 220), font=font_label)
+                    draw.text((ch4_x - 20, ch4_y + 60), "CH₄", fill=theme["text"], font=font_label)
         
-        # Plus sign
+        # Plus sign - using accent color
         if phase < 0.6:
-            draw.text((220, center_y - 15), "+", fill=(200, 200, 100), font=font_title)
+            draw.text((220, center_y - 15), "+", fill=theme["accent"], font=font_title)
         
-        # Oxygen molecules (O2)
+        # Oxygen molecules (O2) - using CPK oxygen color
         o2_x = 300
         o2_y = center_y
         
@@ -2258,22 +2656,22 @@ def create_organic_reaction_clip(duration: float = 5.0,
             o2_x_pos = o2_x + 25
             
             draw.ellipse([o1_x - o_radius, o2_y - o_radius, o1_x + o_radius, o2_y + o_radius],
-                        fill=(255, 100, 100), outline=(255, 255, 255), width=1)
-            draw.text((o1_x - 5, o2_y - 6), "O", fill=(255, 255, 255), font=font_info)
+                        fill=oxygen_color, outline=theme["text"], width=1)
+            draw.text((o1_x - 5, o2_y - 6), "O", fill=theme["text"], font=font_info)
             
-            # Double bond
+            # Double bond using secondary color
             draw.line([(o1_x + o_radius, o2_y - 5), (o2_x_pos - o_radius, o2_y - 5)],
-                     fill=(255, 200, 200), width=3)
+                     fill=theme["secondary"], width=3)
             draw.line([(o1_x + o_radius, o2_y + 5), (o2_x_pos - o_radius, o2_y + 5)],
-                     fill=(255, 200, 200), width=3)
+                     fill=theme["secondary"], width=3)
             
             draw.ellipse([o2_x_pos - o_radius, o2_y - o_radius, o2_x_pos + o_radius, o2_y + o_radius],
-                        fill=(255, 100, 100), outline=(255, 255, 255), width=1)
-            draw.text((o2_x_pos - 5, o2_y - 6), "O", fill=(255, 255, 255), font=font_info)
+                        fill=oxygen_color, outline=theme["text"], width=1)
+            draw.text((o2_x_pos - 5, o2_y - 6), "O", fill=theme["text"], font=font_info)
             
-            draw.text((o2_x - 35, center_y + 50), "2O₂", fill=(180, 200, 220), font=font_label)
+            draw.text((o2_x - 35, center_y + 50), "2O₂", fill=theme["text"], font=font_label)
         
-        # Reaction arrow (animated)
+        # Reaction arrow (animated) - using highlight color
         if phase > 0.25 and phase < 0.85:
             arrow_x = 400
             arrow_progress = min(1.0, (phase - 0.25) * 3)
@@ -2281,25 +2679,25 @@ def create_organic_reaction_clip(duration: float = 5.0,
             
             # Arrow body
             draw.line([(arrow_x, center_y), (arrow_x + arrow_length, center_y)],
-                     fill=(255, 200, 100), width=4)
+                     fill=theme["highlight"], width=4)
             
             # Arrow head
             if arrow_progress > 0.8:
                 draw.polygon([(arrow_x + arrow_length + 15, center_y),
                              (arrow_x + arrow_length, center_y - 10),
                              (arrow_x + arrow_length, center_y + 10)],
-                            fill=(255, 200, 100))
+                            fill=theme["highlight"])
             
-            # Energy/heat symbol
+            # Energy/heat symbol - using accent color
             if phase > 0.45:
-                draw.text((arrow_x + 30, center_y - 35), "heat", fill=(255, 150, 100), font=font_info)
+                draw.text((arrow_x + 30, center_y - 35), "heat", fill=theme["accent"], font=font_info)
                 # Wavy lines for heat
                 for i in range(3):
                     wave_x = arrow_x + 25 + i * 25
                     for j in range(3):
                         wy = center_y - 55 - j * 8
                         draw.arc([wave_x, wy, wave_x + 15, wy + 10],
-                                0, 180, fill=(255, 150 + j * 30, 100), width=1)
+                                0, 180, fill=theme["highlight"], width=1)
         
         # Products (appear after reaction)
         if phase > 0.55:
@@ -2312,73 +2710,73 @@ def create_organic_reaction_clip(duration: float = 5.0,
             o_radius = 16
             c_radius = 18
             
-            # Left O
+            # Left O - using CPK oxygen color
             o1_x = co2_x - 50
             draw.ellipse([o1_x - o_radius, co2_y - o_radius, o1_x + o_radius, co2_y + o_radius],
-                        fill=(255, 100, 100), outline=(255, 255, 255), width=1)
-            draw.text((o1_x - 5, co2_y - 6), "O", fill=(255, 255, 255), font=font_info)
+                        fill=oxygen_color, outline=theme["text"], width=1)
+            draw.text((o1_x - 5, co2_y - 6), "O", fill=theme["text"], font=font_info)
             
-            # Double bond
+            # Double bond using secondary color
             draw.line([(o1_x + o_radius, co2_y - 4), (co2_x - c_radius, co2_y - 4)],
-                     fill=(255, 200, 200), width=2)
+                     fill=theme["secondary"], width=2)
             draw.line([(o1_x + o_radius, co2_y + 4), (co2_x - c_radius, co2_y + 4)],
-                     fill=(255, 200, 200), width=2)
+                     fill=theme["secondary"], width=2)
             
-            # Central C
+            # Central C - using CPK carbon color
             draw.ellipse([co2_x - c_radius, co2_y - c_radius, co2_x + c_radius, co2_y + c_radius],
-                        fill=(80, 80, 80), outline=(255, 255, 255), width=1)
-            draw.text((co2_x - 5, co2_y - 7), "C", fill=(255, 255, 255), font=font_info)
+                        fill=carbon_color, outline=theme["text"], width=1)
+            draw.text((co2_x - 5, co2_y - 7), "C", fill=theme["text"], font=font_info)
             
             # Double bond
             o2_x_pos = co2_x + 50
             draw.line([(co2_x + c_radius, co2_y - 4), (o2_x_pos - o_radius, co2_y - 4)],
-                     fill=(255, 200, 200), width=2)
+                     fill=theme["secondary"], width=2)
             draw.line([(co2_x + c_radius, co2_y + 4), (o2_x_pos - o_radius, co2_y + 4)],
-                     fill=(255, 200, 200), width=2)
+                     fill=theme["secondary"], width=2)
             
-            # Right O
+            # Right O - using CPK oxygen color
             draw.ellipse([o2_x_pos - o_radius, co2_y - o_radius, o2_x_pos + o_radius, co2_y + o_radius],
-                        fill=(255, 100, 100), outline=(255, 255, 255), width=1)
-            draw.text((o2_x_pos - 5, co2_y - 6), "O", fill=(255, 255, 255), font=font_info)
+                        fill=oxygen_color, outline=theme["text"], width=1)
+            draw.text((o2_x_pos - 5, co2_y - 6), "O", fill=theme["text"], font=font_info)
             
-            draw.text((co2_x - 20, co2_y + 35), "CO₂", fill=(180, 200, 220), font=font_label)
+            draw.text((co2_x - 20, co2_y + 35), "CO₂", fill=theme["text"], font=font_label)
             
-            # Plus sign
-            draw.text((co2_x + 80, center_y - 15), "+", fill=(200, 200, 100), font=font_label)
+            # Plus sign - using accent color
+            draw.text((co2_x + 80, center_y - 15), "+", fill=theme["accent"], font=font_label)
             
             # H2O molecule
             h2o_x = 750
             h2o_y = center_y + 30
             
-            # Oxygen
+            # Oxygen - using CPK oxygen color
             draw.ellipse([h2o_x - o_radius, h2o_y - o_radius, h2o_x + o_radius, h2o_y + o_radius],
-                        fill=(255, 100, 100), outline=(255, 255, 255), width=1)
-            draw.text((h2o_x - 5, h2o_y - 6), "O", fill=(255, 255, 255), font=font_info)
+                        fill=oxygen_color, outline=theme["text"], width=1)
+            draw.text((h2o_x - 5, h2o_y - 6), "O", fill=theme["text"], font=font_info)
             
-            # H atoms (bent shape)
+            # H atoms (bent shape) - using CPK hydrogen color
             h1_x, h1_y = h2o_x - 35, h2o_y - 30
             h2_pos_x, h2_pos_y = h2o_x + 35, h2o_y - 30
             
             h_radius = 10
-            draw.line([(h2o_x, h2o_y), (h1_x, h1_y)], fill=(150, 150, 180), width=2)
+            draw.line([(h2o_x, h2o_y), (h1_x, h1_y)], fill=theme["grid"], width=2)
             draw.ellipse([h1_x - h_radius, h1_y - h_radius, h1_x + h_radius, h1_y + h_radius],
-                        fill=(200, 200, 255), outline=(255, 255, 255), width=1)
+                        fill=hydrogen_color, outline=theme["text"], width=1)
             draw.text((h1_x - 3, h1_y - 5), "H", fill=(50, 50, 100), font=font_small)
             
-            draw.line([(h2o_x, h2o_y), (h2_pos_x, h2_pos_y)], fill=(150, 150, 180), width=2)
+            draw.line([(h2o_x, h2o_y), (h2_pos_x, h2_pos_y)], fill=theme["grid"], width=2)
             draw.ellipse([h2_pos_x - h_radius, h2_pos_y - h_radius, h2_pos_x + h_radius, h2_pos_y + h_radius],
-                        fill=(200, 200, 255), outline=(255, 255, 255), width=1)
+                        fill=hydrogen_color, outline=theme["text"], width=1)
             draw.text((h2_pos_x - 3, h2_pos_y - 5), "H", fill=(50, 50, 100), font=font_small)
             
-            draw.text((h2o_x - 25, h2o_y + 35), "2H₂O", fill=(180, 200, 220), font=font_label)
+            draw.text((h2o_x - 25, h2o_y + 35), "2H₂O", fill=theme["text"], font=font_label)
         
-        # Equation at bottom
+        # Equation at bottom - using theme highlight color
         if phase > 0.8:
             eq_y = HEIGHT - 60
             draw.text((WIDTH // 2 - 200, eq_y), "CH₄ + 2O₂ → CO₂ + 2H₂O + Energy",
-                     fill=(200, 255, 200), font=font_label)
+                     fill=theme["highlight"], font=font_label)
             draw.text((WIDTH // 2 - 100, eq_y + 25), "(Combustion of Methane)",
-                     fill=(150, 180, 200), font=font_info)
+                     fill=theme["secondary"], font=font_info)
         
         return np.array(img)
     
