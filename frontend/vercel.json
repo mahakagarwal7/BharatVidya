@@ -5,11 +5,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "http://98.82.196.164:8000/api/:path*"
+      "destination": "http://98.92.196.164:8000/api/:path*"
     },
     {
       "source": "/videos/:path*",
-      "destination": "http://98.82.196.164:8000/videos/:path*"
+      "destination": "http://98.92.196.164:8000/videos/:path*"
     }
   ],
   "headers": [
