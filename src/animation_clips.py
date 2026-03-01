@@ -2781,3 +2781,479 @@ def create_organic_reaction_clip(duration: float = 5.0,
         return np.array(img)
     
     return VideoClip(make_frame, duration=duration)
+
+
+# ============================================================================
+# MAGNETIC FIELD ANIMATION
+# Visual: Field lines emanating from bar magnet, compass needle alignment
+# Domain: PHYSICS - Uses navy gradients, measurement markers, vector elements
+# ============================================================================
+
+def create_magnetic_field_clip(duration: float = 5.0,
+                               title: str = "Magnetic Field Lines") -> VideoClip:
+    """
+    Create animated magnetic field lines visualization.
+    Shows field lines from N to S pole with compass needle animation.
+    Uses PHYSICS visual grammar: dark navy, measurement markers, vector styling.
+    """
+    theme = _get_theme("physics")
+    
+    # Load fonts
+    font_label = _load_font(16)
+    font_info = _load_font(14)
+    font_small = _load_font(12)
+    
+    def make_frame(t):
+        img = Image.new('RGB', (WIDTH, HEIGHT), color=theme["bg_top"])
+        draw = ImageDraw.Draw(img)
+        
+        # Draw physics-themed background
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "physics")
+        
+        # Title with physics styling
+        _draw_domain_title(draw, title, theme, "physics", font_label)
+        
+        # Bar magnet in center
+        magnet_w, magnet_h = 180, 60
+        magnet_x = WIDTH // 2 - magnet_w // 2
+        magnet_y = HEIGHT // 2 - magnet_h // 2
+        
+        # North pole (red)
+        n_color = (200, 60, 60)
+        draw.rectangle([magnet_x, magnet_y, magnet_x + magnet_w // 2, magnet_y + magnet_h],
+                      fill=n_color, outline=theme["text"], width=2)
+        draw.text((magnet_x + magnet_w // 4 - 8, magnet_y + magnet_h // 2 - 10),
+                 "N", fill=(255, 255, 255), font=font_label)
+        
+        # South pole (blue)
+        s_color = (60, 60, 200)
+        draw.rectangle([magnet_x + magnet_w // 2, magnet_y, 
+                       magnet_x + magnet_w, magnet_y + magnet_h],
+                      fill=s_color, outline=theme["text"], width=2)
+        draw.text((magnet_x + 3 * magnet_w // 4 - 8, magnet_y + magnet_h // 2 - 10),
+                 "S", fill=(255, 255, 255), font=font_label)
+        
+        # Animated field lines
+        cx, cy = WIDTH // 2, HEIGHT // 2
+        phase = t * 0.5  # Slow animation
+        
+        # Draw curved field lines from N to S (outside magnet)
+        num_lines = 8
+        for i in range(num_lines):
+            angle_offset = (i - num_lines // 2) * 15 + 90  # Spread from -60 to +60 degrees
+            
+            # Animation: lines "flow" from N to S
+            flow_phase = (t * 2 + i * 0.3) % 1.0
+            
+            # Start at N pole edge
+            start_angle = math.radians(angle_offset)
+            
+            # Draw curved path using Bezier-like points
+            points = []
+            for j in range(20):
+                progress = j / 19.0
+                
+                # Parametric curve from N to S pole (outside)
+                # Start from left of magnet (N), arc outside, end at right (S)
+                arc_height = 80 + abs(angle_offset - 90) * 2  # Higher arc for outer lines
+                
+                # X goes from N pole to S pole
+                px = magnet_x - 20 + (magnet_w + 40) * progress
+                
+                # Y arcs up (for top lines) or down (for bottom lines)
+                if angle_offset > 90:
+                    # Top lines
+                    py = cy - arc_height * math.sin(math.pi * progress)
+                else:
+                    # Bottom lines
+                    py = cy + arc_height * math.sin(math.pi * progress)
+                
+                points.append((px, py))
+            
+            # Draw field line with animated glow
+            glow_intensity = int(100 + 80 * math.sin(phase * 4 + i))
+            line_color = (glow_intensity, glow_intensity + 50, 255)
+            
+            if len(points) > 1:
+                draw.line(points, fill=line_color, width=2)
+                
+                # Draw arrow at midpoint showing direction
+                mid_idx = len(points) // 2
+                if mid_idx < len(points) - 1:
+                    mx, my = points[mid_idx]
+                    mx2, my2 = points[mid_idx + 1]
+                    _draw_arrow_head(draw, mx - 10, my, mx, my, theme["primary"], 8)
+        
+        # Draw field lines inside magnet (straight, N to S)
+        for i in range(3):
+            y_off = (i - 1) * 15
+            ly = cy + y_off
+            draw.line([(magnet_x + magnet_w - 10, ly), (magnet_x + 10, ly)],
+                     fill=theme["primary"], width=2)
+            # Arrow pointing from S to N inside
+            _draw_arrow_head(draw, magnet_x + 30, ly, magnet_x + 10, ly, theme["primary"], 6)
+        
+        # Animated compass needles around magnet
+        compass_positions = [
+            (magnet_x - 80, cy - 80),
+            (magnet_x - 80, cy + 80),
+            (magnet_x + magnet_w + 80, cy - 80),
+            (magnet_x + magnet_w + 80, cy + 80),
+        ]
+        
+        for px, py in compass_positions:
+            # Calculate direction to center
+            dx, dy = cx - px, cy - py
+            base_angle = math.atan2(dy, dx)
+            
+            # Add wobble animation
+            wobble = 0.1 * math.sin(t * 3 + px * 0.01)
+            angle = base_angle + wobble
+            
+            # Draw compass circle
+            r = 20
+            draw.ellipse([px - r, py - r, px + r, py + r],
+                        outline=theme["secondary"], width=2)
+            
+            # Draw needle
+            needle_len = 15
+            nx1 = px + needle_len * math.cos(angle)
+            ny1 = py + needle_len * math.sin(angle)
+            nx2 = px - needle_len * math.cos(angle)
+            ny2 = py - needle_len * math.sin(angle)
+            
+            # Red end points to N
+            draw.line([(px, py), (nx1, ny1)], fill=(200, 60, 60), width=3)
+            draw.line([(px, py), (nx2, ny2)], fill=(60, 60, 200), width=3)
+        
+        # Info text
+        if t > duration * 0.3:
+            info_y = HEIGHT - 80
+            draw.text((60, info_y), "• Field lines: N → S (outside)", 
+                     fill=theme["text"], font=font_info)
+            draw.text((60, info_y + 25), "• Field lines: S → N (inside)", 
+                     fill=theme["text"], font=font_info)
+            draw.text((WIDTH - 300, info_y), "• Lines never cross",
+                     fill=theme["highlight"], font=font_info)
+            draw.text((WIDTH - 300, info_y + 25), "• Closer lines = stronger field",
+                     fill=theme["highlight"], font=font_info)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
+
+
+# ============================================================================
+# ELECTROMAGNETIC INDUCTION ANIMATION
+# Visual: Coil with moving magnet, induced current, Faraday's law
+# Domain: PHYSICS - Uses measurement markers, vector elements
+# ============================================================================
+
+def create_electromagnetic_clip(duration: float = 5.0,
+                                 title: str = "Electromagnetic Induction") -> VideoClip:
+    """
+    Create animated electromagnetic induction visualization.
+    Shows magnet moving through coil, inducing current (Faraday's Law).
+    Uses PHYSICS visual grammar.
+    """
+    theme = _get_theme("physics")
+    
+    # Load fonts
+    font_label = _load_font(16)
+    font_info = _load_font(14)
+    
+    def make_frame(t):
+        img = Image.new('RGB', (WIDTH, HEIGHT), color=theme["bg_top"])
+        draw = ImageDraw.Draw(img)
+        
+        # Draw physics-themed background
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "physics")
+        
+        # Title with physics styling
+        _draw_domain_title(draw, title, theme, "physics", font_label)
+        
+        # Coil in center (solenoid representation)
+        coil_x = WIDTH // 2 - 60
+        coil_y = HEIGHT // 2 - 40
+        coil_w, coil_h = 120, 80
+        
+        # Draw coil loops
+        num_loops = 8
+        for i in range(num_loops):
+            lx = coil_x + i * (coil_w // num_loops)
+            # Ellipse for each loop
+            draw.ellipse([lx - 5, coil_y, lx + 20, coil_y + coil_h],
+                        outline=theme["accent"], width=2)
+        
+        # Coil wire connections
+        draw.line([(coil_x - 30, coil_y + coil_h // 2), (coil_x, coil_y + coil_h // 2)],
+                 fill=theme["accent"], width=3)
+        draw.line([(coil_x + coil_w, coil_y + coil_h // 2), 
+                  (coil_x + coil_w + 30, coil_y + coil_h // 2)],
+                 fill=theme["accent"], width=3)
+        
+        # Animated bar magnet moving through coil
+        cycle_duration = duration / 2
+        cycle_phase = (t % cycle_duration) / cycle_duration
+        
+        # Magnet oscillates left-right through coil
+        magnet_w, magnet_h = 100, 35
+        magnet_center_x = WIDTH // 2
+        magnet_amplitude = 120
+        
+        # Sinusoidal motion
+        magnet_offset = magnet_amplitude * math.sin(cycle_phase * 2 * math.pi)
+        magnet_x = magnet_center_x + magnet_offset - magnet_w // 2
+        magnet_y = coil_y + coil_h // 2 - magnet_h // 2
+        
+        # Draw magnet
+        # North pole
+        draw.rectangle([magnet_x, magnet_y, magnet_x + magnet_w // 2, magnet_y + magnet_h],
+                      fill=(200, 60, 60), outline=(255, 255, 255), width=1)
+        draw.text((magnet_x + magnet_w // 4 - 5, magnet_y + magnet_h // 2 - 8),
+                 "N", fill=(255, 255, 255), font=font_info)
+        
+        # South pole
+        draw.rectangle([magnet_x + magnet_w // 2, magnet_y, 
+                       magnet_x + magnet_w, magnet_y + magnet_h],
+                      fill=(60, 60, 200), outline=(255, 255, 255), width=1)
+        draw.text((magnet_x + 3 * magnet_w // 4 - 5, magnet_y + magnet_h // 2 - 8),
+                 "S", fill=(255, 255, 255), font=font_info)
+        
+        # Velocity arrow on magnet
+        velocity = magnet_amplitude * 2 * math.pi / cycle_duration * math.cos(cycle_phase * 2 * math.pi)
+        if abs(velocity) > 10:
+            arrow_y = magnet_y - 20
+            arrow_x = magnet_x + magnet_w // 2
+            arrow_dir = 1 if velocity > 0 else -1
+            arrow_len = min(40, abs(velocity) * 0.3)
+            
+            draw.line([(arrow_x, arrow_y), (arrow_x + arrow_dir * arrow_len, arrow_y)],
+                     fill=theme["secondary"], width=2)
+            _draw_arrow_head(draw, arrow_x + arrow_dir * arrow_len - arrow_dir * 5, arrow_y,
+                           arrow_x + arrow_dir * arrow_len, arrow_y, theme["secondary"], 8)
+            draw.text((arrow_x - 5, arrow_y - 18), "v", fill=theme["secondary"], font=font_info)
+        
+        # Induced current visualization
+        # Current magnitude proportional to rate of flux change (velocity)
+        current_magnitude = abs(velocity) / (magnet_amplitude * 2 * math.pi / cycle_duration)
+        
+        if current_magnitude > 0.1:
+            # Draw current flow in wires
+            current_color = (
+                int(100 + 155 * current_magnitude),
+                int(200 * current_magnitude),
+                int(100 + 100 * current_magnitude)
+            )
+            
+            # Galvanometer/ammeter
+            meter_x, meter_y = coil_x - 80, coil_y + coil_h // 2 - 25
+            draw.ellipse([meter_x, meter_y, meter_x + 50, meter_y + 50],
+                        outline=theme["text"], width=2)
+            draw.text((meter_x + 18, meter_y + 15), "G", fill=theme["text"], font=font_info)
+            
+            # Needle deflection based on current direction
+            needle_angle = math.pi / 2 - velocity / abs(velocity + 0.001) * current_magnitude * 0.8
+            needle_cx, needle_cy = meter_x + 25, meter_y + 25
+            needle_len = 18
+            needle_ex = needle_cx + needle_len * math.cos(needle_angle)
+            needle_ey = needle_cy - needle_len * math.sin(needle_angle)
+            draw.line([(needle_cx, needle_cy), (needle_ex, needle_ey)],
+                     fill=current_color, width=2)
+            
+            # Current direction indicators on wires
+            wire_y = coil_y + coil_h // 2
+            if velocity > 0:
+                draw.text((coil_x - 60, wire_y + 10), "→", fill=current_color, font=font_label)
+                draw.text((coil_x + coil_w + 35, wire_y + 10), "→", fill=current_color, font=font_label)
+            else:
+                draw.text((coil_x - 60, wire_y + 10), "←", fill=current_color, font=font_label)
+                draw.text((coil_x + coil_w + 35, wire_y + 10), "←", fill=current_color, font=font_label)
+        
+        # Faraday's law equation
+        if t > duration * 0.2:
+            eq_y = HEIGHT - 80
+            draw.text((WIDTH // 2 - 150, eq_y), "ε = -dΦ/dt", 
+                     fill=theme["highlight"], font=font_label)
+            draw.text((WIDTH // 2 - 150, eq_y + 25), "(Faraday's Law of Induction)",
+                     fill=theme["secondary"], font=font_info)
+        
+        # Labels
+        draw.text((coil_x + 20, coil_y - 30), "Coil", fill=theme["text"], font=font_info)
+        draw.text((magnet_x + 20, magnet_y + magnet_h + 10), "Magnet", fill=theme["text"], font=font_info)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
+
+
+# ============================================================================
+# GRAVITY / GRAVITATIONAL FIELD ANIMATION
+# Visual: Objects falling, gravitational field lines, orbital motion
+# Domain: PHYSICS - Uses vector elements, measurement markers
+# ============================================================================
+
+def create_gravity_clip(duration: float = 5.0,
+                        title: str = "Gravitational Force") -> VideoClip:
+    """
+    Create animated gravity/gravitational field visualization.
+    Shows free fall, gravitational field, and orbital concepts.
+    Uses PHYSICS visual grammar.
+    """
+    theme = _get_theme("physics")
+    
+    # Pre-generate falling objects
+    class FallingObject:
+        def __init__(self, x, start_y, start_time, size, color):
+            self.x = x
+            self.start_y = start_y
+            self.start_time = start_time
+            self.size = size
+            self.color = color
+            self.g = 150  # pixels/s^2 (scaled for visualization)
+        
+        def get_position(self, t):
+            if t < self.start_time:
+                return self.x, self.start_y
+            dt = t - self.start_time
+            y = self.start_y + 0.5 * self.g * dt * dt
+            return self.x, min(y, HEIGHT - 80)  # Ground at HEIGHT - 80
+    
+    objects = [
+        FallingObject(150, 150, 0.0, 15, theme["primary"]),
+        FallingObject(250, 130, 0.5, 20, theme["accent"]),
+        FallingObject(350, 160, 1.0, 12, theme["highlight"]),
+    ]
+    
+    # Load fonts
+    font_label = _load_font(16)
+    font_info = _load_font(14)
+    font_small = _load_font(12)
+    
+    def make_frame(t):
+        img = Image.new('RGB', (WIDTH, HEIGHT), color=theme["bg_top"])
+        draw = ImageDraw.Draw(img)
+        
+        # Draw physics-themed background
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "physics")
+        
+        # Title with physics styling
+        _draw_domain_title(draw, title, theme, "physics", font_label)
+        
+        # Ground line
+        ground_y = HEIGHT - 80
+        draw.line([(50, ground_y), (450, ground_y)], fill=theme["secondary"], width=3)
+        draw.text((50, ground_y + 10), "Ground", fill=theme["secondary"], font=font_info)
+        
+        # Draw falling objects with velocity vectors
+        for obj in objects:
+            x, y = obj.get_position(t)
+            
+            # Draw object (circle)
+            draw.ellipse([x - obj.size, y - obj.size, x + obj.size, y + obj.size],
+                        fill=obj.color, outline=theme["text"], width=1)
+            
+            # Velocity vector (v = gt)
+            if t > obj.start_time and y < ground_y - 5:
+                dt = t - obj.start_time
+                v = obj.g * dt
+                v_scaled = min(v * 0.3, 60)  # Scale for display
+                
+                # Draw velocity arrow pointing down
+                arrow_end_y = y + v_scaled
+                draw.line([(x + obj.size + 5, y), (x + obj.size + 5, arrow_end_y)],
+                         fill=theme["highlight"], width=2)
+                _draw_arrow_head(draw, x + obj.size + 5, arrow_end_y - 5,
+                               x + obj.size + 5, arrow_end_y, theme["highlight"], 6)
+                draw.text((x + obj.size + 10, y + v_scaled // 2 - 8), "v",
+                         fill=theme["highlight"], font=font_small)
+            
+            # Weight vector (constant)
+            if y < ground_y - 5:
+                w_len = 30
+                draw.line([(x, y + obj.size), (x, y + obj.size + w_len)],
+                         fill=theme["primary"], width=2)
+                _draw_arrow_head(draw, x, y + obj.size + w_len - 5,
+                               x, y + obj.size + w_len, theme["primary"], 6)
+                draw.text((x - 20, y + obj.size + w_len // 2), "W=mg",
+                         fill=theme["primary"], font=font_small)
+        
+        # Right side: Gravitational field visualization
+        planet_x, planet_y = WIDTH - 200, HEIGHT // 2
+        planet_r = 50
+        
+        # Draw planet
+        draw.ellipse([planet_x - planet_r, planet_y - planet_r,
+                     planet_x + planet_r, planet_y + planet_r],
+                    fill=(80, 120, 180), outline=theme["text"], width=2)
+        draw.text((planet_x - 12, planet_y - 8), "M", fill=(255, 255, 255), font=font_info)
+        
+        # Gravitational field lines (pointing inward)
+        num_field_lines = 12
+        for i in range(num_field_lines):
+            angle = i * 2 * math.pi / num_field_lines + t * 0.2
+            
+            # Field line from outside pointing to center
+            outer_r = planet_r + 100
+            inner_r = planet_r + 10
+            
+            ox = planet_x + outer_r * math.cos(angle)
+            oy = planet_y + outer_r * math.sin(angle)
+            ix = planet_x + inner_r * math.cos(angle)
+            iy = planet_y + inner_r * math.sin(angle)
+            
+            # Animated segments along field line
+            num_segments = 5
+            for j in range(num_segments):
+                seg_phase = ((t * 2 + j * 0.2) % 1.0)
+                seg_r = outer_r - (outer_r - inner_r) * seg_phase
+                
+                sx = planet_x + seg_r * math.cos(angle)
+                sy = planet_y + seg_r * math.sin(angle)
+                
+                seg_size = 3
+                alpha = int(200 * (1 - seg_phase))
+                seg_color = (alpha, alpha, int(255 * (1 - seg_phase * 0.5)))
+                
+                draw.ellipse([sx - seg_size, sy - seg_size, sx + seg_size, sy + seg_size],
+                            fill=seg_color)
+        
+        # Small orbiting object
+        orbit_r = planet_r + 70
+        orbit_angle = t * 1.5
+        orb_x = planet_x + orbit_r * math.cos(orbit_angle)
+        orb_y = planet_y + orbit_r * math.sin(orbit_angle)
+        
+        draw.ellipse([orb_x - 8, orb_y - 8, orb_x + 8, orb_y + 8],
+                    fill=theme["accent"], outline=theme["text"], width=1)
+        
+        # Draw orbit path (dashed)
+        for i in range(24):
+            a1 = i * math.pi / 12
+            a2 = (i + 0.5) * math.pi / 12
+            x1 = planet_x + orbit_r * math.cos(a1)
+            y1 = planet_y + orbit_r * math.sin(a1)
+            x2 = planet_x + orbit_r * math.cos(a2)
+            y2 = planet_y + orbit_r * math.sin(a2)
+            draw.line([(x1, y1), (x2, y2)], fill=theme["grid"], width=1)
+        
+        # Gravitational force on orbiting object
+        grav_len = 25
+        grav_ex = orb_x - grav_len * math.cos(orbit_angle)
+        grav_ey = orb_y - grav_len * math.sin(orbit_angle)
+        draw.line([(orb_x, orb_y), (grav_ex, grav_ey)], fill=theme["highlight"], width=2)
+        _draw_arrow_head(draw, orb_x - (grav_len - 5) * math.cos(orbit_angle),
+                        orb_y - (grav_len - 5) * math.sin(orbit_angle),
+                        grav_ex, grav_ey, theme["highlight"], 6)
+        
+        # Equations
+        if t > duration * 0.3:
+            eq_y = HEIGHT - 70
+            draw.text((500, eq_y), "F = Gm₁m₂/r²", fill=theme["highlight"], font=font_info)
+            draw.text((500, eq_y + 20), "g = 9.8 m/s²", fill=theme["secondary"], font=font_info)
+            
+            draw.text((60, eq_y + 40), "v = gt, s = ½gt²", fill=theme["text"], font=font_info)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)

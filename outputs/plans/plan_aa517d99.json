@@ -1,0 +1,35 @@
+{
+  "title": "Bubble Sort Demystified: Understanding How It Works",
+  "summary": "This video will explain how bubble sort algorithm organizes a list of numbers in ascending order by repeatedly swapping adjacent elements, showcasing its simplicity and efficiency.",
+  "category": "algorithm",
+  "sections": [
+    {
+      "heading": "The Bubble Sort Basics",
+      "body": "Bubble sort is one of the simplest sorting algorithms that works on an array by repeatedly swapping adjacent elements if they are in the wrong order. It continues to do so until no more swaps are needed, indicating that the list is sorted.",
+      "key_points": [
+        "Sorting with bubble sort",
+        "Adjacent element comparison"
+      ]
+    },
+    {
+      "heading": "The Mechanics of Bubble Sort",
+      "body": "Each pass through the array compares adjacent items and swaps them if they're out of order. The largest unsorted element 'bubbles up' to its correct position at the end with each complete iteration, hence called bubble sort.",
+      "key_points": [
+        "Pass-by-pass process",
+        "Sorting in place"
+      ]
+    },
+    {
+      "heading": "When is Bubble Sort Useful?",
+      "body": "While not the most efficient for large datasets, its simplicity makes bubble sort a valuable educational tool to understand sorting fundamentals and it's sometimes practical where memory space isn't an issue.",
+      "key_points": [
+        "Educational value of simple algorithms",
+        "Limited efficiency"
+      ]
+    }
+  ],
+  "key_facts": [
+    "Bubble sort works by repeatedly stepping through a list to be sorted, comparing each pair of adjacent items and swapping them if they are in the wrong order."
+  ],
+  "visual_style": "simulation"
+}

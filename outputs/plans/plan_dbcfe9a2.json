@@ -1,0 +1,37 @@
+{
+  "title": "Understanding Magnetic Field Lines",
+  "summary": "Magnetic field lines provide a visual representation of the magnetic forces around a magnet. These invisible paths help us understand how objects interact with magnets.",
+  "category": "general education science topics",
+  "sections": [
+    {
+      "heading": "What it is",
+      "body": "Magnetic field lines are conceptual illustrations used to represent the magnetic influence of a magnet or moving electric charge. They show how magnetic forces act upon other ferromagnetic materials in proximity.",
+      "key_points": [
+        "Invisible force representation",
+        "Interaction with ferrous objects"
+      ]
+    },
+    {
+      "heading": "How it works",
+      "body": "Magnetic field lines emerge from the magnet's north pole and curve around to its south pole. The denser these lines are, the stronger the magnetic force they represent.",
+      "key_points": [
+        "Emerges at poles",
+        "Density indicates strength"
+      ]
+    },
+    {
+      "heading": "Why it matters",
+      "body": "Understanding field lines is crucial for explaining many natural and technological phenomena, from the Earth's magnetic field protecting us from solar wind to MRI technology in medicine.",
+      "key_points": [
+        "Natural phenomenon explanation",
+        "Technology application"
+      ]
+    }
+  ],
+  "key_facts": [
+    {
+      "One key fact": "Magnetic fields are created by moving electric charges, such as those found in wires carrying alternating current."
+    }
+  ],
+  "visual_style": "mixed"
+}

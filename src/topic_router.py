@@ -311,6 +311,58 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "force"
 
+    # Electromagnetic Induction / Faraday's Law (check BEFORE magnetic - more specific)
+    em_induction_patterns = [
+        r"\belectromagnetic\s+induction\b",
+        r"\bfaraday'?s?\s+law\b",
+        r"\blenz'?s?\s+law\b",
+        r"\binduced\s+(emf|current|voltage)\b",
+        r"\bflux\s+(change|linkage)\b",
+        r"\bgenerator\s+(principle|working)\b",
+        r"\btransformer\s+(principle|working)\b",
+        r"\bmotor\s+(principle|effect)\b",
+        r"\bac\s+generator\b",
+        r"\bdc\s+motor\b",
+    ]
+    for pattern in em_induction_patterns:
+        if re.search(pattern, text):
+            return "electromagnetic"
+
+    # Magnetic Field / Magnetism (after electromagnetic induction)
+    magnetic_patterns = [
+        r"\bmagnetic\s+field\s*(lines?)?\b",
+        r"\bfield\s+lines?\s*(of\s+)?magnet",
+        r"\bmagnet(ism|ic)?\b.*\b(field|pole|force)\b",
+        r"\b(north|south)\s+pole\b.*\bmagnet",
+        r"\bbar\s+magnet\b",
+        r"\belectromagnet\b",  # Just electromagnet (device), not electromagnetic induction
+        r"\bmagnetic\s+(flux|force)\b",  # Removed "induction" - that goes to electromagnetic
+        r"\biron\s+filing(s)?\b",
+        r"\bcompass\s+needle\b",
+        r"\bearth'?s?\s+magnetic\s+field\b",
+    ]
+    for pattern in magnetic_patterns:
+        if re.search(pattern, text):
+            return "magnetic_field"
+
+    # Gravity / Gravitational Force
+    gravity_patterns = [
+        r"\bgravit(y|ational)\b",
+        r"\bfree\s+fall\b",
+        r"\bweight\s+(and\s+)?mass\b",
+        r"\bg\s*=\s*9\.8",
+        r"\bacceleration\s+due\s+to\s+gravity\b",
+        r"\bnewton'?s?\s+law\s+of\s+gravitation\b",
+        r"\buniversal\s+gravitation\b",
+        r"\bgravitational\s+(field|force|potential)\b",
+        r"\bescape\s+velocity\b",
+        r"\borbital\s+(motion|velocity)\b",
+        r"\bkepler'?s?\s+law\b",
+    ]
+    for pattern in gravity_patterns:
+        if re.search(pattern, text):
+            return "gravity"
+
     return "generic"
 
 
@@ -334,7 +386,8 @@ def has_specialized_animation(concept: str) -> bool:
         "sine_wave", "projectile_motion", "pendulum",
         "linear_equation", "heat", "geometry", "chemistry", "wave", "statistics",
         "coordinate_geometry", "circuit", "optics", "force",
-        "organic_chemistry", "organic_reaction"
+        "organic_chemistry", "organic_reaction",
+        "magnetic_field", "electromagnetic", "gravity"
     ]
     return topic in animated_topics
 
@@ -374,7 +427,10 @@ def get_animation_clip(concept: str, duration: float = 5.0, **kwargs) -> Optiona
             create_optics_clip,
             create_force_clip,
             create_organic_chemistry_clip,
-            create_organic_reaction_clip
+            create_organic_reaction_clip,
+            create_magnetic_field_clip,
+            create_electromagnetic_clip,
+            create_gravity_clip
         )
         
         if topic == "projectile_motion":
@@ -499,6 +555,24 @@ def get_animation_clip(concept: str, duration: float = 5.0, **kwargs) -> Optiona
                 title=kwargs.get("title", "Organic Reaction")
             )
         
+        elif topic == "magnetic_field":
+            return create_magnetic_field_clip(
+                duration=duration,
+                title=kwargs.get("title", "Magnetic Field Lines")
+            )
+        
+        elif topic == "electromagnetic":
+            return create_electromagnetic_clip(
+                duration=duration,
+                title=kwargs.get("title", "Electromagnetic Induction")
+            )
+        
+        elif topic == "gravity":
+            return create_gravity_clip(
+                duration=duration,
+                title=kwargs.get("title", "Gravitational Force")
+            )
+        
         else:
             # Generic animation for any other topic
             return create_generic_clip(
@@ -541,6 +615,9 @@ def get_animation_info(concept: str) -> dict:
         "force": "See force vectors and Newton's laws in action with acceleration visualization.",
         "organic_chemistry": "Explore organic molecules with carbon chains, functional groups, and molecular structures.",
         "organic_reaction": "Watch organic reactions with reactants transforming into products step by step.",
+        "magnetic_field": "Visualize magnetic field lines from N to S pole with compass needle alignment.",
+        "electromagnetic": "Watch electromagnetic induction with magnet moving through coil, inducing current.",
+        "gravity": "See gravitational force in action with free fall, field lines, and orbital motion.",
         "generic": "Animated visualization with floating concepts and dynamic effects."
     }
     
@@ -549,7 +626,8 @@ def get_animation_info(concept: str) -> dict:
         "projectile_motion", "pendulum", "linear_equation", "heat", 
         "geometry", "chemistry", "wave", "statistics",
         "coordinate_geometry", "circuit", "optics", "force",
-        "organic_chemistry", "organic_reaction"
+        "organic_chemistry", "organic_reaction",
+        "magnetic_field", "electromagnetic", "gravity"
     ]
     is_specialized = topic in specialized_topics
     

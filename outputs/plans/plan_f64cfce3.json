@@ -1,0 +1,35 @@
+{
+  "title": "Discovering Magnetic Field Lines",
+  "summary": "Explore how magnetic fields are visualized through invisible lines of force that reveal the strength and direction around magnets.",
+  "category": "physics",
+  "sections": [
+    {
+      "heading": "What Are Magnetic Field Lines?",
+      "body": "Magnetic field lines represent the pathway along which a magnetic force acts on moving charges. Imagine an invisible pattern that wraps around magnets, this is their behavior.",
+      "key_points": [
+        "Pathways of magnetic forces",
+        "Invisible patterns"
+      ]
+    },
+    {
+      "heading": "How Do Magnetic Field Lines Form?",
+      "body": "Magnetic field lines originate from the north pole and terminate at the south pole, forming loops. The closer these invisible strands are to each other, the stronger the magnetic force in that area.",
+      "key_points": [
+        "Lines start-to-end loop",
+        "Close together equals strong magnetism"
+      ]
+    },
+    {
+      "heading": "Why Are Magnetic Field Lines Important?",
+      "body": "Understanding magnetic field lines helps us visualize the invisible force that affects compass needles, plays a role in Earth's protection from solar winds and is essential for understanding magnetism itself.",
+      "key_points": [
+        "Visualizing forces around magnets",
+        "Magnetic influence on navigation"
+      ]
+    }
+  ],
+  "key_facts": [
+    "The magnetic field lines always close back to the starting point, forming closed loops."
+  ],
+  "visual_style": "mixed"
+}
