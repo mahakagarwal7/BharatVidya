@@ -1,3 +1,31 @@
+# Python
 __pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.env
+*.egg-info/
+
+# Media/Output
 media/
+outputs/
 *.mp4
+
+# IDE
+.vscode/
+.idea/
+
+# Node/Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+
+# Deployment secrets
+*.pem
+.env.production
+deploy/*.log
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,39 @@
+# deploy/docker-compose.yml
+# Docker Compose for local development with Ollama
+
+version: '3.8'
+
+services:
+  # Ollama LLM service
+  ollama:
+    image: ollama/ollama:latest
+    container_name: edugen-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    # Pull model on first run: docker exec edugen-ollama ollama pull phi3:mini
+
+  # Educational Video Generator API
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    container_name: edugen-api
+    ports:
+      - "8000:8000"
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME:-edugen-videos}
+    volumes:
+      - ../outputs:/app/outputs
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+volumes:
+  ollama_data:

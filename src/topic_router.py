@@ -212,6 +212,38 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "organic_reaction"
 
+    # Physical Chemistry (Thermodynamics, Kinetics, Gas Laws)
+    physical_chem_patterns = [
+        r"\bgas\s+law(s)?\b",
+        r"\bboyle'?s?\s+law\b",
+        r"\bcharles'?\s+law\b",
+        r"\bideal\s+gas\b",
+        r"\bpv\s*=\s*nrt\b",
+        r"\bchemical\s+kinetics\b",
+        r"\breaction\s+rate(s)?\b",
+        r"\bactivation\s+energy\b",
+        r"\bequilibrium\s+constant\b",
+        r"\ble\s+chatelier",
+    ]
+    for pattern in physical_chem_patterns:
+        if re.search(pattern, text):
+            return "physical_chemistry"
+
+    # Inorganic Chemistry (Periodic Table, Crystal Structures)
+    inorganic_chem_patterns = [
+        r"\bcrystal\s+(lattice|structure|system)",
+        r"\bunit\s+cell\b",
+        r"\bcoordination\s+(compound|chemistry|number)",
+        r"\bligand(s)?\b",
+        r"\btransition\s+metal(s)?\b",
+        r"\bmetallurgy\b",
+        r"\bperiodic\s+trend(s)?\b",
+        r"\bionization\s+energy\b",
+    ]
+    for pattern in inorganic_chem_patterns:
+        if re.search(pattern, text):
+            return "inorganic_chemistry"
+
     # General Chemistry / Atoms / Molecules (after organic chemistry check)
     chemistry_patterns = [
         r"\bchem(istry|ical)\b",
@@ -386,7 +418,8 @@ def has_specialized_animation(concept: str) -> bool:
         "sine_wave", "projectile_motion", "pendulum",
         "linear_equation", "heat", "geometry", "chemistry", "wave", "statistics",
         "coordinate_geometry", "circuit", "optics", "force",
-        "organic_chemistry", "organic_reaction",
+        "organic_chemistry", "organic_reaction", 
+        "physical_chemistry", "inorganic_chemistry",
         "magnetic_field", "electromagnetic", "gravity"
     ]
     return topic in animated_topics
@@ -430,7 +463,9 @@ def get_animation_clip(concept: str, duration: float = 5.0, **kwargs) -> Optiona
             create_organic_reaction_clip,
             create_magnetic_field_clip,
             create_electromagnetic_clip,
-            create_gravity_clip
+            create_gravity_clip,
+            create_gas_law_clip,
+            create_crystal_lattice_clip
         )
         
         if topic == "projectile_motion":
@@ -555,6 +590,18 @@ def get_animation_clip(concept: str, duration: float = 5.0, **kwargs) -> Optiona
                 title=kwargs.get("title", "Organic Reaction")
             )
         
+        elif topic == "physical_chemistry":
+            return create_gas_law_clip(
+                duration=duration,
+                title=kwargs.get("title", "Gas Laws (PV=nRT)")
+            )
+            
+        elif topic == "inorganic_chemistry":
+            return create_crystal_lattice_clip(
+                duration=duration,
+                title=kwargs.get("title", "Crystal Lattice")
+            )
+        
         elif topic == "magnetic_field":
             return create_magnetic_field_clip(
                 duration=duration,
@@ -615,6 +662,8 @@ def get_animation_info(concept: str) -> dict:
         "force": "See force vectors and Newton's laws in action with acceleration visualization.",
         "organic_chemistry": "Explore organic molecules with carbon chains, functional groups, and molecular structures.",
         "organic_reaction": "Watch organic reactions with reactants transforming into products step by step.",
+        "physical_chemistry": "Visualize gas particles in motion demonstrating pressure, volume, and temperature relationships.",
+        "inorganic_chemistry": "Explore 3D crystal lattice structures and unit cells rotating in space.",
         "magnetic_field": "Visualize magnetic field lines from N to S pole with compass needle alignment.",
         "electromagnetic": "Watch electromagnetic induction with magnet moving through coil, inducing current.",
         "gravity": "See gravitational force in action with free fall, field lines, and orbital motion.",
@@ -626,7 +675,8 @@ def get_animation_info(concept: str) -> dict:
         "projectile_motion", "pendulum", "linear_equation", "heat", 
         "geometry", "chemistry", "wave", "statistics",
         "coordinate_geometry", "circuit", "optics", "force",
-        "organic_chemistry", "organic_reaction",
+        "organic_chemistry", "organic_reaction", 
+        "physical_chemistry", "inorganic_chemistry",
         "magnetic_field", "electromagnetic", "gravity"
     ]
     is_specialized = topic in specialized_topics

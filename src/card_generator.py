@@ -36,6 +36,10 @@ def _detect_theme(*parts: str) -> str:
         "gravity": "physics", "force": "physics", "newton": "physics",
         "cell": "biology", "dna": "biology", "protein": "biology",
         "atom": "chemistry", "molecule": "chemistry", "element": "chemistry",
+        "gas": "chemistry", "pressure": "chemistry", "thermodynamics": "chemistry",
+        "crystal": "chemistry", "lattice": "chemistry", "inorganic": "chemistry",
+        "organic": "chemistry", "reaction": "chemistry", "bond": "chemistry",
+        "periodic": "chemistry", "metal": "chemistry"
     }
     for keyword, theme in theme_map.items():
         if keyword in combined:
@@ -269,6 +273,18 @@ def _draw_topic_illustration(draw, theme, x, y, w, h):
         draw.ellipse((cx - 25, cy - 12, cx + 25, cy + 12), outline=(160, 130, 220), width=2)
         draw.ellipse((cx - 15, cy - 22, cx + 15, cy + 22), outline=(140, 120, 200), width=2)
     
+        # Add flask icon for general chemistry
+        flask_x = x + w - 40
+        flask_y = y + h - 10
+        # Flask body
+        draw.polygon([
+            (flask_x - 15, flask_y), (flask_x + 15, flask_y),
+            (flask_x + 5, flask_y - 25), (flask_x + 5, flask_y - 40),
+            (flask_x - 5, flask_y - 40), (flask_x - 5, flask_y - 25)
+        ], fill=(180, 140, 255))
+        # Liquid inside
+        draw.polygon([(flask_x - 12, flask_y - 2), (flask_x + 12, flask_y - 2), (flask_x, flask_y - 20)], fill=(100, 255, 200))
+
     else:
         # Generic: lightbulb icon
         bx, by = x + w - 55, y + 15

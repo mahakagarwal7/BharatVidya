@@ -2783,6 +2783,194 @@ def create_organic_reaction_clip(duration: float = 5.0,
     return VideoClip(make_frame, duration=duration)
 
 
+# ============================================================
+# PHYSICAL CHEMISTRY (GAS LAWS) ANIMATION
+# ============================================================
+
+def create_gas_law_clip(duration: float = 5.0,
+                        title: str = "Gas Laws") -> VideoClip:
+    """
+    Create animated gas law visualization (Boyle's/Charles's Law).
+    Shows a piston compressing gas particles, demonstrating PV=nRT.
+    Uses CHEMISTRY/PHYSICS visual grammar.
+    """
+    theme = _get_theme("chemistry")
+    font_title = _load_font(28)
+    font_label = _load_font(18)
+    font_info = _load_font(16)
+    
+    # Particle system
+    import random
+    random.seed(42)
+    
+    class GasParticle:
+        def __init__(self, x_range, y_range):
+            self.x = random.uniform(*x_range)
+            self.y = random.uniform(*y_range)
+            self.vx = random.uniform(-3, 3)
+            self.vy = random.uniform(-3, 3)
+            self.radius = 4
+            
+        def update(self, x_min, x_max, y_min, y_max, speed_mult=1.0):
+            self.x += self.vx * speed_mult
+            self.y += self.vy * speed_mult
+            
+            # Bounce off walls
+            if self.x < x_min + self.radius:
+                self.x = x_min + self.radius
+                self.vx *= -1
+            elif self.x > x_max - self.radius:
+                self.x = x_max - self.radius
+                self.vx *= -1
+                
+            if self.y < y_min + self.radius:
+                self.y = y_min + self.radius
+                self.vy *= -1
+            elif self.y > y_max - self.radius:
+                self.y = y_max - self.radius
+                self.vy *= -1
+
+    # Initialize particles
+    container_w = 300
+    container_h_max = 300
+    cx = WIDTH // 2
+    cy = HEIGHT // 2 + 20
+    
+    particles = [GasParticle((cx - container_w//2 + 10, cx + container_w//2 - 10),
+                             (cy - container_h_max//2 + 10, cy + container_h_max//2 - 10)) 
+                 for _ in range(40)]
+    
+    def make_frame(t):
+        img = Image.new("RGB", (WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "chemistry")
+        _draw_domain_title(draw, title, theme, "chemistry", font_title)
+        
+        # Animation: Piston moves down (Compression)
+        # Volume decreases, Pressure increases (particles move faster)
+        compression = 0.5 + 0.3 * math.sin(t * 1.5) # Oscillates between 0.2 and 0.8
+        current_h = container_h_max * compression
+        
+        # Container boundaries
+        left = cx - container_w // 2
+        right = cx + container_w // 2
+        bottom = cy + container_h_max // 2
+        top = bottom - current_h
+        
+        # Draw container
+        draw.line([(left, bottom), (left, top - 50)], fill=theme["text"], width=3)
+        draw.line([(right, bottom), (right, top - 50)], fill=theme["text"], width=3)
+        draw.line([(left, bottom), (right, bottom)], fill=theme["text"], width=3)
+        
+        # Draw Piston
+        piston_y = top
+        draw.rectangle([left + 2, piston_y - 20, right - 2, piston_y], fill=theme["secondary"])
+        draw.line([(cx, piston_y - 20), (cx, piston_y - 100)], fill=theme["text"], width=5)
+        draw.rectangle([cx - 40, piston_y - 110, cx + 40, piston_y - 100], fill=theme["text"])
+        
+        # Update and draw particles
+        # As volume decreases (compression < 1), speed increases
+        speed_factor = 1.0 + (1.0 - compression) * 2.0
+        
+        for p in particles:
+            p.update(left, right, top, bottom, speed_factor)
+            draw.ellipse([p.x - p.radius, p.y - p.radius, p.x + p.radius, p.y + p.radius],
+                        fill=theme["primary"])
+        
+        # Info / Equations
+        info_x = WIDTH - 250
+        draw.text((info_x, 150), "Ideal Gas Law", fill=theme["highlight"], font=font_label)
+        draw.text((info_x, 180), "PV = nRT", fill=theme["text"], font=font_title)
+        
+        # Dynamic values
+        vol_text = f"Volume: {compression*100:.0f}%"
+        press_text = f"Pressure: {1/compression:.1f}x"
+        draw.text((info_x, 240), vol_text, fill=theme["accent"], font=font_info)
+        draw.text((info_x, 270), press_text, fill=theme["secondary"], font=font_info)
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
+
+
+# ============================================================
+# INORGANIC CHEMISTRY (CRYSTAL LATTICE) ANIMATION
+# ============================================================
+
+def create_crystal_lattice_clip(duration: float = 5.0,
+                                title: str = "Crystal Lattice") -> VideoClip:
+    """
+    Create animated crystal lattice visualization.
+    Shows a rotating 3D cubic unit cell.
+    """
+    theme = _get_theme("chemistry")
+    font_title = _load_font(28)
+    
+    # Define a simple cube unit cell (8 corners)
+    points = []
+    for x in [-1, 1]:
+        for y in [-1, 1]:
+            for z in [-1, 1]:
+                points.append((x, y, z))
+                
+    # Connections (edges of the cube)
+    edges = [
+        (0,1), (1,3), (3,2), (2,0), # Front face
+        (4,5), (5,7), (7,6), (6,4), # Back face
+        (0,4), (1,5), (2,6), (3,7)  # Connecting edges
+    ]
+    
+    def make_frame(t):
+        img = Image.new("RGB", (WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        
+        _draw_domain_background(draw, (WIDTH, HEIGHT), theme, "chemistry")
+        _draw_domain_title(draw, title, theme, "chemistry", font_title)
+        
+        # Rotation angles
+        angle_x = t * 0.5
+        angle_y = t * 0.8
+        
+        # Project 3D points to 2D
+        scale = 100
+        center_x, center_y = WIDTH // 2, HEIGHT // 2
+        
+        projected = []
+        for x, y, z in points:
+            # Rotate Y
+            rx = x * math.cos(angle_y) - z * math.sin(angle_y)
+            rz = x * math.sin(angle_y) + z * math.cos(angle_y)
+            # Rotate X
+            ry = y * math.cos(angle_x) - rz * math.sin(angle_x)
+            
+            # Simple perspective projection
+            proj_x = center_x + rx * scale
+            proj_y = center_y + ry * scale
+            projected.append((proj_x, proj_y))
+            
+        # Draw edges
+        for i, j in edges:
+            p1 = projected[i]
+            p2 = projected[j]
+            draw.line([p1, p2], fill=theme["grid"], width=2)
+            
+        # Draw atoms (sorted by Z-depth roughly approximated by index for simplicity, 
+        # or just draw all since it's a wireframe style)
+        for px, py in projected:
+            r = 15
+            # Draw atom with gradient/shading look
+            draw.ellipse([px - r, py - r, px + r, py + r], fill=theme["secondary"], outline=theme["text"])
+            # Highlight
+            draw.ellipse([px - r + 5, py - r + 5, px - r + 12, py - r + 12], fill=(255, 255, 255, 100))
+            
+        draw.text((50, HEIGHT - 50), "Simple Cubic Unit Cell", fill=theme["text"], font=_load_font(18))
+        
+        return np.array(img)
+    
+    return VideoClip(make_frame, duration=duration)
+
+
 # ============================================================================
 # MAGNETIC FIELD ANIMATION
 # Visual: Field lines emanating from bar magnet, compass needle alignment
