@@ -5,11 +5,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://your-ec2-domain.com/api/:path*"
+      "destination": "http://98.82.196.164:8000/api/:path*"
     },
     {
       "source": "/videos/:path*",
-      "destination": "https://your-ec2-domain.com/videos/:path*"
+      "destination": "http://98.82.196.164:8000/videos/:path*"
     }
   ],
   "headers": [
