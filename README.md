@@ -250,7 +250,7 @@ BharatVidya/
 
 #### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/BharatVidya.git
+git clone https://github.com/mahakagarwal7/BharatVidya.git
 cd BharatVidya
 ```
 
