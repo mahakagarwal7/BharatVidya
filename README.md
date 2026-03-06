@@ -1,4 +1,4 @@
-# 🎬 BharatVidya - AI-Powered Educational Video Generator
+# BharatVidya - AI-Powered Educational Video Generator
 
 > Transform any concept into beautifully animated educational videos in 10+ languages
 
@@ -9,7 +9,7 @@
 
 ---
 
-## 📖 Overview
+## Overview
 
 **BharatVidya** is a cutting-edge AI-powered platform that generates engaging, animated educational videos from simple text descriptions. The system automatically:
 
@@ -24,36 +24,36 @@ Perfect for educators, content creators, and e-learning platforms looking for au
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-### 🎯 Intelligent Content Generation
+### Intelligent Content Generation
 - **Multi-language Support**: English, Hindi, Punjabi, Telugu, Bengali, Tamil, Spanish, French, German, Chinese, Japanese, Korean
 - **Smart Planning**: Ollama-powered content extraction with structured educational narratives
 - **Topic-based Animations**: Enhanced visuals for specific educational concepts with optional animations toggle
 
-### 🗣️ High-Quality Narration
+### High-Quality Narration
 - **Edge-TTS Integration**: Professional text-to-speech in 10+ languages
 - **Audio Processing**: pydub-based audio enhancement and mixing
 - **Voice Customization**: Support for different voice profiles per language
 
-### 🎨 Advanced Video Rendering
+### Advanced Video Rendering
 - **MoviePy Framework**: Professional-grade video composition
 - **Smooth Animations**: Floating elements, gradient effects, and smooth transitions
 - **Customizable Visuals**: Toggle animations on/off per generation
 
-### 💾 Cloud Storage & Management
+### Cloud Storage & Management
 - **AWS S3 Integration**: Secure video storage and streaming
 - **Job Management**: Redis-backed job queue for async video processing
 - **Video Gallery**: Browse and manage all generated videos
 
-### 🌈 Modern User Interface
+### Modern User Interface
 - **React 19 Frontend**: Ultra-responsive, interactive UI
 - **Dark/Light Theme**: Professional theming system with CSS custom properties
 - **Real-time Progress**: WebSocket-ready status polling for live generation updates
 - **Glassmorphism Design**: Modern glassmorphic UI with smooth animations
 - **Mobile Responsive**: Fully optimized for all device sizes
 
-### ⚡ High Performance
+### High Performance
 - **Async Processing**: FastAPI background tasks for non-blocking operations
 - **Batch Processing**: Handle multiple concurrent video generations
 - **Optimized Rendering**: Efficient MoviePy pipeline with caching
@@ -61,7 +61,7 @@ Perfect for educators, content creators, and e-learning platforms looking for au
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌─────────────────────────────────────┐
@@ -124,7 +124,7 @@ Perfect for educators, content creators, and e-learning platforms looking for au
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 BharatVidya/
@@ -235,7 +235,7 @@ BharatVidya/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -250,7 +250,7 @@ BharatVidya/
 
 #### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/BharatVidya.git
+git clone https://github.com/mahakagarwal7/BharatVidya.git
 cd BharatVidya
 ```
 
@@ -409,7 +409,7 @@ Response: 200 OK
 
 ---
 
-## 🎬 Video Generation Pipeline
+## Video Generation Pipeline
 
 ```
 User Input (Concept)
@@ -453,7 +453,7 @@ User Input (Concept)
 
 ---
 
-## 🌐 Supported Languages
+## Supported Languages
 
 | Code | Language | Supported |
 |------|----------|-----------|
@@ -472,7 +472,7 @@ User Input (Concept)
 
 ---
 
-## 🚢 Production Deployment
+## Production Deployment
 
 ### Quick Deploy (Automated)
 
@@ -514,7 +514,7 @@ See [WINDOWS_DEPLOYMENT_GUIDE.md](deploy/WINDOWS_DEPLOYMENT_GUIDE.md) for Window
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables (.env)
 
@@ -544,7 +544,7 @@ ENABLE_ANIMATIONS=true                       # Enable/disable animations
 
 ---
 
-## 📊 Features Breakdown
+## Features Breakdown
 
 ### Core Capabilities
 - ✅ Automatic content planning from text
@@ -578,7 +578,7 @@ ENABLE_ANIMATIONS=true                       # Enable/disable animations
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run all tests
@@ -602,7 +602,7 @@ python plan_validator.py
 
 ---
 
-## 📈 Performance Metrics
+## Performance Metrics
 
 | Metric | Value |
 |--------|-------|
@@ -616,7 +616,7 @@ python plan_validator.py
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Issues & Solutions
 
@@ -647,7 +647,7 @@ ffmpeg -version
 # Check system resources (RAM, CPU)
 ```
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Here's how to get started:
 
@@ -668,13 +668,7 @@ Please use GitHub Issues for bug reports and feature requests.
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Ollama** - Local LLM platform
 - **MoviePy** - Video composition library
