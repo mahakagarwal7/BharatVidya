@@ -28,16 +28,11 @@ def detect_topic(concept: str) -> str:
     """
     text = concept.lower()
     
-    # ============================================
-    # Exclusion patterns - topics that should NOT match animations
-    # even if they contain animation keywords
-    # ============================================
-    
-    # Data structure topics (not algorithm animations)
+
     data_structure_patterns = [
         r"linked\s*list",
         r"tree\s+(insertion|deletion|traversal|node)",
-        r"binary\s+search\s+tree",  # BST is different from binary search algorithm
+        r"binary\s+search\s+tree",  
         r"bst\b",
         r"heap\b",
         r"stack\b",
@@ -49,23 +44,17 @@ def detect_topic(concept: str) -> str:
     
     for pattern in data_structure_patterns:
         if re.search(pattern, text):
-            return "generic"  # These get card-based presentation, not algorithm animation
+            return "generic"  
     
-    # ============================================
-    # Specific topic detection (strict matching)
-    # ============================================
-    
-    # Bubble Sort - only if specifically about bubble sort algorithm
+
     if "bubble sort" in text and "tree" not in text:
         return "bubble_sort"
 
-    # Binary Search - algorithm only, NOT binary search tree
-    # Must have "binary search" but NOT "tree" or "bst"
     if "binary search" in text:
         if "tree" not in text and "bst" not in text and "node" not in text:
             return "binary_search"
 
-    # Quadratic / Parabola / Second Degree
+
     quadratic_patterns = [
         r"\bquadratic\s+(equation|function|formula)",
         r"\bparabola\b",
@@ -79,7 +68,6 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "quadratic"
 
-    # Sine Wave - physics/math sine waves
     sine_patterns = [
         r"\bsine\s+wave\b",
         r"\bsin\s*\(\s*x\s*\)",
@@ -90,7 +78,7 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "sine_wave"
 
-    # Projectile Motion - physics topic
+
     projectile_patterns = [
         r"\bprojectile\s+motion\b",
         r"\bprojectile\b.*\b(trajectory|angle|velocity)\b",
@@ -101,7 +89,6 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "projectile_motion"
 
-    # Pendulum - physics topic
     pendulum_patterns = [
         r"\bpendulum\b",
         r"\bsimple\s+harmonic\s+motion\b",
@@ -111,11 +98,7 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "pendulum"
 
-    # ============================================
-    # Additional topic-specific animations
-    # ============================================
 
-    # Linear Equation / Linear Function / Graphical analysis of lines
     linear_patterns = [
         r"\blinear\s+(equation|function|graph)",
         r"\bslope\b.*\b(intercept|line)\b",
@@ -129,7 +112,6 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "linear_equation"
 
-    # Heat / Thermodynamics / Temperature
     heat_patterns = [
         r"\bheat\b.*\b(transfer|flow|energy)\b",
         r"\b(heat|thermal)\s+(and\s+)?temperature\b",
@@ -143,8 +125,6 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "heat"
 
-    # Geometry / Shapes
-    # Check coordinate geometry FIRST (more specific)
     coordinate_patterns = [
         r"\bcoordinate\s+geometr(y|ic)",
         r"\bdistance\s+formula\b",
@@ -160,7 +140,7 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "coordinate_geometry"
 
-    # General Geometry / Shapes (after coordinate geometry check)
+
     geometry_patterns = [
         r"\bgeometr(y|ic)\b",
         r"\b(triangle|square|circle|rectangle)\s+(area|perimeter|properties)",
@@ -174,11 +154,7 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "geometry"
 
-    # ============================================
-    # Check Organic Chemistry BEFORE general chemistry (more specific)
-    # ============================================
-    
-    # Organic Chemistry (check first - more specific)
+
     organic_patterns = [
         r"\borganic\s+chem(istry|ical)\b",
         r"\bcarbon\s+(chain|compound|atom)s?\b",
@@ -198,7 +174,6 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "organic_chemistry"
 
-    # Organic Reactions (more specific)
     organic_reaction_patterns = [
         r"\borganic\s+reaction(s)?\b",
         r"\bcombustion\s+reaction\b",
@@ -212,7 +187,6 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "organic_reaction"
 
-    # Physical Chemistry (Thermodynamics, Kinetics, Gas Laws)
     physical_chem_patterns = [
         r"\bgas\s+law(s)?\b",
         r"\bboyle'?s?\s+law\b",
@@ -229,7 +203,6 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "physical_chemistry"
 
-    # Inorganic Chemistry (Periodic Table, Crystal Structures)
     inorganic_chem_patterns = [
         r"\bcrystal\s+(lattice|structure|system)",
         r"\bunit\s+cell\b",
@@ -244,7 +217,7 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "inorganic_chemistry"
 
-    # General Chemistry / Atoms / Molecules (after organic chemistry check)
+
     chemistry_patterns = [
         r"\bchem(istry|ical)\b",
         r"\batom(ic|s)?\b",
@@ -259,7 +232,7 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "chemistry"
 
-    # Wave / Wave motion (general physics)
+
     wave_patterns = [
         r"\bwave\s+(motion|propagation|nature)\b",
         r"\b(transverse|longitudinal)\s+wave\b",
@@ -274,7 +247,7 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "wave"
 
-    # Statistics / Data Analysis
+  
     statistics_patterns = [
         r"\bstatistics\b",
         r"\bmean\b.*\b(median|mode)\b",
@@ -290,7 +263,7 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "statistics"
 
-    # Electric Circuits
+
     circuit_patterns = [
         r"\belectric\s+circuit\b",
         r"\bcircuit\s+(diagram|analysis)\b",
@@ -306,7 +279,7 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "circuit"
 
-    # Optics / Light
+   
     optics_patterns = [
         r"\boptics\b",
         r"\blight\s+(reflection|refraction)\b",
@@ -323,7 +296,7 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "optics"
 
-    # Force / Newton's Laws
+  
     force_patterns = [
         r"\bnewton'?s?\s+(first|second|third)\s+law\b",
         r"\bnewton'?s?\s+laws?\s+(of\s+)?motion\b",
@@ -343,7 +316,7 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "force"
 
-    # Electromagnetic Induction / Faraday's Law (check BEFORE magnetic - more specific)
+  
     em_induction_patterns = [
         r"\belectromagnetic\s+induction\b",
         r"\bfaraday'?s?\s+law\b",
@@ -360,15 +333,15 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "electromagnetic"
 
-    # Magnetic Field / Magnetism (after electromagnetic induction)
+ 
     magnetic_patterns = [
         r"\bmagnetic\s+field\s*(lines?)?\b",
         r"\bfield\s+lines?\s*(of\s+)?magnet",
         r"\bmagnet(ism|ic)?\b.*\b(field|pole|force)\b",
         r"\b(north|south)\s+pole\b.*\bmagnet",
         r"\bbar\s+magnet\b",
-        r"\belectromagnet\b",  # Just electromagnet (device), not electromagnetic induction
-        r"\bmagnetic\s+(flux|force)\b",  # Removed "induction" - that goes to electromagnetic
+        r"\belectromagnet\b",  
+        r"\bmagnetic\s+(flux|force)\b",  
         r"\biron\s+filing(s)?\b",
         r"\bcompass\s+needle\b",
         r"\bearth'?s?\s+magnetic\s+field\b",
@@ -377,7 +350,7 @@ def detect_topic(concept: str) -> str:
         if re.search(pattern, text):
             return "magnetic_field"
 
-    # Gravity / Gravitational Force
+    
     gravity_patterns = [
         r"\bgravit(y|ational)\b",
         r"\bfree\s+fall\b",
@@ -403,7 +376,7 @@ def has_animation(concept: str) -> bool:
     Check if an animation is available for the given concept.
     Returns True for all topics since we have a generic animation fallback.
     """
-    # Always return True - we have generic animations for any topic
+    
     return True
 
 
@@ -621,7 +594,7 @@ def get_animation_clip(concept: str, duration: float = 5.0, **kwargs) -> Optiona
             )
         
         else:
-            # Generic animation for any other topic
+           
             return create_generic_clip(
                 duration=duration,
                 title=kwargs.get("title", concept)
@@ -682,7 +655,7 @@ def get_animation_info(concept: str) -> dict:
     is_specialized = topic in specialized_topics
     
     return {
-        "has_animation": True,  # Always True - we have generic animations for any topic
+        "has_animation": True,  
         "is_specialized": is_specialized,
         "topic": topic,
         "description": descriptions.get(topic, descriptions["generic"])

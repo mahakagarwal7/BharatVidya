@@ -27,13 +27,11 @@ import hashlib
 from pathlib import Path
 from typing import Dict, Any, List
 
-# import physics helpers
+
 from plan_validator import validate_and_fill_plan, projectile_parametric_expr
 
 
-# ----------------------------
-# Output directories
-# ----------------------------
+
 MANIM_DIR = Path("outputs/manim_code")
 VIDEO_DIR = Path("outputs/videos")
 DATASET_DIR = Path("outputs/ds_examples")
@@ -42,9 +40,7 @@ for p in (MANIM_DIR, VIDEO_DIR, DATASET_DIR):
     p.mkdir(parents=True, exist_ok=True)
 
 
-# ----------------------------
-# Utilities
-# ----------------------------
+
 
 def slugify(text: str) -> str:
     """Make a filesystem-safe slug with a hash prefix."""
@@ -58,9 +54,7 @@ def obj_var(oid: str) -> str:
     return "obj_" + "".join(ch if ch.isalnum() else "_" for ch in oid)
 
 
-# ----------------------------
-# Code Generator — plan → Manim CE code
-# ----------------------------
+
 
 def plan_to_manim_code(plan: Dict[str, Any]) -> str:
     """
@@ -93,10 +87,10 @@ def plan_to_manim_code(plan: Dict[str, Any]) -> str:
     lines.append(f"class {class_name}(Scene):")
     lines.append("    def construct(self):")
 
-    # Iterate through scenes
+  
     for scene in scenes:
 
-        # Create objects first
+    
         for obj in scene.get("objects", []):
             oid = obj.get("id", "object")
             otype = obj.get("type", "Dot")
@@ -127,10 +121,10 @@ def plan_to_manim_code(plan: Dict[str, Any]) -> str:
                 lines.append(f"        {var} = Text({text})")
 
             else:
-                # Unknown: fallback dot
+                
                 lines.append(f"        {var} = Dot(color='WHITE')")
 
-        # Handle projectile physics scene
+        
         hint = (scene.get("hint") or "").lower()
         if any(k in hint for k in ("projectile", "trajectory", "parabolic")):
             phys = scene.get("params", {}).get("physics", {})
@@ -145,9 +139,9 @@ def plan_to_manim_code(plan: Dict[str, Any]) -> str:
             lines.append(f"        self.play(FadeIn({ball_var}))")
             lines.append(f"        self.play(MoveAlongPath({ball_var}, {ball_var}_path), run_time={t_end:.4f})")
             lines.append("        self.wait(0.4)")
-            continue  # Skip generic actions
+            continue  
 
-        # Generic actions
+        
         for act in scene.get("actions", []):
             atype = act.get("type")
             target = act.get("target")
@@ -174,18 +168,16 @@ def plan_to_manim_code(plan: Dict[str, Any]) -> str:
                     lines.append(f"        self.wait({dur})")
 
             else:
-                # fallback
+                
                 lines.append(f"        self.wait({dur})")
 
-    # end construct()
+    
     lines.append("        self.wait()")
 
     return "\n".join(lines)
 
 
-# ----------------------------
-# Training Example Builder
-# ----------------------------
+
 
 def plan_to_example(plan: Dict[str, Any]) -> Dict[str, Any]:
     """
@@ -202,9 +194,7 @@ def plan_to_example(plan: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-# ----------------------------
-# Manim Video Renderer
-# ----------------------------
+
 
 def render_manim_script(script: str, class_name: str, slug: str) -> Path:
     """
@@ -217,9 +207,9 @@ def render_manim_script(script: str, class_name: str, slug: str) -> Path:
 
     cmd = [
         "manim",
-        "-qk",                 # medium quality
-        "-o", video_out.name,  # output filename
-        py_path,               # python file
+        "-qk",                 
+        "-o", video_out.name,  
+        py_path,               
         class_name,
     ]
 
@@ -232,9 +222,6 @@ def render_manim_script(script: str, class_name: str, slug: str) -> Path:
     return video_out
 
 
-# ----------------------------
-# Pipeline Entry Point
-# ----------------------------
 
 def process_plan(plan: Dict[str, Any], render: bool = True) -> Dict[str, Any]:
     """
@@ -247,22 +234,22 @@ def process_plan(plan: Dict[str, Any], render: bool = True) -> Dict[str, Any]:
 
     validated, diag = validate_and_fill_plan(plan)
 
-    # Build Manim script
+    
     script = plan_to_manim_code(validated)
     title = validated.get("title", "Animation")
     class_name = "".join(ch for ch in title.title() if ch.isalnum()) or "GeneratedScene"
     slug = slugify(title)
 
-    # Save script
+    
     py_file = MANIM_DIR / f"{slug}.py"
     py_file.write_text(script, encoding="utf-8")
 
-    # Render video
+   
     video_path = None
     if render:
         video_path = render_manim_script(script, class_name, slug)
 
-    # Build training dataset example
+    
     example = plan_to_example(validated)
     ds_path = DATASET_DIR / f"{slug}.jsonl"
     ds_path.write_text(json.dumps(example, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -276,7 +263,7 @@ def process_plan(plan: Dict[str, Any], render: bool = True) -> Dict[str, Any]:
     }
 
 
-# CLI for local testing
+
 if __name__ == "__main__":
     import argparse
 

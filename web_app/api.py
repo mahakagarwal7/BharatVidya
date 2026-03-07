@@ -25,14 +25,14 @@ from .jobs import job_manager, JobStatus as JStatus
 from .video_service import generate_video_with_progress
 
 
-# Create FastAPI app
+
 app = FastAPI(
     title="Educational Video Generator API",
     description="Generate educational explainer videos using AI",
     version="1.0.0"
 )
 
-# CORS configuration - reads from CORS_ORIGINS env var for production
+
 default_origins = [
     "http://localhost:3000",
     "http://localhost:5173",
@@ -42,7 +42,7 @@ default_origins = [
     "https://*.vercel.app",
 ]
 
-# Add production origins from environment variable
+
 cors_origins_env = os.getenv("CORS_ORIGINS", "")
 if cors_origins_env:
     production_origins = [o.strip() for o in cors_origins_env.split(",") if o.strip()]
@@ -56,17 +56,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Serve static video files
+
 OUTPUTS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "outputs")
 os.makedirs(OUTPUTS_DIR, exist_ok=True)
 
-# Mount outputs directory for video serving
+
 app.mount("/videos", StaticFiles(directory=OUTPUTS_DIR), name="videos")
 
 
-# ============================================
-# API Endpoints
-# ============================================
 
 @app.get("/api/health", response_model=HealthResponse)
 async def health_check():
@@ -93,14 +90,14 @@ async def generate_video(request: GenerateRequest):
     
     Returns immediately with job_id. Poll /api/status/{job_id} for progress.
     """
-    # Create job
+   
     job = job_manager.create_job(
         concept=request.concept,
         language=request.language,
         enable_animations=request.enable_animations
     )
     
-    # Start background processing
+    
     job_manager.run_job(job.job_id, generate_video_with_progress)
     
     return JobResponse(
@@ -118,13 +115,13 @@ async def get_job_status(job_id: str):
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
     
-    # Build video URL - prefer S3 URL if available, fall back to local
+
     video_url = None
     if job.video_url:
-        # S3/CloudFront URL
+        
         video_url = job.video_url
     elif job.video_path and os.path.exists(job.video_path):
-        # Local fallback
+        
         filename = os.path.basename(job.video_path)
         video_url = f"/videos/{filename}"
     
@@ -159,7 +156,7 @@ async def list_videos():
                 video_url=f"/videos/{filename}",
                 language=job.language,
                 created_at=job.created_at,
-                duration=None  # Could extract from video metadata
+                duration=None  
             ))
     
     return VideoListResponse(
@@ -198,7 +195,7 @@ async def get_video_info(job_id: str):
 @app.get("/api/topics")
 async def get_supported_topics():
     """Get list of topics with specialized animations"""
-    # These are the topics with custom animations
+    
     animated_topics = [
         "bubble_sort", "binary_search", "quadratic", 
         "sine_wave", "projectile_motion", "pendulum",
@@ -232,9 +229,6 @@ async def get_supported_topics():
     }
 
 
-# ============================================
-# Development server
-# ============================================
 
 if __name__ == "__main__":
     import uvicorn

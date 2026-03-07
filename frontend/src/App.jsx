@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import "./App.css";
 
-// API base URL - empty for local dev (uses Vite proxy), or set VITE_API_URL for production
+
 const API_BASE = import.meta.env.VITE_API_URL || "";
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
   const [showExamples, setShowExamples] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
-  // Default languages - used as fallback if API fails
+ 
   const defaultLanguages = [
     { code: "en", name: "English" },
     { code: "hi", name: "Hindi" },
@@ -33,13 +33,13 @@ function App() {
   const [isGenerating, setIsGenerating] = useState(false);
   const pollInterval = useRef(null);
 
-  // Apply theme on mount and when it changes
+
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // Example topics for inspiration
+ 
   const exampleTopics = [
     {
       title: "Photosynthesis",
@@ -53,7 +53,7 @@ function App() {
     { title: "Climate Change", icon: "🌍", desc: "Environmental science" },
   ];
 
-  // Fetch supported languages on mount
+
   useEffect(() => {
     fetch(`${API_BASE}/api/topics`)
       .then((res) => res.json())
@@ -63,8 +63,6 @@ function App() {
         }
       })
       .catch((err) => console.error("Failed to fetch topics:", err));
-
-    // Fetch existing videos
     fetchVideos();
   }, []);
 
@@ -75,7 +73,7 @@ function App() {
       .catch((err) => console.error("Failed to fetch videos:", err));
   };
 
-  // Poll for job status
+
   useEffect(() => {
     if (jobId && isGenerating) {
       pollInterval.current = setInterval(() => {
@@ -153,7 +151,7 @@ function App() {
 
   return (
     <div className="min-h-screen overflow-x-hidden" data-theme={theme}>
-      {/* Navigation Bar */}
+      
       <nav className="fixed top-0 w-full z-50 glass-card backdrop-blur-xl border-b theme-border">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -166,7 +164,7 @@ function App() {
             <p className="hidden sm:block text-sm theme-text-secondary">
               AI-Powered Educational Videos
             </p>
-            {/* Theme Toggle Button */}
+            
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className="p-2 rounded-lg theme-toggle-btn transition-all hover:scale-110"
@@ -178,10 +176,10 @@ function App() {
         </div>
       </nav>
 
-      {/* Main Content */}
+
       <div className="pt-24 pb-12 px-4 md:px-8">
         <div className="max-w-6xl mx-auto">
-          {/* Hero Section */}
+          
           <section className="mb-16 text-center">
             <h2 className="text-4xl md:text-6xl font-bold mb-4 fade-in theme-text-primary">
               Create <span className="gradient-text">Amazing</span> Educational
@@ -195,7 +193,7 @@ function App() {
               AI-powered narration in multiple languages
             </p>
 
-            {/* Feature Pills */}
+            
             <div
               className="flex flex-wrap justify-center gap-3 mb-8"
               style={{ animationDelay: "0.2s" }}
@@ -212,10 +210,10 @@ function App() {
             </div>
           </section>
 
-          {/* Main Generator Card */}
+          
           <div className="glass-card p-8 md:p-10 mb-12 glow-effect">
             <div className="space-y-6">
-              {/* Input Section */}
+             
               <div>
                 <label className="block text-sm font-semibold theme-text-primary mb-3 uppercase tracking-wide">
                   📝 What Topic Would You Like to Learn About?
@@ -244,7 +242,6 @@ function App() {
                 </div>
               </div>
 
-              {/* Quick Examples */}
               <div>
                 <button
                   onClick={() => setShowExamples(!showExamples)}
@@ -279,9 +276,9 @@ function App() {
                 )}
               </div>
 
-              {/* Options Row */}
+  
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t theme-border">
-                {/* Language Select */}
+        
                 <div>
                   <label className="block text-sm font-semibold theme-text-primary mb-3 uppercase tracking-wide">
                     🌐 Language
@@ -304,7 +301,7 @@ function App() {
                   </select>
                 </div>
 
-                {/* Animation Toggle */}
+     
                 <div className="flex items-center justify-between p-4 rounded-lg border theme-border">
                   <div>
                     <p className="font-semibold theme-text-primary">
@@ -326,7 +323,7 @@ function App() {
                 </div>
               </div>
 
-              {/* Generate Button */}
+         
               <button
                 onClick={handleGenerate}
                 disabled={isGenerating || !concept.trim()}
@@ -348,13 +345,13 @@ function App() {
             </div>
           </div>
 
-          {/* Progress Card */}
+      
           {status && (
             <div
               className={`glass-card p-8 mb-12 transition-all ${isGenerating ? "pulse-glow" : ""}`}
             >
               <div className="space-y-6">
-                {/* Status Header */}
+             
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <span className="text-4xl">
@@ -379,7 +376,7 @@ function App() {
                   </span>
                 </div>
 
-                {/* Progress Bar */}
+            
                 <div className="space-y-2">
                   <div
                     className="h-3 rounded-full overflow-hidden"
@@ -393,7 +390,7 @@ function App() {
                     />
                   </div>
 
-                  {/* Progress Steps */}
+         
                   <div className="flex justify-between text-xs theme-text-secondary px-1">
                     <span>Planning</span>
                     <span>Rendering</span>
@@ -402,7 +399,7 @@ function App() {
                   </div>
                 </div>
 
-                {/* Video Player */}
+          
                 {status.status === "complete" && status.video_url && (
                   <div className="space-y-4 pt-4 border-t theme-border">
                     <div className="relative rounded-xl overflow-hidden shadow-2xl">
@@ -440,7 +437,7 @@ function App() {
             </div>
           )}
 
-          {/* Video Gallery */}
+   
           {videos.length > 0 && !selectedVideo && (
             <section className="mb-12">
               <h3 className="text-3xl font-bold mb-8 gradient-text">
@@ -485,7 +482,7 @@ function App() {
             </section>
           )}
 
-          {/* Video Detail View */}
+     
           {selectedVideo && (
             <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
               <div className="glass-card max-w-4xl w-full max-h-[90vh] overflow-auto p-6 md:p-8">
@@ -562,7 +559,7 @@ function App() {
         </div>
       </div>
 
-      {/* Footer */}
+   
       <footer className="border-t theme-border mt-20 py-8 px-4">
         <div className="max-w-6xl mx-auto text-center theme-text-secondary text-sm space-y-2">
           <p>✨ Powered by Ollama + MoviePy + Edge-TTS ✨</p>

@@ -1,4 +1,3 @@
-# src/__init__.py
 """
 Text-to-Educational-Video prototype package
 """

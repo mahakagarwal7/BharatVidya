@@ -19,7 +19,7 @@ from typing import List, Dict, Any, Tuple
 
 from plan_validator import validate_and_fill_plan, projectile_parametric_expr
 
-# Output folders
+
 ROOT = Path(".")
 PLANS_GLOB = ROOT / "outputs" / "plans" / "*.json"
 MANIM_DIR = ROOT / "outputs" / "manim_code"
@@ -30,9 +30,6 @@ for p in (MANIM_DIR, VIDEO_DIR, DATASET_DIR):
     p.mkdir(parents=True, exist_ok=True)
 
 
-# --------------------------
-# Utility Functions
-# --------------------------
 
 def slugify(text: str) -> str:
     base = "".join(ch if ch.isalnum() else "_" for ch in str(text))[:30].strip("_")
@@ -53,9 +50,7 @@ def obj_var(obj_id: str) -> str:
     return "obj_" + "".join(ch if ch.isalnum() else "_" for ch in obj_id)
 
 
-# --------------------------
-# Manim Code Generator
-# --------------------------
+
 
 def generate_manim_code(plan: Dict[str, Any]) -> Tuple[str, str]:
     """
@@ -79,9 +74,7 @@ def generate_manim_code(plan: Dict[str, Any]) -> Tuple[str, str]:
         actions = scene.get("actions", [])
         hint = (scene.get("hint", "") or "").lower()
 
-        # ---------------------------
-        # Create Scene Objects
-        # ---------------------------
+      
         for obj in objects:
             oid = obj.get("id", "obj")
             otype = obj.get("type", "Dot")
@@ -118,9 +111,6 @@ def generate_manim_code(plan: Dict[str, Any]) -> Tuple[str, str]:
             else:
                 lines.append(f"        {var} = Dot()  # fallback object")
 
-        # ---------------------------
-        # SPECIAL CASE: Projectile Motion
-        # ---------------------------
         if "projectile" in hint or "parabola" in hint or "trajectory" in hint:
             phys = (scene.get("params") or {}).get("physics", {})
             v0 = float(phys.get("v0", 12))
@@ -136,9 +126,7 @@ def generate_manim_code(plan: Dict[str, Any]) -> Tuple[str, str]:
             lines.append("        self.wait(0.3)")
             continue
 
-        # ---------------------------
-        # Playback Actions
-        # ---------------------------
+
         for act in actions:
             atype = act.get("type")
             target = act.get("target")
@@ -167,9 +155,7 @@ def generate_manim_code(plan: Dict[str, Any]) -> Tuple[str, str]:
     return code, class_name
 
 
-# --------------------------
-# Dataset Utility
-# --------------------------
+
 
 def plan_to_example(plan: Dict[str, Any]):
     code, _ = generate_manim_code(plan)
@@ -180,9 +166,6 @@ def plan_to_example(plan: Dict[str, Any]):
     }
 
 
-# --------------------------
-# Bulk Processing
-# --------------------------
 
 def process_plans(plans_dir: str = str(PLANS_GLOB), out_dataset: str = None):
     files = glob.glob(plans_dir)
@@ -212,9 +195,7 @@ def process_plans(plans_dir: str = str(PLANS_GLOB), out_dataset: str = None):
     return results, dataset_entries
 
 
-# --------------------------
-# Command Line
-# --------------------------
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

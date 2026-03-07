@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Dark Theme (Default) */
+
 [data-theme="dark"] {
   --bg-primary: #0f1419;
   --bg-secondary: #1a1f2e;
@@ -22,7 +22,7 @@
   --toggle-border: rgba(255, 255, 255, 0.1);
 }
 
-/* Light Theme */
+
 [data-theme="light"] {
   --bg-primary: #f8fafc;
   --bg-secondary: #f1f5f9;
@@ -63,7 +63,7 @@ body {
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Subtle grid pattern background */
+
 body::before {
   content: '';
   position: fixed;
@@ -77,7 +77,7 @@ body::before {
   opacity: 0.08;
 }
 
-/* Main soft gradient overlay */
+
 body::after {
   content: '';
   position: fixed;
@@ -107,7 +107,7 @@ body::after {
   }
 }
 
-/* Soft blue glow - top left */
+
 html::before {
   content: '';
   position: fixed;
@@ -132,7 +132,7 @@ html::before {
   100% { transform: translate(0, 0) scale(1); }
 }
 
-/* Soft purple glow - bottom right */
+
 html::after {
   content: '';
   position: fixed;
@@ -155,7 +155,7 @@ html::after {
   100% { transform: translate(0, 0) scale(1); }
 }
 
-/* Soft cyan glow - center bottom */
+
 #root::before {
   content: '';
   position: fixed;
@@ -179,7 +179,7 @@ html::after {
   100% { transform: translateX(-50%) translate(0, 0) rotate(360deg); }
 }
 
-/* Glassmorphism card effect */
+
 .glass-card {
   background: var(--glass-bg);
   backdrop-filter: blur(20px);
@@ -194,7 +194,7 @@ html::after {
   transform: translateY(-2px);
 }
 
-/* Theme-aware utilities */
+
 .theme-text-primary { color: var(--text-primary); }
 .theme-text-secondary { color: var(--text-secondary); }
 .theme-border { border-color: var(--border-color); }
@@ -232,14 +232,14 @@ html::after {
   transform: scale(1.1);
 }
 
-/* Progress bar animation */
+
 .progress-bar {
   background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-purple));
   transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
 }
 
-/* Pulse animation for loading states */
+
 @keyframes pulse-glow {
   0%, 100% {
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.3), inset 0 0 20px rgba(59, 130, 246, 0.1);
@@ -253,7 +253,7 @@ html::after {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
-/* Shimmer animation */
+
 @keyframes shimmer {
   0% { background-position: -2000px 0; }
   100% { background-position: 2000px 0; }
@@ -265,7 +265,7 @@ html::after {
   background-size: 2000px 100%;
 }
 
-/* Bounce animation */
+
 @keyframes bounce-smooth {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
@@ -275,7 +275,7 @@ html::after {
   animation: bounce-smooth 2s ease-in-out infinite;
 }
 
-/* Fade in animation */
+
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -285,7 +285,7 @@ html::after {
   animation: fade-in 0.6s ease-out forwards;
 }
 
-/* Slide in from left */
+
 @keyframes slide-in-left {
   from { opacity: 0; transform: translateX(-30px); }
   to { opacity: 1; transform: translateX(0); }
@@ -295,7 +295,7 @@ html::after {
   animation: slide-in-left 0.6s ease-out forwards;
 }
 
-/* Glow effect */
+
 .glow-effect {
   transition: all 0.3s ease;
 }
@@ -304,7 +304,7 @@ html::after {
   box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
 }
 
-/* Gradient text */
+
 .gradient-text {
   background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan), var(--accent-purple));
   -webkit-background-clip: text;
@@ -312,7 +312,7 @@ html::after {
   background-clip: text;
 }
 
-/* Button animations */
+
 .btn-primary {
   position: relative;
   overflow: hidden;
@@ -337,7 +337,7 @@ html::after {
   height: 300px;
 }
 
-/* Scroll animations */
+
 .scroll-fade {
   opacity: 0;
   transform: translateY(30px);
@@ -349,7 +349,7 @@ html::after {
   transition: all 0.6s ease-out;
 }
 
-/* Loading spinner */
+
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
@@ -364,13 +364,13 @@ html::after {
   animation: spin 1s linear infinite;
 }
 
-/* Input focus glow */
+
 input:focus, select:focus, textarea:focus {
   outline: none;
   box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
 }
 
-/* Theme-aware inputs */
+
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -399,7 +399,7 @@ select option {
   color: var(--text-primary);
 }
 
-/* Smooth scrollbar */
+
 ::-webkit-scrollbar {
   width: 8px;
 }

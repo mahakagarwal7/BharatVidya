@@ -1,5 +1,3 @@
-# src/card_generator.py
-
 """
 Visual card image generator for educational video sections.
 Creates themed card images using PIL with topic-relevant icons and diagrams.
@@ -12,10 +10,6 @@ import hashlib
 import re
 from PIL import Image, ImageDraw, ImageFont
 
-
-# ============================================================
-# Theme detection and colors
-# ============================================================
 
 def _safe_slug(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", text.lower().strip())[:40]
@@ -80,24 +74,23 @@ def _theme_palette(theme: str, slide_index: int = 0):
     if slide_index == 0:
         return base
     
-    # Shift colors based on slide index for variety
-    # Each slide gets a different channel boosted
+   
     shifts = [
-        (0, 0, 0),      # slide 0: base
-        (8, -4, 12),     # slide 1: slightly bluer/purple
-        (-5, 10, 5),     # slide 2: slightly greener
-        (12, 5, -6),     # slide 3: slightly warmer
-        (-3, 8, 14),     # slide 4: slightly teal
+        (0, 0, 0),      
+        (8, -4, 12),    
+        (-5, 10, 5),     
+        (12, 5, -6),     
+        (-3, 8, 14),     
     ]
     s = shifts[slide_index % len(shifts)]
     
     return (
-        _shift_color(base[0], s[0]),  # bg_top
-        _shift_color(base[1], s[1]),  # bg_bottom
-        base[2],                       # accent stays same
-        _shift_color(base[3], s[0] // 2),  # heading_bg
-        base[4],                       # text_color stays
-        base[5],                       # point_color stays
+        _shift_color(base[0], s[0]),  
+        _shift_color(base[1], s[1]),  
+        base[2],                       
+        _shift_color(base[3], s[0] // 2), 
+        base[4],                       
+        base[5],                       
     )
 
 
@@ -135,9 +128,6 @@ def _load_bold_font(size: int):
     return _load_font(size)
 
 
-# ============================================================
-# Topic-relevant icon/diagram drawing
-# ============================================================
 
 def _draw_topic_illustration(draw, theme, x, y, w, h):
     """Draw a small topic-relevant illustration/icon on the card."""
@@ -145,7 +135,7 @@ def _draw_topic_illustration(draw, theme, x, y, w, h):
     cx, cy = x + w // 2, y + h // 2
     
     if theme == "photosynthesis":
-        # Sun + leaf
+        
         sun_x, sun_y = x + w - 50, y + 30
         draw.ellipse((sun_x - 20, sun_y - 20, sun_x + 20, sun_y + 20), fill=(255, 220, 80))
         for i in range(8):
@@ -155,14 +145,14 @@ def _draw_topic_illustration(draw, theme, x, y, w, h):
             x1 = int(sun_x + math.cos(angle) * 38)
             y1 = int(sun_y + math.sin(angle) * 38)
             draw.line([(x0, y0), (x1, y1)], fill=(255, 230, 100), width=2)
-        # Leaf shape
+      
         leaf_cx = x + 60
         leaf_cy = y + h - 50
         draw.ellipse((leaf_cx - 30, leaf_cy - 15, leaf_cx + 30, leaf_cy + 15), fill=(80, 180, 100))
         draw.line([(leaf_cx - 25, leaf_cy), (leaf_cx + 25, leaf_cy)], fill=(60, 140, 80), width=2)
     
     elif theme in ("matrix", "determinant", "eigen"):
-        # Matrix grid
+       
         cell = 22
         gx, gy = x + w - 90, y + 20
         for r in range(2):
@@ -172,7 +162,7 @@ def _draw_topic_illustration(draw, theme, x, y, w, h):
                 draw.text((rx + 7, ry + 4), str(r * 2 + c + 1), fill=(180, 210, 255), font=_load_font(14))
     
     elif theme == "projectile":
-        # Parabola curve
+      
         pts = []
         for i in range(50):
             t = i / 49
@@ -181,14 +171,14 @@ def _draw_topic_illustration(draw, theme, x, y, w, h):
             pts.append((px, py))
         if len(pts) > 1:
             draw.line(pts, fill=(80, 220, 255), width=3)
-        # Ball at peak
+       
         peak_idx = len(pts) // 2
         if peak_idx < len(pts):
             draw.ellipse((pts[peak_idx][0] - 6, pts[peak_idx][1] - 6,
                           pts[peak_idx][0] + 6, pts[peak_idx][1] + 6), fill=(255, 200, 80))
     
     elif theme == "quadratic":
-        # Parabola
+      
         pts = []
         for i in range(-30, 31):
             px = int(cx + i * 2)
@@ -199,7 +189,7 @@ def _draw_topic_illustration(draw, theme, x, y, w, h):
             draw.line(pts, fill=(255, 200, 100), width=3)
     
     elif theme == "sine":
-        # Sine wave
+      
         pts = []
         for i in range(int(w - 40)):
             px = x + 20 + i
@@ -209,7 +199,7 @@ def _draw_topic_illustration(draw, theme, x, y, w, h):
             draw.line(pts, fill=(100, 230, 255), width=3)
     
     elif theme == "binary_search":
-        # Array cells
+      
         bw, gap = 28, 4
         start_x = x + 10
         by = cy - 12
@@ -221,7 +211,7 @@ def _draw_topic_illustration(draw, theme, x, y, w, h):
             draw.text((bx + 6, by + 4), str(v), fill=(20, 20, 30), font=_load_font(12))
     
     elif theme == "bubble_sort":
-        # Bar chart
+     
         bars = [40, 18, 55, 28, 48]
         start_x = x + 20
         base = y + h - 15
@@ -231,7 +221,6 @@ def _draw_topic_illustration(draw, theme, x, y, w, h):
             draw.rectangle((bx, base - bh, bx + 25, base), fill=color)
     
     elif theme == "probability":
-        # Dice
         dx, dy = x + w - 65, y + 15
         ds = 45
         draw.rounded_rectangle((dx, dy, dx + ds, dy + ds), radius=6, fill=(255, 255, 255), outline=(180, 160, 190), width=2)
@@ -243,7 +232,6 @@ def _draw_topic_illustration(draw, theme, x, y, w, h):
             draw.ellipse((ddx - dot_r, ddy - dot_r, ddx + dot_r, ddy + dot_r), fill=(40, 30, 50))
     
     elif theme == "linear_equation":
-        # Line graph
         pts = []
         for i in range(int(w - 40)):
             px = x + 20 + i
@@ -251,50 +239,46 @@ def _draw_topic_illustration(draw, theme, x, y, w, h):
             pts.append((px, py))
         if len(pts) > 1:
             draw.line(pts, fill=(120, 255, 190), width=3)
-        # Axes
         draw.line([(x + 20, y + 10), (x + 20, y + h - 10)], fill=(160, 200, 180), width=1)
         draw.line([(x + 10, y + h - 20), (x + w - 10, y + h - 20)], fill=(160, 200, 180), width=1)
     
     elif theme == "physics":
-        # Arrow (force vector)
+
         draw.line([(x + 20, cy + 10), (x + w - 30, cy - 15)], fill=(100, 210, 255), width=3)
-        # Arrowhead
+    
         ax, ay = x + w - 30, cy - 15
         draw.polygon([(ax, ay), (ax - 12, ay - 5), (ax - 8, ay + 8)], fill=(100, 210, 255))
     
     elif theme == "biology":
-        # Cell circle
+       
         draw.ellipse((cx - 30, cy - 30, cx + 30, cy + 30), outline=(100, 220, 160), width=2)
-        draw.ellipse((cx - 10, cy - 10, cx + 10, cy + 10), fill=(80, 180, 130))  # nucleus
+        draw.ellipse((cx - 10, cy - 10, cx + 10, cy + 10), fill=(80, 180, 130))
     
     elif theme == "chemistry":
-        # Atom rings
+        
         draw.ellipse((cx - 6, cy - 6, cx + 6, cy + 6), fill=(200, 160, 255))
         draw.ellipse((cx - 25, cy - 12, cx + 25, cy + 12), outline=(160, 130, 220), width=2)
         draw.ellipse((cx - 15, cy - 22, cx + 15, cy + 22), outline=(140, 120, 200), width=2)
     
-        # Add flask icon for general chemistry
+        
         flask_x = x + w - 40
         flask_y = y + h - 10
-        # Flask body
+       
         draw.polygon([
             (flask_x - 15, flask_y), (flask_x + 15, flask_y),
             (flask_x + 5, flask_y - 25), (flask_x + 5, flask_y - 40),
             (flask_x - 5, flask_y - 40), (flask_x - 5, flask_y - 25)
         ], fill=(180, 140, 255))
-        # Liquid inside
+        
         draw.polygon([(flask_x - 12, flask_y - 2), (flask_x + 12, flask_y - 2), (flask_x, flask_y - 20)], fill=(100, 255, 200))
 
     else:
-        # Generic: lightbulb icon
+       
         bx, by = x + w - 55, y + 15
         draw.ellipse((bx, by, bx + 36, by + 36), fill=(255, 220, 100), outline=(255, 240, 180), width=2)
         draw.rectangle((bx + 12, by + 34, bx + 24, by + 46), fill=(200, 170, 110))
 
 
-# ============================================================
-# Word wrapping utility
-# ============================================================
 
 def _wrap_text(text: str, font, max_width: int, draw: ImageDraw.ImageDraw) -> list:
     """Word-wrap text to fit within max_width pixels."""
@@ -323,9 +307,7 @@ def _wrap_text(text: str, font, max_width: int, draw: ImageDraw.ImageDraw) -> li
     return lines
 
 
-# ============================================================
-# Card generators
-# ============================================================
+
 
 def create_section_card(
     concept: str,
@@ -352,10 +334,10 @@ def create_section_card(
     
     width, height = 960, 540
     theme = _detect_theme(concept, heading, body)
-    # Each slide gets shifted colors for visual variety
+   
     bg_top, bg_bottom, accent, heading_bg, text_color, point_color = _theme_palette(theme, slide_index=index)
     
-    # Create gradient background
+  
     image = Image.new("RGB", (width, height), bg_top)
     draw = ImageDraw.Draw(image)
     
@@ -368,40 +350,40 @@ def create_section_card(
         )
         draw.line([(0, y), (width, y)], fill=color)
     
-    # Fonts
+
     heading_font = _load_bold_font(30)
     body_font = _load_font(20)
     points_font = _load_font(18)
     step_font = _load_bold_font(48)
     small_font = _load_font(14)
     
-    # --- Layout: concept image on right, text on left ---
+
     pad = 36
-    concept_img_w = 280  # larger illustration area for concept image
+    concept_img_w = 280
     concept_img_h = 180
     text_area_x = pad
     text_area_w = width - pad * 2
     
-    # Step number (large, bottom-right, subtle)
+   
     step_text = str(index + 1)
     draw.text((width - pad - 40, height - pad - 50), step_text, fill=(*heading_bg[:3],), font=step_font)
     
-    # Heading bar
+ 
     heading_bar_y = pad - 4
     heading_bar_h = 50
     draw.rounded_rectangle(
         (pad - 4, heading_bar_y, width - pad + 4, heading_bar_y + heading_bar_h),
         radius=12, fill=heading_bg
     )
-    # Accent line on left
+    
     draw.rectangle((pad - 4, heading_bar_y, pad + 2, heading_bar_y + heading_bar_h), fill=accent)
-    # Heading text
+    
     draw.text((pad + 14, heading_bar_y + 10), heading[:65], fill=text_color, font=heading_font)
     
-    # Concept image / illustration (right side, large)
+    
     img_x = width - pad - concept_img_w
     img_y = heading_bar_y + heading_bar_h + 14
-    # Draw a subtle panel behind the illustration
+   
     panel_color = (heading_bg[0] + 5, heading_bg[1] + 5, heading_bg[2] + 5)
     draw.rounded_rectangle(
         (img_x - 8, img_y - 8, img_x + concept_img_w + 8, img_y + concept_img_h + 8),
@@ -409,9 +391,9 @@ def create_section_card(
     )
     _draw_topic_illustration(draw, theme, img_x, img_y, concept_img_w, concept_img_h)
     
-    # Body text (left side, wraps to avoid concept image)
+    
     body_y = heading_bar_y + heading_bar_h + 22
-    body_max_w = text_area_w - concept_img_w - 30  # Leave space for concept image
+    body_max_w = text_area_w - concept_img_w - 30
     
     if body:
         body_lines = _wrap_text(body, body_font, body_max_w, draw)
@@ -421,10 +403,10 @@ def create_section_card(
     else:
         body_bottom = body_y + 12
     
-    # Key points (full width below body + concept image)
+ 
     kp_y = max(body_bottom, img_y + concept_img_h + 16)
     if key_points:
-        # Subtle separator line
+    
         sep_color = (accent[0] // 2, accent[1] // 2, accent[2] // 2)
         draw.line([(pad, kp_y), (width - pad, kp_y)], fill=sep_color, width=1)
         kp_y += 12
@@ -437,7 +419,7 @@ def create_section_card(
                 kp_y += 24
             kp_y += 4
     
-    # Bottom bar with concept name
+  
     draw.rectangle((0, height - 28, width, height), fill=heading_bg)
     draw.text((pad, height - 24), concept[:60], fill=(*accent,), font=small_font)
     draw.text((width - pad - 60, height - 24), f"Step {index + 1}", fill=point_color, font=small_font)
@@ -470,7 +452,7 @@ def create_title_card(
     image = Image.new("RGB", (width, height), bg_top)
     draw = ImageDraw.Draw(image)
     
-    # Gradient background
+    
     for y in range(height):
         ratio = y / max(1, height - 1)
         color = (
@@ -480,18 +462,16 @@ def create_title_card(
         )
         draw.line([(0, y), (width, y)], fill=color)
     
-    # Fonts
+
     title_font = _load_bold_font(40)
     summary_font = _load_font(22)
     category_font = _load_bold_font(14)
     
     pad = 48
-    
-    # Outer frame
+   
     frame_color = (accent[0] // 3, accent[1] // 3, accent[2] // 3)
     draw.rounded_rectangle((24, 24, width - 24, height - 24), radius=20, outline=frame_color, width=2)
     
-    # Category badge (top center)
     cat_text = category.upper()
     try:
         cat_bbox = draw.textbbox((0, 0), cat_text, font=category_font)
@@ -503,11 +483,11 @@ def create_title_card(
     draw.rounded_rectangle((cat_x, 40, cat_x + cat_w, 62), radius=8, fill=heading_bg)
     draw.text((cat_x + 12, 43), cat_text, fill=accent, font=category_font)
     
-    # Topic illustration (centered, above title)
+
     illus_w, illus_h = 280, 110
     _draw_topic_illustration(draw, theme, (width - illus_w) // 2, 80, illus_w, illus_h)
     
-    # Title text (centered)
+ 
     title_text = title[:55]
     title_lines = _wrap_text(title_text, title_font, width - pad * 2, draw)
     
@@ -519,18 +499,16 @@ def create_title_card(
         except:
             tw = len(ln) * 22
         tx = max(pad, (width - tw) // 2)
-        # Text shadow
+        
         draw.text((tx + 1, title_y + i * 48 + 1), ln, fill=(0, 0, 0), font=title_font)
         draw.text((tx, title_y + i * 48), ln, fill=(255, 255, 255), font=title_font)
     
     title_bottom = title_y + min(len(title_lines), 2) * 48 + 16
     
-    # Accent divider
     div_y = title_bottom + 4
     div_w = min(350, width - pad * 4)
     draw.line([((width - div_w) // 2, div_y), ((width + div_w) // 2, div_y)], fill=accent, width=2)
     
-    # Summary text (centered)
     if summary:
         summary_text = summary[:150]
         summary_lines = _wrap_text(summary_text, summary_font, width - pad * 2 - 40, draw)
@@ -544,7 +522,7 @@ def create_title_card(
             sx = max(pad, (width - sw) // 2)
             draw.text((sx, summary_y + i * 30), ln, fill=point_color, font=summary_font)
     
-    # Bottom bar
+   
     draw.rectangle((0, height - 28, width, height), fill=heading_bg)
     draw.text((pad, height - 24), "Educational Video", fill=frame_color, font=_load_font(13))
     
@@ -576,7 +554,7 @@ def create_facts_card(
     image = Image.new("RGB", (width, height), bg_top)
     draw = ImageDraw.Draw(image)
     
-    # Gradient background (darker for facts)
+
     for y in range(height):
         ratio = y / max(1, height - 1)
         color = (
@@ -586,14 +564,14 @@ def create_facts_card(
         )
         draw.line([(0, y), (width, y)], fill=color)
     
-    # Fonts
+ 
     header_font = _load_bold_font(34)
     fact_font = _load_font(22)
     title_font = _load_font(16)
     
     pad = 48
     
-    # Header
+
     header_text = "Key Facts"
     try:
         bbox = draw.textbbox((0, 0), header_text, font=header_font)
@@ -603,10 +581,10 @@ def create_facts_card(
     hx = (width - hw) // 2
     draw.text((hx, 40), header_text, fill=(255, 255, 255), font=header_font)
     
-    # Accent bar under header
+
     draw.line([((width - 200) // 2, 82), ((width + 200) // 2, 82)], fill=accent, width=3)
     
-    # Facts
+ 
     fact_y = 110
     for i, fact in enumerate(key_facts[:5]):
         star_color = (
@@ -620,12 +598,12 @@ def create_facts_card(
             color = star_color if j == 0 else point_color
             draw.text((pad + 10, fact_y), ln, fill=color, font=fact_font)
             fact_y += 30
-        fact_y += 16  # Gap between facts
+        fact_y += 16
     
-    # Topic illustration (bottom right)
+   
     _draw_topic_illustration(draw, theme, width - 240, height - 130, 200, 90)
     
-    # Bottom bar with title
+
     draw.rectangle((0, height - 28, width, height), fill=heading_bg)
     draw.text((pad, height - 24), title[:60], fill=accent, font=title_font)
     

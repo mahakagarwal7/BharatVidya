@@ -2,10 +2,10 @@
 from typing import Any, Dict, Tuple
 import math
 
-# Required top-level keys in plan
+
 REQUIRED_PLAN_KEYS = ("title", "description", "scenes")
 
-# Known object types and required params for physics objects
+
 OBJECT_REQUIRED_PARAMS = {
     "Axes": [],
     "Dot": [],
@@ -13,8 +13,10 @@ OBJECT_REQUIRED_PARAMS = {
     "ParametricFunction": ["expr", "t_range"],
 }
 
-# For "projectile" type scenes we expect physics params in scene.params.physics
+
+
 PHYSICS_REQUIRED = ["v0", "angle_degrees"]  # v0 in m/s, angle in degrees
+PHYSICS_REQUIRED = ["v0", "angle_degrees"]
 
 def fill_defaults_for_scene(scene: Dict[str, Any]) -> Tuple[Dict[str, Any], bool]:
     """
@@ -33,22 +35,24 @@ def fill_defaults_for_scene(scene: Dict[str, Any]) -> Tuple[Dict[str, Any], bool
     if "narration" not in scene:
         scene["narration"] = ""
         changed = True
-    # Ensure every object has id and params
+
     for obj in scene["objects"]:
         if "id" not in obj:
             obj["id"] = "obj"
             changed = True
         obj.setdefault("params", {})
-    # Ensure physics block if scene hint says projectile
+    
     hint = scene.get("hint", "").lower()
     if "projectile" in hint or "parabolic" in hint or "trajectory" in hint:
         phys = scene.setdefault("params", {}).setdefault("physics", {})
-        # Fill defaults if missing
+   
         if "v0" not in phys:
-            phys["v0"] = 12.0  # default m/s
+            phys["v0"] = 12.0  
+            phys["v0"] = 12.0
             changed = True
         if "angle_degrees" not in phys:
-            phys["angle_degrees"] = 45.0  # default degrees
+            phys["angle_degrees"] = 45.0  
+            phys["angle_degrees"] = 45.0
             changed = True
         phys.setdefault("g", 9.81)
     return scene, changed
@@ -74,7 +78,7 @@ def validate_and_fill_plan(plan: Dict[str, Any]) -> Tuple[Dict[str, Any], Dict[s
         diagnostics["success"] = False
         return plan, diagnostics
 
-    # Scenes must be list
+   
     scenes = plan.get("scenes", [])
     if not isinstance(scenes, list) or len(scenes) == 0:
         diagnostics["errors"].append("plan.scenes must be a non-empty list")
@@ -90,7 +94,7 @@ def validate_and_fill_plan(plan: Dict[str, Any]) -> Tuple[Dict[str, Any], Dict[s
 
     diagnostics["auto_filled"] = auto_filled
 
-    # If any scene looks like projectile, check physics params
+  
     for scene in plan["scenes"]:
         hint = scene.get("hint", "") or ""
         if any(w in hint.lower() for w in ("projectile", "parabolic", "trajectory")):
@@ -100,7 +104,7 @@ def validate_and_fill_plan(plan: Dict[str, Any]) -> Tuple[Dict[str, Any], Dict[s
                 diagnostics["warnings"].append(f"scene '{scene.get('title')}' missing physics params: {missing}")
     return plan, diagnostics
 
-# Physics helper: compute flight time & parametric function string for manim
+
 def projectile_parametric_expr(v0: float, angle_deg: float, g: float = 9.81) -> Tuple[str, float]:
     """
     Return a python expression string for ParametricFunction and suggested t_end (flight time).
@@ -111,8 +115,8 @@ def projectile_parametric_expr(v0: float, angle_deg: float, g: float = 9.81) -> 
     theta = math.radians(angle_deg)
     vx = v0 * math.cos(theta)
     vy = v0 * math.sin(theta)
-    # flight time solve y=0 (excluding t=0): t = 2*vy/g
+    
     t_end = 2.0 * vy / g if g != 0 else 3.0
-    # expr string using numpy arrays (to be used in generated code)
+   
     expr = f"lambda t: np.array([{vx:.6f}*t, {vy:.6f}*t - 0.5*{g:.6f}*t**2, 0])"
     return expr, max(0.5, t_end)

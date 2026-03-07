@@ -1,10 +1,10 @@
-/* App-specific styles */
+
 #root {
   width: 100%;
   min-height: 100vh;
 }
 
-/* Smooth animations on page load */
+
 @keyframes pageLoad {
   from {
     opacity: 0;
@@ -18,7 +18,7 @@
   animation: pageLoad 0.5s ease-out;
 }
 
-/* Stagger animation for multiple elements */
+
 .fade-in {
   animation: fade-in 0.6s ease-out forwards;
   opacity: 0;
@@ -30,7 +30,7 @@
 .fade-in:nth-child(4) { animation-delay: 0.3s; }
 .fade-in:nth-child(5) { animation-delay: 0.4s; }
 
-/* Enhanced button styles */
+
 button:not(:disabled) {
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -39,13 +39,13 @@ button:not(:disabled):active {
   transform: scale(0.98);
 }
 
-/* Smooth scrolling for modal */
+
 .modal-scroll {
   max-height: 90vh;
   overflow-y: auto;
 }
 
-/* Video gallery grid responsiveness */
+
 @media (max-width: 640px) {
   .video-grid {
     grid-template-columns: 1fr;

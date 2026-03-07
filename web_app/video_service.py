@@ -5,7 +5,7 @@ import os
 import sys
 from typing import Tuple, Dict, Any, Optional, Callable
 
-# Add parent directory to path for imports
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.animator import EducationalAnimator
@@ -55,9 +55,7 @@ class VideoService:
             
             update("Planning content with Ollama...", 20)
             
-            # Generate video
-            # Note: The actual animator doesn't support progress callbacks internally,
-            # so we estimate progress based on typical stages
+   
             video_path, plan = animator.generate(
                 concept,
                 language=language,
@@ -77,7 +75,7 @@ class VideoService:
             raise
 
 
-# Singleton instance
+
 video_service = VideoService()
 
 

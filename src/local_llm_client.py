@@ -114,9 +114,8 @@ Rules:
     raw_output = _call_ollama(prompt)
     data = _parse_json_from_text(raw_output)
 
-    # Validate and ensure required structure
     if data and "title" in data and "sections" in data:
-        # Ensure sections have proper structure
+
         valid_sections = []
         for section in data.get("sections", []):
             if isinstance(section, dict) and "heading" in section:
@@ -135,7 +134,7 @@ Rules:
             print(f"   ✅ Extracted {len(valid_sections)} sections from Ollama")
             return data
 
-    # Ollama didn't return usable content — try a simpler prompt
+
     print("   ⚠️ First attempt failed, trying simpler prompt...")
     
     simple_prompt = f"""Explain "{clean_concept}" as an educational topic.
@@ -167,7 +166,6 @@ Return ONLY valid JSON:
         print(f"   ✅ Extracted content from Ollama (simple prompt)")
         return data
 
-    # Final fallback — only if Ollama is completely unreachable
     print("   ❌ Ollama unavailable, using minimal fallback")
     return {
         "title": clean_concept,

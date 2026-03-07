@@ -67,14 +67,14 @@ class EducationalAnimator:
         use_animations = with_animations if with_animations is not None else self.enable_animations
         use_language = language if language is not None else self.language
 
-        # Step 1: Extract content from Ollama
+        
         print(f"📝 Planning content for: {text}")
         content = self.planner.plan(text)
         
-        # Store original concept for animation detection (LLM title may differ)
+        
         content["_original_concept"] = text
         
-        # Step 2: Generate narration if enabled
+        
         narration = None
         session_id = str(uuid.uuid4())[:8]
         
@@ -100,7 +100,7 @@ class EducationalAnimator:
                 print(f"⚠️ Narration failed: {e}")
                 narration = None
 
-        # Step 3: Render video using MoviePy
+       
         out_name = os.path.join(
             "outputs",
             f"animation_{abs(hash(text)) % 100000}.mp4"

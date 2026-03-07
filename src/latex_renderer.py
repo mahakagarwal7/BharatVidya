@@ -13,14 +13,14 @@ import hashlib
 import re
 from typing import Tuple, Optional, Dict, Any
 
-# Matplotlib imports for LaTeX rendering
+
 import matplotlib
-matplotlib.use('Agg')  # Non-interactive backend
+matplotlib.use('Agg')  
 import matplotlib.pyplot as plt
 from matplotlib import mathtext
 
 
-# Cache directory for rendered equations
+
 CACHE_DIR = "outputs/latex_cache"
 os.makedirs(CACHE_DIR, exist_ok=True)
 
@@ -35,23 +35,23 @@ def extract_math_expressions(text: str) -> list:
     """
     expressions = []
     
-    # Extract $$...$$ display math
+  
     display_math = re.findall(r'\$\$(.*?)\$\$', text, re.DOTALL)
     expressions.extend(display_math)
     
-    # Extract $...$ inline math
+
     inline_math = re.findall(r'(?<!\$)\$([^\$]+?)\$(?!\$)', text)
     expressions.extend(inline_math)
     
-    # If no explicit math markers, try to detect common patterns
+    
     if not expressions:
-        # Look for equation-like patterns
+        
         equation_patterns = [
-            r'([a-zA-Z]\s*=\s*[^,\.\n]+)',  # x = ...
-            r'(\d+\s*[\+\-\*\/]\s*\d+\s*=\s*\d+)',  # 2 + 2 = 4
-            r'([a-zA-Z]\^\d+)',  # x^2
-            r'(\\frac\{[^}]+\}\{[^}]+\})',  # \frac{}{} 
-            r'(\\sqrt\{[^}]+\})',  # \sqrt{}
+            r'([a-zA-Z]\s*=\s*[^,\.\n]+)',  
+            r'(\d+\s*[\+\-\*\/]\s*\d+\s*=\s*\d+)',  
+            r'([a-zA-Z]\^\d+)',  
+            r'(\\frac\{[^}]+\}\{[^}]+\})',  
+            r'(\\sqrt\{[^}]+\})',  
         ]
         for pattern in equation_patterns:
             matches = re.findall(pattern, text)
@@ -80,7 +80,7 @@ def render_latex_to_image(
     Returns:
         RGBA numpy array of the rendered equation, or None on error
     """
-    # Check cache first
+ 
     cache_key = hashlib.md5(f"{latex}_{fontsize}_{text_color}_{dpi}".encode()).hexdigest()
     cache_path = os.path.join(CACHE_DIR, f"{cache_key}.png")
     
@@ -90,17 +90,17 @@ def render_latex_to_image(
             return img
     
     try:
-        # Create figure with transparent background
+
         fig, ax = plt.subplots(figsize=(10, 2), dpi=dpi)
         fig.patch.set_alpha(0.0)
         ax.set_facecolor('none')
         ax.axis('off')
         
-        # Ensure LaTeX is properly formatted
+        
         if not latex.startswith('$'):
             latex = f'${latex}$'
         
-        # Render the equation
+      
         ax.text(
             0.5, 0.5, latex,
             fontsize=fontsize,
@@ -108,29 +108,29 @@ def render_latex_to_image(
             ha='center',
             va='center',
             transform=ax.transAxes,
-            usetex=False,  # Use mathtext (built-in, no LaTeX installation needed)
-            math_fontfamily='cm'  # Computer Modern font
+            usetex=False,  
+            math_fontfamily='cm'  
         )
         
-        # Tight layout to minimize whitespace
+        
         fig.tight_layout(pad=0.1)
         
-        # Save to buffer
+        
         fig.canvas.draw()
         
-        # Get the image data
+       
         buf = fig.canvas.buffer_rgba()
         img = np.asarray(buf)
         
         plt.close(fig)
         
-        # Crop to content (remove excess transparent area)
+       
         img = crop_to_content(img)
         
-        # Cache the result
+       
         cv2.imwrite(cache_path, cv2.cvtColor(img, cv2.COLOR_RGBA2BGRA))
         
-        # Convert to BGR for OpenCV
+     
         return cv2.cvtColor(img, cv2.COLOR_RGBA2BGRA)
         
     except Exception as e:
@@ -145,8 +145,7 @@ def crop_to_content(img: np.ndarray, padding: int = 10) -> np.ndarray:
     """
     if img.shape[2] < 4:
         return img
-    
-    # Find non-transparent pixels
+ 
     alpha = img[:, :, 3]
     rows = np.any(alpha > 0, axis=1)
     cols = np.any(alpha > 0, axis=0)
@@ -157,7 +156,7 @@ def crop_to_content(img: np.ndarray, padding: int = 10) -> np.ndarray:
     rmin, rmax = np.where(rows)[0][[0, -1]]
     cmin, cmax = np.where(cols)[0][[0, -1]]
     
-    # Add padding
+
     rmin = max(0, rmin - padding)
     rmax = min(img.shape[0], rmax + padding)
     cmin = max(0, cmin - padding)
@@ -192,18 +191,18 @@ def render_equation_on_frame(
     Returns:
         Modified frame with equation rendered
     """
-    # Render the equation to image
+   
     eq_img = render_latex_to_image(latex, fontsize=fontsize, text_color=text_color)
     
     if eq_img is None:
-        # Fallback: draw plain text
+        
         cv2.putText(
             frame, latex.replace('$', ''),
             (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2
         )
         return frame
     
-    # Resize if needed to fit constraints
+  
     h, w = eq_img.shape[:2]
     scale = min(max_width / w, max_height / h, 1.0)
     if scale < 1.0:
@@ -212,29 +211,29 @@ def render_equation_on_frame(
         eq_img = cv2.resize(eq_img, (new_w, new_h), interpolation=cv2.INTER_AREA)
         h, w = new_h, new_w
     
-    # Calculate position
+   
     if center:
         x = x - w // 2
         y = y - h // 2
     
-    # Ensure we stay within frame bounds
+  
     x = max(0, min(x, frame.shape[1] - w))
     y = max(0, min(y, frame.shape[0] - h))
     
-    # Composite the equation onto the frame
+   
     if eq_img.shape[2] == 4:
-        # Has alpha channel - blend properly
+        
         alpha = eq_img[:, :, 3:4] / 255.0
         bgr = eq_img[:, :, :3]
         
-        # Get region of interest
+        
         roi = frame[y:y+h, x:x+w]
         
-        # Blend
+       
         blended = (bgr * alpha + roi * (1 - alpha)).astype(np.uint8)
         frame[y:y+h, x:x+w] = blended
     else:
-        # No alpha - direct copy
+        
         frame[y:y+h, x:x+w] = eq_img[:, :, :3]
     
     return frame
@@ -265,7 +264,6 @@ def create_equation_element(
     }
 
 
-# Common math expressions for quick access
 COMMON_EQUATIONS = {
     "quadratic_formula": r"x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}",
     "pythagorean": r"a^2 + b^2 = c^2",
@@ -291,8 +289,7 @@ def get_equation_for_topic(topic: str) -> Optional[str]:
     Get a relevant equation for a given topic.
     """
     topic_lower = topic.lower()
-    
-    # Map topics to equations
+
     topic_equation_map = {
         "quadratic": "quadratic_formula",
         "pythagor": "pythagorean",

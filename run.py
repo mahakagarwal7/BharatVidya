@@ -23,7 +23,7 @@ def run_main_with_args(args):
     if not repo_root:
         print("❌ Could not find a folder containing 'src' under the current directory tree.")
         return 2
-    # Run the package module which correctly handles package imports
+
     cmd = [sys.executable, "-m", "src.main"] + args
     print(f"▶ Running: {' '.join(cmd)} (cwd={repo_root})")
     return subprocess.call(cmd, cwd=repo_root)

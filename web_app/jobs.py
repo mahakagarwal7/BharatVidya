@@ -109,8 +109,7 @@ class JobManager:
                 progress=5
             )
             
-            # Hook into the generation process for progress updates
-            # The actual progress updates will come from a callback
+            
             video_path, plan = generate_func(
                 job.concept,
                 job.language,
@@ -121,7 +120,7 @@ class JobManager:
             )
             
             if video_path:
-                # Try to upload to S3 if configured
+                
                 video_url = None
                 try:
                     from .s3_service import s3_service
@@ -137,7 +136,7 @@ class JobManager:
                     step="Complete",
                     progress=100,
                     video_path=video_path,
-                    video_url=video_url,  # S3 URL if uploaded, None otherwise
+                    video_url=video_url,  
                     plan=plan,
                     completed_at=datetime.utcnow().isoformat()
                 )
@@ -161,5 +160,5 @@ class JobManager:
             traceback.print_exc()
 
 
-# Global job manager instance
+
 job_manager = JobManager()

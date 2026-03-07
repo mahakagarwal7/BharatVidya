@@ -13,14 +13,14 @@ from typing import List, Dict, Optional
 
 import edge_tts
 
-# Translation support
+
 try:
     from deep_translator import GoogleTranslator
     TRANSLATION_AVAILABLE = True
 except ImportError:
     TRANSLATION_AVAILABLE = False
 
-# Get ffmpeg from imageio_ffmpeg
+
 try:
     from imageio_ffmpeg import get_ffmpeg_exe
     FFMPEG_PATH = get_ffmpeg_exe()
@@ -28,49 +28,49 @@ except ImportError:
     FFMPEG_PATH = "ffmpeg"
 
 
-# Available voices (Microsoft Edge TTS)
+
 VOICES = {
-    # English voices
+  
     "male_us": "en-US-GuyNeural",
     "female_us": "en-US-JennyNeural",
     "male_uk": "en-GB-RyanNeural",
     "female_uk": "en-GB-SoniaNeural",
     "male_india": "en-IN-PrabhatNeural",
     "female_india": "en-IN-NeerjaNeural",
-    # Hindi voices
+   
     "hindi_male": "hi-IN-MadhurNeural",
     "hindi_female": "hi-IN-SwaraNeural",
-    # Telugu voices
+   
     "telugu_male": "te-IN-MohanNeural",
     "telugu_female": "te-IN-ShrutiNeural",
-    # Gujarati voices
+    
     "gujarati_male": "gu-IN-NiranjanNeural",
     "gujarati_female": "gu-IN-DhwaniNeural",
-    # Bengali voices
+   
     "bengali_male": "bn-IN-BashkarNeural",
     "bengali_female": "bn-IN-TanishaaNeural",
-    # Punjabi voices
+   
     "punjabi_male": "pa-IN-OjasNeural",
     "punjabi_female": "pa-IN-VaaniNeural",
-    # Tamil voices
+
     "tamil_male": "ta-IN-ValluvarNeural",
     "tamil_female": "ta-IN-PallaviNeural",
-    # Kannada voices
+ 
     "kannada_male": "kn-IN-GaganNeural",
     "kannada_female": "kn-IN-SapnaNeural",
-    # Malayalam voices
+  
     "malayalam_male": "ml-IN-MidhunNeural",
     "malayalam_female": "ml-IN-SobhanaNeural",
-    # Marathi voices
+   
     "marathi_male": "mr-IN-ManoharNeural",
     "marathi_female": "mr-IN-AarohiNeural",
-    # Odia voices
+  
     "odia_male": "or-IN-PravathNeural",
     "odia_female": "or-IN-SubhasiniNeural",
-    # Assamese voices
+ 
     "assamese_male": "as-IN-PriyomNeural",
     "assamese_female": "as-IN-YashicaNeural",
-    # Other languages
+  
     "spanish_male": "es-ES-AlvaroNeural",
     "spanish_female": "es-ES-ElviraNeural",
     "french_male": "fr-FR-HenriNeural",
@@ -83,10 +83,10 @@ VOICES = {
     "korean_female": "ko-KR-SunHiNeural",
 }
 
-# Language to default voice mapping
+
 LANGUAGE_VOICES = {
     "en": "en-US-JennyNeural",
-    # Indian languages
+   
     "hi": "hi-IN-SwaraNeural",
     "te": "te-IN-ShrutiNeural",
     "gu": "gu-IN-DhwaniNeural",
@@ -98,7 +98,7 @@ LANGUAGE_VOICES = {
     "mr": "mr-IN-AarohiNeural",
     "or": "or-IN-SubhasiniNeural",
     "as": "as-IN-YashicaNeural",
-    # Other languages
+   
     "es": "es-ES-ElviraNeural",
     "fr": "fr-FR-DeniseNeural",
     "de": "de-DE-KatjaNeural",
@@ -108,8 +108,8 @@ LANGUAGE_VOICES = {
 }
 
 DEFAULT_VOICE = "en-US-JennyNeural"
-MIN_STEP_DURATION = 3.0  # Minimum seconds per step
-STEP_BUFFER = 0.5  # Buffer between steps
+MIN_STEP_DURATION = 3.0  
+STEP_BUFFER = 0.5  
 
 
 def translate_text(text: str, source_lang: str = "en", target_lang: str = "hi") -> str:
@@ -148,7 +148,7 @@ def translate_steps(steps: List[str], target_lang: str = "hi") -> List[str]:
     
     translated = []
     for step in steps:
-        # Ensure step is a string (handle dict/mixed types from LLM output)
+        
         if isinstance(step, dict):
             step = step.get("text", step.get("fact", step.get("description", str(step))))
         step_str = str(step) if not isinstance(step, str) else step
@@ -174,15 +174,15 @@ def get_audio_duration_ffmpeg(file_path: str) -> float:
             cmd, 
             capture_output=True, 
             text=True,
-            timeout=30,  # Add timeout to prevent hanging
+            timeout=30,  
             creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
         )
         
-        # Parse duration from stderr (ffmpeg outputs info to stderr)
+        
         output = result.stderr
         for line in output.split('\n'):
             if 'Duration:' in line:
-                # Format: Duration: 00:00:05.23, ...
+                
                 time_str = line.split('Duration:')[1].split(',')[0].strip()
                 parts = time_str.split(':')
                 hours = float(parts[0])
@@ -190,14 +190,14 @@ def get_audio_duration_ffmpeg(file_path: str) -> float:
                 seconds = float(parts[2])
                 return hours * 3600 + minutes * 60 + seconds
         
-        # Fallback: estimate based on file size (rough approximation for mp3)
+  
         file_size = os.path.getsize(file_path)
-        # Approximate: 128kbps mp3 = 16KB/sec
+        
         return file_size / 16000
         
     except Exception as e:
         print(f"Warning: Could not get duration: {e}")
-        return 3.0  # Default fallback
+        return 3.0  
 
 
 def concatenate_audio_ffmpeg(audio_files: List[Dict], output_path: str) -> str:
@@ -209,21 +209,21 @@ def concatenate_audio_ffmpeg(audio_files: List[Dict], output_path: str) -> str:
     temp_dir = Path(output_path).parent
     list_file = temp_dir / "concat_list.txt"
     
-    # Build file list with silence padding
+
     with open(list_file, 'w') as f:
         for step_info in audio_files:
             audio_path = step_info.get("audio_path")
             if audio_path and os.path.exists(audio_path):
-                # Write audio file
+               
                 f.write(f"file '{os.path.abspath(audio_path)}'\n")
                 
-                # Calculate silence duration
+                
                 raw_duration = step_info.get("raw_duration", 0)
                 effective_duration = step_info.get("effective_duration", MIN_STEP_DURATION)
                 silence_ms = int((effective_duration - raw_duration) * 1000)
                 
                 if silence_ms > 100:
-                    # Create a silence file for this duration
+                    
                     sil_file = temp_dir / f"silence_{silence_ms}ms.wav"
                     if not sil_file.exists():
                         cmd = [
@@ -238,7 +238,7 @@ def concatenate_audio_ffmpeg(audio_files: List[Dict], output_path: str) -> str:
                                       creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
                     f.write(f"file '{os.path.abspath(sil_file)}'\n")
             else:
-                # Just silence for this step
+             
                 silence_ms = int(step_info.get("effective_duration", MIN_STEP_DURATION) * 1000)
                 sil_file = temp_dir / f"silence_{silence_ms}ms.wav"
                 if not sil_file.exists():
@@ -254,7 +254,7 @@ def concatenate_audio_ffmpeg(audio_files: List[Dict], output_path: str) -> str:
                                   creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
                 f.write(f"file '{os.path.abspath(sil_file)}'\n")
     
-    # Concatenate using concat demuxer
+ 
     cmd = [
         FFMPEG_PATH,
         "-f", "concat",
@@ -269,7 +269,6 @@ def concatenate_audio_ffmpeg(audio_files: List[Dict], output_path: str) -> str:
     subprocess.run(cmd, capture_output=True,
                    creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
     
-    # Cleanup temp file
     try:
         list_file.unlink()
     except:
@@ -297,13 +296,11 @@ class Narrator:
         """
         output_path = self.output_dir / f"{session_id}_step_{step_index}.mp3"
         
-        # Run async TTS
+        
         asyncio.run(self._generate_audio_async(text, str(output_path)))
         
-        # Get duration using ffmpeg
         duration_sec = get_audio_duration_ffmpeg(str(output_path))
-        
-        # Apply minimum duration
+
         effective_duration = max(duration_sec, MIN_STEP_DURATION) + STEP_BUFFER
         
         return {
@@ -322,7 +319,7 @@ class Narrator:
         
         for i, step_text in enumerate(steps):
             if not step_text or not step_text.strip():
-                # Skip empty steps, but add placeholder duration
+                
                 step_audios.append({
                     "audio_path": None,
                     "raw_duration": 0,
@@ -334,11 +331,9 @@ class Narrator:
             audio_info = self.generate_step_audio(step_text, i, session_id)
             step_audios.append(audio_info)
         
-        # Combine all audio files using ffmpeg
         combined_path = str(self.output_dir / f"{session_id}_combined.mp3")
         concatenate_audio_ffmpeg(step_audios, combined_path)
         
-        # Calculate total duration
         total_duration = sum(s["effective_duration"] for s in step_audios)
         
         return {
@@ -352,10 +347,9 @@ class Narrator:
         """Generate audio for video intro/title."""
         output_path = self.output_dir / f"{session_id}_intro.mp3"
         
-        # Run async TTS
         asyncio.run(self._generate_audio_async(title, str(output_path)))
         
-        # Get duration using ffmpeg
+       
         duration_sec = get_audio_duration_ffmpeg(str(output_path))
         
         return {
@@ -367,10 +361,10 @@ class Narrator:
         """Generate audio narration for animation segment."""
         output_path = self.output_dir / f"{session_id}_animation.mp3"
         
-        # Run async TTS
+     
         asyncio.run(self._generate_audio_async(description, str(output_path)))
         
-        # Get duration using ffmpeg
+ 
         duration_sec = get_audio_duration_ffmpeg(str(output_path))
         
         return {
@@ -383,13 +377,13 @@ class Narrator:
         if not facts:
             return {"audio_path": None, "duration": 0}
         
-        # Ensure all facts are strings (handle dict/mixed types from LLM output)
+       
         fact_strings = []
         for fact in facts:
             if isinstance(fact, str):
                 fact_strings.append(fact)
             elif isinstance(fact, dict):
-                # Extract text from dict (common LLM output format)
+                
                 fact_strings.append(fact.get("text", fact.get("fact", str(fact))))
             else:
                 fact_strings.append(str(fact))
@@ -397,14 +391,14 @@ class Narrator:
         if not fact_strings:
             return {"audio_path": None, "duration": 0}
         
-        # Combine facts into readable text
+       
         facts_text = "Key facts to remember: " + ". ".join(fact_strings)
         output_path = self.output_dir / f"{session_id}_facts.mp3"
         
-        # Run async TTS
+   
         asyncio.run(self._generate_audio_async(facts_text, str(output_path)))
         
-        # Get duration using ffmpeg
+      
         duration_sec = get_audio_duration_ffmpeg(str(output_path))
         
         return {
@@ -419,7 +413,7 @@ class Narrator:
                 f.unlink()
             except:
                 pass
-        # Also cleanup silence files
+
         for f in self.output_dir.glob("silence_*.wav"):
             try:
                 f.unlink()
@@ -447,28 +441,27 @@ def generate_narration_for_plan(
     Returns:
         Dict with narration info including step_durations and audio paths
     """
-    # Select voice based on language if not specified
+
     if voice is None:
         voice = get_voice_for_language(language)
     
     narrator = Narrator(voice=voice)
     
-    # Extract step descriptions from content
+
     steps = []
     
-    # New format: sections with heading/body
     sections = plan.get("sections", [])
     if sections:
         for section in sections:
             if isinstance(section, dict):
                 body = section.get("body", "")
                 heading = section.get("heading", "")
-                # Use body text for narration, fall back to heading
+                
                 narration_text = body if body else heading
                 if narration_text and len(narration_text.strip()) > 5:
                     steps.append(narration_text.strip())
     
-    # Legacy fallback: visual_elements format
+   
     if not steps:
         visual_elements = plan.get("visual_elements", [])
         for elem in visual_elements:
@@ -479,30 +472,30 @@ def generate_narration_for_plan(
                     steps.append(description)
     
     if not steps:
-        # Final fallback: use summary
+       
         summary = plan.get("summary", "")
         if summary:
             steps.append(summary)
     
-    # Translate steps if needed
+  
     if language != "en" and TRANSLATION_AVAILABLE:
         print(f"🌐 Translating to {language}...")
         steps = translate_steps(steps, language)
     
-    # Generate intro from title
+    
     title = plan.get("title", "")
     intro_info = None
     if title:
-        # Translate title if needed
+ 
         if language != "en" and TRANSLATION_AVAILABLE:
             title = translate_text(title, "en", language)
         intro_info = narrator.generate_intro_audio(title, session_id)
     
-    # Generate animation narration if topic has animation
+    
     animation_info = None
     try:
         from .topic_router import has_animation, get_animation_info
-        # Check original concept first (user input), then fall back to LLM title
+        
         original_concept = plan.get("_original_concept", "")
         animation_match = original_concept if has_animation(original_concept) else (title if has_animation(title) else None)
         if animation_match:
@@ -515,7 +508,7 @@ def generate_narration_for_plan(
     except Exception as e:
         print(f"Animation narration skipped: {e}")
     
-    # Generate facts narration
+   
     facts_info = None
     key_facts = plan.get("key_facts", [])
     if key_facts:
@@ -524,20 +517,17 @@ def generate_narration_for_plan(
             facts_to_narrate = translate_steps(key_facts, language)
         facts_info = narrator.generate_facts_audio(facts_to_narrate, session_id)
     
-    # Generate step narration
+    
     narration_result = narrator.generate_narration(steps, session_id)
     narration_result["intro"] = intro_info
     narration_result["animation"] = animation_info
     narration_result["facts"] = facts_info
     narration_result["language"] = language
     
-    # ============================================
-    # Combine all audio in video playback order:
-    # intro → animation → sections → facts
-    # ============================================
+
     all_audio_segments = []
     
-    # 1. Intro audio
+   
     if intro_info and intro_info.get("audio_path"):
         all_audio_segments.append({
             "audio_path": intro_info["audio_path"],
@@ -545,7 +535,7 @@ def generate_narration_for_plan(
             "effective_duration": intro_info.get("duration", 3.0)
         })
     
-    # 2. Animation audio
+
     if animation_info and animation_info.get("audio_path"):
         all_audio_segments.append({
             "audio_path": animation_info["audio_path"],
@@ -553,11 +543,11 @@ def generate_narration_for_plan(
             "effective_duration": animation_info.get("duration", 5.0)
         })
     
-    # 3. Section audio
+   
     for step_audio in narration_result.get("step_audios", []):
         all_audio_segments.append(step_audio)
     
-    # 4. Facts audio
+   
     if facts_info and facts_info.get("audio_path"):
         all_audio_segments.append({
             "audio_path": facts_info["audio_path"],
@@ -565,11 +555,11 @@ def generate_narration_for_plan(
             "effective_duration": facts_info.get("duration", 3.0)
         })
     
-    # Create combined audio with all segments
+
     combined_path = str(narrator.output_dir / f"{session_id}_full_combined.mp3")
     concatenate_audio_ffmpeg(all_audio_segments, combined_path)
     
-    # Update total duration to include all segments
+  
     total_duration = sum(s.get("effective_duration", 0) for s in all_audio_segments)
     
     narration_result["combined_audio_path"] = combined_path
@@ -579,7 +569,7 @@ def generate_narration_for_plan(
     return narration_result
 
 
-# For testing
+
 if __name__ == "__main__":
     test_steps = [
         "Initialize the simulation environment with gravity set to negative 9.8 meters per second squared.",

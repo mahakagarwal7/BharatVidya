@@ -21,20 +21,20 @@ def main():
         print("  --no-animations: Disable topic-based animated visuals")
         sys.exit(1)
 
-    # Parse flags
+  
     language = "en"
     enable_animations = True
     args = list(sys.argv[1:])
     
-    # Parse --lang flag
+   
     if "--lang" in args:
         idx = args.index("--lang")
         if idx + 1 < len(args):
             language = args[idx + 1]
-            args.pop(idx)  # remove --lang
-            args.pop(idx)  # remove value
+            args.pop(idx)  
+            args.pop(idx)  
     
-    # Parse --no-animations flag
+ 
     if "--no-animations" in args:
         enable_animations = False
         args.remove("--no-animations")

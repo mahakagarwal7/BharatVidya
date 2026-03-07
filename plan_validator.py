@@ -60,10 +60,10 @@ def _ensure_scene_structure(scene: Dict[str, Any]) -> Tuple[Dict[str, Any], bool
     scene.setdefault("params", {})
     scene.setdefault("hint", "")
     scene.setdefault("narration", "")
-    # Ensure object shape
+    
     for obj in scene["objects"]:
         if not isinstance(obj, dict):
-            # replace with a default Dot
+           
             idx = scene["objects"].index(obj)
             scene["objects"][idx] = {"id": f"obj_{idx}", "type": "Dot", "params": {}}
             changed = True
@@ -89,18 +89,17 @@ def _map_semantic_object(obj: Dict[str, Any], diagnostics: Dict[str, List[str]])
     if typ in ALLOWED_TYPES:
         return obj
 
-    # try semantic mapping
     key = typ.lower()
     if key in SEMANTIC_MAP:
         concrete, defaults = SEMANTIC_MAP[key]
         obj["type"] = concrete
-        # merge defaults into params if not present
+        
         for k, v in defaults.items():
             obj["params"].setdefault(k, v)
         diagnostics.setdefault("info", []).append(f"mapped semantic '{typ}' -> '{concrete}' for object '{obj.get('id')}'")
         return obj
 
-    # try if 'type' contains semantic words like "planet", "ball"
+   
     for sem, (concrete, defaults) in SEMANTIC_MAP.items():
         if sem in key:
             obj["type"] = concrete
@@ -109,7 +108,7 @@ def _map_semantic_object(obj: Dict[str, Any], diagnostics: Dict[str, List[str]])
             diagnostics.setdefault("info", []).append(f"mapped semantic '{typ}' -> '{concrete}' for object '{obj.get('id')}'")
             return obj
 
-    # fail-safe
+  
     diagnostics.setdefault("warnings", []).append(f"unsupported object type '{typ}' -> defaulting to Dot for object '{obj.get('id')}'")
     obj["type"] = "Dot"
     obj.setdefault("params", {})
@@ -149,7 +148,7 @@ def validate_and_fill_plan(plan: Any) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         diagnostics["errors"].append("Plan is not a JSON object.")
         return plan, diagnostics
 
-    # check top-level keys
+  
     for k in REQUIRED_TOP_LEVEL:
         if k not in plan:
             diagnostics["errors"].append(f"Missing top-level key: {k}")
@@ -157,7 +156,7 @@ def validate_and_fill_plan(plan: Any) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         diagnostics["success"] = False
         return plan, diagnostics
 
-    # Validate scenes
+   
     auto_filled = False
     scenes = plan.get("scenes", [])
     if not isinstance(scenes, list) or len(scenes) == 0:
@@ -169,24 +168,24 @@ def validate_and_fill_plan(plan: Any) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         sc, changed = _ensure_scene_structure(sc)
         if changed:
             auto_filled = True
-        # map object types & fill defaults
+        
         for obj in sc.get("objects", []):
             prev_type = obj.get("type")
             obj = _map_semantic_object(obj, diagnostics)
             if obj.get("type") != prev_type:
                 auto_filled = True
-        # fill physics if hint suggests
+        
         if _fill_physics_defaults(sc, diagnostics):
             auto_filled = True
-        # save back
+      
         plan["scenes"][i] = sc
 
     diagnostics["auto_filled"] = auto_filled
-    # Confidence low if auto-filled significant numeric params
+
     diagnostics["confidence"] = "low" if auto_filled else "high"
     return plan, diagnostics
 
-# Physics helpers
+
 def projectile_parametric_expr(v0: float, angle_deg: float, g: float = 9.81) -> Tuple[str, float]:
     """
     Return a Python expression string for ParametricFunction and t_end (flight time).

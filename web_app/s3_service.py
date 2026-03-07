@@ -28,7 +28,7 @@ class S3Service:
         self.bucket_name = os.getenv("S3_BUCKET_NAME", "edugen-videos")
         self.cloudfront_domain = os.getenv("CLOUDFRONT_DOMAIN")
         
-        # Initialize S3 client
+        
         self.s3_client = boto3.client(
             "s3",
             region_name=self.region,
@@ -76,7 +76,7 @@ class S3Service:
             print(f"❌ File not found: {local_path}")
             return None
         
-        # Generate S3 key with date prefix for organization
+       
         date_prefix = datetime.utcnow().strftime("%Y/%m/%d")
         filename = os.path.basename(local_path)
         s3_key = f"videos/{date_prefix}/{job_id}_{filename}"
@@ -94,7 +94,6 @@ class S3Service:
                 }
             )
             
-            # Return appropriate URL
             if self.cloudfront_domain:
                 url = f"https://{self.cloudfront_domain}/{s3_key}"
             else:
@@ -190,5 +189,4 @@ class S3Service:
             return []
 
 
-# Singleton instance
 s3_service = S3Service()
